@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="BIU.G Academy is an Angola-first digital education platform focused on financial literacy, entrepreneurship, technology, and civic innovation.">
-  <title>BIU.G Academy | Angola-First Digital Education</title>
+  <meta name="description" content="BIUG Academy is an Angola-first digital education platform focused on financial literacy, entrepreneurship, technology, and civic innovation.">
+  <title>BIUG Academy | Angola-First Digital Education</title>
+  <link rel="icon" href="assets/biug-academy-logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/biug-academy-logo.png">
   <style>
     :root {
       --bg: #0a111c;
@@ -72,17 +74,16 @@
       letter-spacing: 0.02em;
     }
 
-    .brand-badge {
-      width: 30px;
-      height: 30px;
-      border-radius: 7px;
-      display: inline-grid;
-      place-items: center;
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: #08111e;
-      background: linear-gradient(140deg, #3bf1f7, #15c8cf);
-      box-shadow: 0 8px 18px rgba(22, 213, 221, 0.35);
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .brand-name {
+      white-space: nowrap;
     }
 
     .nav-links {
@@ -294,6 +295,14 @@
       text-align: center;
     }
 
+    .footer-logo {
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 14px;
+    }
+
     .site-footer h3 {
       font-size: 1.02rem;
       letter-spacing: 0.04em;
@@ -374,9 +383,9 @@
 <body>
   <header class="site-header">
     <div class="container navbar">
-      <a href="#home" class="brand" aria-label="BIU.G Academy Home">
-        <span class="brand-badge">BG</span>
-        <span>BIU.G Academy</span>
+      <a href="#home" class="brand" aria-label="BIUG Academy Home">
+        <img class="brand-logo" src="assets/biug-academy-logo.png" alt="" width="40" height="40">
+        <span class="brand-name">BIUG Academy</span>
       </a>
       <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <nav>
@@ -397,7 +406,7 @@
         <p class="kicker">Future-Focused Education</p>
         <h1>Education for Africa’s Next Builders.</h1>
         <p class="hero-subheadline">
-          BIU.G Academy is building an Angola-first digital education platform for financial literacy, entrepreneurship, technology, career readiness, and civic innovation.
+          BIUG Academy is building an Angola-first digital education platform for financial literacy, entrepreneurship, technology, career readiness, and civic innovation.
         </p>
         <div class="hero-actions">
           <a href="#contact" class="button button-primary">Join the Waitlist</a>
@@ -472,7 +481,7 @@
       <div class="container">
         <h2 class="section-title">Why Angola First</h2>
         <p class="angola-copy">
-          Angola is a high-potential market with a young population and growing entrepreneurial momentum. BIU.G Academy starts local by design: content, examples, and program delivery are shaped by on-the-ground realities, then built to scale across Africa.
+          Angola is a high-potential market with a young population and growing entrepreneurial momentum. BIUG Academy starts local by design: content, examples, and program delivery are shaped by on-the-ground realities, then built to scale across Africa.
         </p>
         <ul class="angola-points">
           <li>Localized learning context for stronger relevance and retention.</li>
@@ -485,7 +494,8 @@
 
   <footer class="site-footer" id="contact">
     <div class="container">
-      <h3>BIU.G Academy</h3>
+      <img class="footer-logo" src="assets/biug-academy-logo.png" alt="" width="56" height="56">
+      <h3>BIUG Academy</h3>
       <p>Powered by Biu-g Holdings LLC</p>
       <p>&copy; 2026 Biu-g Holdings LLC. All rights reserved.</p>
     </div>
