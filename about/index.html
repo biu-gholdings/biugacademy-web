@@ -3,57 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BIU.G Academy | About</title>
+  <title>About | BIU.G Academy</title>
   <meta name="description" content="About BIU.G Academy and our mission in Angola.">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://biugacademy.org/assets/biug-academy-logo.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://biugacademy.org/assets/biug-academy-logo.png">
+  <link rel="apple-touch-icon" href="https://biugacademy.org/assets/biug-academy-logo.png">
+  <link rel="shortcut icon" href="https://biugacademy.org/assets/biug-academy-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header class="site-nav">
     <div class="inner">
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav">&#9776;</button>
       <a href="/" class="brand">
         <img src="/assets/biug-academy-logo.png" width="38" height="38" alt="">
         <span class="brand-text">BIU.G <span>Academy</span></span>
       </a>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/how">How it works</a>
-        <a href="/about">About</a>
-        <a href="/waitlist" class="nav-cta">Get Early Access</a>
-      </nav>
+      <ul class="nav-links" id="primary-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/how">How it works</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/waitlist" class="nav-cta">Get Early Access</a></li>
+      </ul>
     </div>
   </header>
 
   <main>
-    <section class="about">
-      <h1>About BIU.G Academy</h1>
+    <header class="page-hero">
+      <div class="container">
+        <h1>About BIU.G Academy</h1>
+        <p class="sub">Practical education built for real life in Angola.</p>
+      </div>
+    </header>
+
+    <section class="content-block">
       <p>
         BIU.G Academy is a new way to learn practical skills in Angola —
         focused on real-life outcomes, not theory.
       </p>
       <p>
-        We are building programs that help people manage money,
-        start businesses, and develop skills that improve income
-        and opportunities.
+        We are building programs that help people manage money, start businesses,
+        and develop skills that improve income and opportunities.
       </p>
-    </section>
-
-    <section class="mission">
       <h2>What we are building</h2>
       <p>
-        Initial programs focus on financial literacy,
-        entrepreneurship, and digital skills designed
-        for Angola's real economy.
+        Initial programs focus on financial literacy, entrepreneurship, and digital
+        skills designed for Angola's real economy.
       </p>
-    </section>
-
-    <section class="clarity">
       <h2>Important note</h2>
       <p>
-        Programs are not yet formally accredited, but are being
-        developed in alignment with Angola's education standards.
+        Programs are not yet formally accredited, but are being developed in
+        alignment with Angola's education standards.
       </p>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div>
+        <a href="/" class="footer-brand-stack">
+          <img class="footer-logo" src="/assets/biug-academy-logo.png" width="44" height="44" alt="">
+          <span>BIU.G <span>Academy</span></span>
+        </a>
+        <p class="footer-tag">Practical, Angola-first learning for real-life progress.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="/">Home</a>
+        <a href="/how">How it works</a>
+        <a href="/about">About</a>
+        <a href="/waitlist">Get Early Access</a>
+      </nav>
+    </div>
+    <p class="footer-copy">© 2026 BIU.G Academy. All rights reserved.</p>
+  </footer>
 
   <script src="/js/script.js"></script>
 </body>
