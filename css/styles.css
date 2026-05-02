@@ -508,6 +508,26 @@ a:hover {
   margin: 0 auto;
 }
 
+.footer-brand-stack {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  background-color: var(--footer-bg);
+}
+
+.footer-logo {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  background: transparent;
+  background-color: transparent;
+}
+
 .footer-brand {
   color: var(--white);
   font-family: "Playfair Display", Georgia, serif;
@@ -515,15 +535,14 @@ a:hover {
   font-weight: 700;
 }
 
-a.footer-brand {
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
+a.footer-brand-stack:hover,
+a.footer-brand-stack:focus-visible {
+  opacity: 0.9;
 }
 
-a.footer-brand:hover,
-a.footer-brand:focus-visible {
-  opacity: 0.88;
+a.footer-brand-stack:hover .footer-logo,
+a.footer-brand-stack:focus-visible .footer-logo {
+  opacity: 0.95;
 }
 
 .footer-brand span {
