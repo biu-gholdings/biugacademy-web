@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Waitlist | BIU.G Academy</title>
+  <meta name="description" content="Join the BIU.G Academy waitlist — technical education for Angola under development.">
+  <link rel="icon" href="../assets/biug-academy-logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <header class="site-nav">
+    <div class="inner">
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav">&#9776;</button>
+      <a href="../" class="brand">
+        <img src="../assets/biug-academy-logo.png" width="38" height="38" alt="">
+        <span class="brand-text">BIU.G <span>Academy</span></span>
+      </a>
+      <ul class="nav-links" id="primary-nav">
+        <li><a href="../programs/">Course Catalog</a></li>
+        <li><a href="../about/">About</a></li>
+        <li><a href="../programs/">Programs</a></li>
+        <li><a href="../platform/">Platform</a></li>
+        <li><a href="./" class="is-active">Join Waitlist</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <header class="page-hero">
+      <div class="container">
+        <h1>Join the waitlist</h1>
+        <p class="sub">Help us prioritise content and cohort design. This form runs entirely in the browser for static hosting: submissions are stored locally for your testing and a draft email is prepared for our team.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="form-wrap">
+        <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+
+        <!-- TODO: Replace localStorage/mailto with API endpoint or form backend. -->
+        <form id="waitlist-form" action="#" method="post" novalidate>
+          <div class="form-group" data-field="fullName">
+            <label for="fullName">Full Name <span aria-hidden="true">*</span></label>
+            <input id="fullName" name="fullName" type="text" autocomplete="name" required>
+            <span class="error">Please enter your full name.</span>
+          </div>
+
+          <div class="form-group" data-field="email">
+            <label for="email">Email <span aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+            <span class="error">Please enter a valid email address.</span>
+          </div>
+
+          <div class="form-group" data-field="phone">
+            <label for="phone">Phone / WhatsApp</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel">
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="country">
+            <label for="country">Country</label>
+            <input id="country" name="country" type="text" autocomplete="country-name">
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="province">
+            <label for="province">Province</label>
+            <input id="province" name="province" type="text">
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="city">
+            <label for="city">City</label>
+            <input id="city" name="city" type="text" autocomplete="address-level2">
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="areaOfInterest">
+            <label for="areaOfInterest">Area of Interest</label>
+            <select id="areaOfInterest" name="areaOfInterest">
+              <option value="">Select an area</option>
+              <option value="financial-literacy">Financial Literacy</option>
+              <option value="entrepreneurship">Entrepreneurship</option>
+              <option value="software-development">Software Development</option>
+              <option value="digital-infrastructure">Digital Infrastructure</option>
+              <option value="markets-education">Trading &amp; Markets Education</option>
+              <option value="ai-automation">AI &amp; Automation</option>
+              <option value="civic-technology">Civic Technology</option>
+              <option value="agriculture-local-business">Agriculture &amp; Local Business Systems</option>
+              <option value="platform-general">General platform / early access</option>
+            </select>
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="areasOfExpertise">
+            <label for="areasOfExpertise">Areas of Expertise</label>
+            <textarea id="areasOfExpertise" name="areasOfExpertise" rows="3"></textarea>
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="recentCerts">
+            <label for="recentCerts">Recent Accreditations or Certificates</label>
+            <textarea id="recentCerts" name="recentCerts" rows="3"></textarea>
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="currentRole">
+            <label for="currentRole">Current Role</label>
+            <input id="currentRole" name="currentRole" type="text">
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="whyJoin">
+            <label for="whyJoin">Why do you want to join BIU.G Academy?</label>
+            <textarea id="whyJoin" name="whyJoin" rows="4"></textarea>
+            <span class="error"></span>
+          </div>
+
+          <div class="form-group" data-field="consent">
+            <label class="checkbox-row">
+              <input type="checkbox" name="consent" value="on">
+              <span>I agree to be contacted by BIU.G Academy and understand that my information may be used to evaluate future education, training, developer ecosystem, and platform opportunities.</span>
+            </label>
+            <span class="error">Please accept the consent statement to continue.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Submit waitlist</button>
+        </form>
+      </div>
+    </section>
+
+    <div class="content-block">
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; margin-bottom: 0.75rem;">Regulatory note</h2>
+      <p>Submitting this form does not create a student record or guarantee admission. BIU.G Academy does not currently offer accredited degrees; see the <a href="../about/#regulatory">regulatory disclosure</a> for full context.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">BIU.G <span>Academy</span></div>
+        <p class="footer-tag">A technical education initiative under development by Biu-g Holdings LLC.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="../about/">About</a>
+        <a href="../programs/">Programs</a>
+        <a href="../platform/">Platform</a>
+        <a href="./">Contact</a>
+        <a href="../about/#regulatory">Regulatory Disclosure</a>
+      </nav>
+    </div>
+    <p class="footer-copy">© 2026 Biu-g Holdings LLC. BIU.G Academy. All rights reserved.</p>
+  </footer>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>
