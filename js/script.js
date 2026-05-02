@@ -1,14 +1,15 @@
 /**
  * BIU.G Academy — shared UI and waitlist handling (static hosting).
  *
- * TODO: Replace localStorage/mailto with API endpoint or form backend.
+ * Waitlist uses Formspree for delivery to support@biugacademy.org.
+ *
+ * TODO: Create a Formspree form connected to support@biugacademy.org and replace REPLACE_WITH_FORM_ID with the real Formspree ID.
  */
 
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "biug_academy_waitlist_v1";
-  var MAILTO = "support@biu-gholdings.org";
+  var WAITLIST_STORAGE_KEY = "biugAcademyWaitlistSubmissions";
 
   function initNav() {
     var toggle = document.querySelector(".nav-toggle");
@@ -43,7 +44,7 @@
     if (group) group.classList.add("is-invalid");
   }
 
-  function gatherFormData(form) {
+  function gatherWaitlistPayload(form) {
     var fd = new FormData(form);
     return {
       fullName: (fd.get("fullName") || "").toString().trim(),
@@ -57,7 +58,7 @@
       recentCerts: (fd.get("recentCerts") || "").toString().trim(),
       currentRole: (fd.get("currentRole") || "").toString().trim(),
       whyJoin: (fd.get("whyJoin") || "").toString().trim(),
-      consent: fd.get("consent") === "on",
+      consent: fd.get("consent") === "yes",
     };
   }
 
@@ -65,43 +66,19 @@
     var errors = [];
     if (!data.fullName) errors.push("fullName");
     if (!data.email || !validateEmail(data.email)) errors.push("email");
+    if (!data.phone) errors.push("phone");
+    if (!data.country) errors.push("country");
+    if (!data.province) errors.push("province");
+    if (!data.city) errors.push("city");
+    if (!data.areaOfInterest) errors.push("areaOfInterest");
     if (!data.consent) errors.push("consent");
     return errors;
   }
 
-  function formatBody(data) {
-    var lines = [
-      "BIU.G Academy — waitlist submission",
-      "",
-      "Full Name: " + data.fullName,
-      "Email: " + data.email,
-      "Phone / WhatsApp: " + data.phone,
-      "Country: " + data.country,
-      "Province: " + data.province,
-      "City: " + data.city,
-      "Area of Interest: " + data.areaOfInterest,
-      "",
-      "Areas of Expertise:",
-      data.areasOfExpertise || "(none provided)",
-      "",
-      "Recent accreditations or certificates:",
-      data.recentCerts || "(none provided)",
-      "",
-      "Current role:",
-      data.currentRole || "(none provided)",
-      "",
-      "Why join BIU.G Academy?",
-      data.whyJoin || "(none provided)",
-      "",
-      "Consent: " + (data.consent ? "Yes" : "No"),
-    ];
-    return lines.join("\n");
-  }
-
-  function persistSubmission(data) {
+  function persistWaitlistBackup(data) {
     var list = [];
     try {
-      var raw = localStorage.getItem(STORAGE_KEY);
+      var raw = localStorage.getItem(WAITLIST_STORAGE_KEY);
       if (raw) list = JSON.parse(raw);
       if (!Array.isArray(list)) list = [];
     } catch (e) {
@@ -113,9 +90,9 @@
       })
     );
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      localStorage.setItem(WAITLIST_STORAGE_KEY, JSON.stringify(list));
     } catch (e) {
-      console.warn("Could not write waitlist to localStorage", e);
+      console.warn("Could not write waitlist backup to localStorage", e);
     }
   }
 
@@ -132,41 +109,35 @@
     var msg = document.getElementById("form-message");
 
     form.addEventListener("submit", function (e) {
-      e.preventDefault();
       clearFieldErrors(form);
       if (msg) {
         msg.className = "form-message";
         msg.textContent = "";
       }
 
-      var data = gatherFormData(form);
+      var data = gatherWaitlistPayload(form);
       var invalid = validateWaitlist(data);
 
       if (invalid.length) {
+        e.preventDefault();
         invalid.forEach(function (name) {
           setFieldError(form, name);
         });
-        showFormMessage(msg, "error", "Please correct the highlighted fields.");
+        showFormMessage(
+          msg,
+          "error",
+          "Please complete all required fields before submitting."
+        );
         return;
       }
 
-      persistSubmission(data);
-
-      var subject = encodeURIComponent("BIU.G Academy — waitlist");
-      var body = encodeURIComponent(formatBody(data));
-      var href = "mailto:" + MAILTO + "?subject=" + subject + "&body=" + body;
-
+      persistWaitlistBackup(data);
       showFormMessage(
         msg,
         "success",
-        "Your details were saved locally for testing. Opening your email client with a draft to " +
-          MAILTO +
-          "…"
+        "Submitting your application…"
       );
-
-      window.setTimeout(function () {
-        window.location.href = href;
-      }, 600);
+      /* Intentionally do not call e.preventDefault(); Formspree receives the POST next. */
     });
   }
 

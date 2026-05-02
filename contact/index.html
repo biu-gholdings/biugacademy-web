@@ -34,7 +34,7 @@
     <header class="page-hero">
       <div class="container">
         <h1>Join the waitlist</h1>
-        <p class="sub">Help us prioritise content and cohort design. This form runs entirely in the browser for static hosting: submissions are stored locally for your testing and a draft email is prepared for our team.</p>
+        <p class="sub">Tell us about your background and interests. We use this information to plan programs, training tracks, and developer ecosystem opportunities as BIU.G Academy rolls out.</p>
       </div>
     </header>
 
@@ -42,46 +42,56 @@
       <div class="form-wrap">
         <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
 
-        <!-- TODO: Replace localStorage/mailto with API endpoint or form backend. -->
-        <form id="waitlist-form" action="#" method="post" novalidate>
+        <!--
+          TODO: Create a Formspree form connected to support@biugacademy.org and replace REPLACE_WITH_FORM_ID with the real Formspree ID.
+        -->
+        <form
+          id="waitlist-form"
+          action="https://formspree.io/f/REPLACE_WITH_FORM_ID"
+          method="post"
+          novalidate
+        >
+          <input type="hidden" name="_subject" value="New BIU.G Academy Waitlist Submission">
+          <input type="hidden" name="_next" value="https://biugacademy.org/thank-you/">
+
           <div class="form-group" data-field="fullName">
             <label for="fullName">Full Name <span aria-hidden="true">*</span></label>
-            <input id="fullName" name="fullName" type="text" autocomplete="name" required>
+            <input id="fullName" name="fullName" type="text" autocomplete="name">
             <span class="error">Please enter your full name.</span>
           </div>
 
           <div class="form-group" data-field="email">
             <label for="email">Email <span aria-hidden="true">*</span></label>
-            <input id="email" name="email" type="email" autocomplete="email" required>
+            <input id="email" name="email" type="email" autocomplete="email">
             <span class="error">Please enter a valid email address.</span>
           </div>
 
           <div class="form-group" data-field="phone">
-            <label for="phone">Phone / WhatsApp</label>
+            <label for="phone">Phone / WhatsApp <span aria-hidden="true">*</span></label>
             <input id="phone" name="phone" type="tel" autocomplete="tel">
-            <span class="error"></span>
+            <span class="error">Please enter your phone number or WhatsApp.</span>
           </div>
 
           <div class="form-group" data-field="country">
-            <label for="country">Country</label>
+            <label for="country">Country <span aria-hidden="true">*</span></label>
             <input id="country" name="country" type="text" autocomplete="country-name">
-            <span class="error"></span>
+            <span class="error">Please enter your country.</span>
           </div>
 
           <div class="form-group" data-field="province">
-            <label for="province">Province</label>
+            <label for="province">Province <span aria-hidden="true">*</span></label>
             <input id="province" name="province" type="text">
-            <span class="error"></span>
+            <span class="error">Please enter your province or region.</span>
           </div>
 
           <div class="form-group" data-field="city">
-            <label for="city">City</label>
+            <label for="city">City <span aria-hidden="true">*</span></label>
             <input id="city" name="city" type="text" autocomplete="address-level2">
-            <span class="error"></span>
+            <span class="error">Please enter your city.</span>
           </div>
 
           <div class="form-group" data-field="areaOfInterest">
-            <label for="areaOfInterest">Area of Interest</label>
+            <label for="areaOfInterest">Area of Interest <span aria-hidden="true">*</span></label>
             <select id="areaOfInterest" name="areaOfInterest">
               <option value="">Select an area</option>
               <option value="financial-literacy">Financial Literacy</option>
@@ -94,7 +104,7 @@
               <option value="agriculture-local-business">Agriculture &amp; Local Business Systems</option>
               <option value="platform-general">General platform / early access</option>
             </select>
-            <span class="error"></span>
+            <span class="error">Please select an area of interest.</span>
           </div>
 
           <div class="form-group" data-field="areasOfExpertise">
@@ -123,20 +133,22 @@
 
           <div class="form-group" data-field="consent">
             <label class="checkbox-row">
-              <input type="checkbox" name="consent" value="on">
-              <span>I agree to be contacted by BIU.G Academy and understand that my information may be used to evaluate future education, training, developer ecosystem, and platform opportunities.</span>
+              <input type="checkbox" name="consent" value="yes">
+              <span>I agree to be contacted by BIU.G Academy and understand that my information may be used to evaluate future education, training, developer ecosystem, and platform opportunities. <span aria-hidden="true">*</span></span>
             </label>
             <span class="error">Please accept the consent statement to continue.</span>
           </div>
 
-          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Submit waitlist</button>
+          <button type="submit" class="btn btn-primary form-submit-btn">Submit waitlist</button>
         </form>
+
+        <p class="form-privacy-note">By submitting this form, you agree to be contacted by BIU.G Academy. Your information may be used to evaluate future education, training, developer ecosystem, and platform opportunities. BIU.G Academy does not currently confer accredited academic degrees.</p>
       </div>
     </section>
 
-    <div class="content-block">
-      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; margin-bottom: 0.75rem;">Regulatory note</h2>
-      <p>Submitting this form does not create a student record or guarantee admission. BIU.G Academy does not currently offer accredited degrees; see the <a href="../about/#regulatory">regulatory disclosure</a> for full context.</p>
+    <div class="content-block contact-regulatory">
+      <h2 class="contact-regulatory-title">Regulatory disclosure</h2>
+      <p>BIU.G Academy is a technical education and training initiative under development, structured in alignment with the academic and regulatory standards of Angola. Programs are being designed in accordance with <a href="https://www.mescti.gov.ao/" target="_blank" rel="noopener noreferrer">MESCTI</a> and <a href="https://sepe.gov.ao/" target="_blank" rel="noopener noreferrer">INAAREES</a> guidelines. BIU.G Academy does not currently confer accredited academic degrees. For additional context, see the <a href="../about/#regulatory">full disclosure</a> on the About page.</p>
     </div>
   </main>
 
