@@ -174,7 +174,7 @@ a:hover { color: var(--blue-700); }
 .hero {
   background: linear-gradient(165deg, var(--blue-100) 0%, #f3f9ff 70%, #fff 100%);
   border-bottom: 1px solid var(--border);
-  padding: 4.5rem 1.25rem 4rem;
+  padding: 3.5rem 1.25rem 3rem;
   text-align: center;
 }
 
@@ -239,7 +239,7 @@ a:hover { color: var(--blue-700); }
 }
 
 .section {
-  padding: 4rem 1.25rem;
+  padding: 2.8rem 1.25rem;
 }
 
 .section-light {
@@ -249,7 +249,7 @@ a:hover { color: var(--blue-700); }
 .section-title {
   font-size: clamp(1.5rem, 3vw, 1.875rem);
   text-align: left;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.05rem;
   color: var(--text);
 }
 
@@ -262,6 +262,19 @@ a:hover { color: var(--blue-700); }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+}
+
+.credibility-strip {
+  background: #f7fbff;
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem 1.25rem;
+}
+
+.credibility-strip .section-inner {
+  text-align: center;
+  color: #47617e;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .tile {
@@ -376,14 +389,26 @@ a:hover { color: var(--blue-700); }
 
 details.form-extra {
   margin-top: 1rem;
-  border-top: 1px dashed #c8d6e6;
-  padding-top: 0.9rem;
+  border: 1px solid #c7d8ea;
+  border-radius: 14px;
+  background: #f7fbff;
+  padding: 0.85rem 0.9rem 0.2rem;
 }
 
 details.form-extra summary {
   cursor: pointer;
-  color: var(--blue-700);
+  color: #234b79;
   font-weight: 700;
+  list-style: none;
+}
+
+details.form-extra summary::-webkit-details-marker {
+  display: none;
+}
+
+details.form-extra summary:focus-visible {
+  outline: 2px solid #8fb6e1;
+  outline-offset: 2px;
 }
 
 .site-footer {
@@ -462,7 +487,7 @@ details.form-extra summary {
 }
 
 .page-hero {
-  padding: 3rem 1.25rem 2.4rem;
+  padding: 2.5rem 1.25rem 1.9rem;
   background: linear-gradient(165deg, var(--blue-100) 0%, #f4f9ff 100%);
   border-bottom: 1px solid var(--border);
 }
@@ -513,5 +538,19 @@ details.form-extra summary {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1rem 2.7rem;
+  }
+
+  .section {
+    padding: 2.5rem 1rem;
+  }
+
+  .page-hero {
+    padding: 2.3rem 1rem 1.8rem;
   }
 }
