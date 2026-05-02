@@ -83,13 +83,19 @@ a:hover {
   text-decoration: none;
   color: var(--text);
   flex-shrink: 0;
+  /* Match header bar so transparent logo edges sit on same white */
+  background-color: var(--white);
+  border-radius: 0;
 }
 
 .brand img {
+  display: block;
   width: 38px;
   height: 38px;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 0;
+  background: transparent;
+  background-color: transparent;
 }
 
 .brand-text {
