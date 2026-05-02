@@ -48,16 +48,21 @@
         <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
 
         <!--
-          TODO: Create a Formspree form connected to support@biugacademy.org and replace REPLACE_WITH_FORM_ID with the real Formspree ID.
+          Form endpoint: FormSubmit posts to support@biugacademy.org (no dashboard ID).
+          First time only: open that inbox and confirm the FormSubmit activation link so deliveries are accepted.
+
+          TODO (optional): Switch to Formspree when you have a form ID — set action to
+          https://formspree.io/f/YOUR_FORM_ID and remove FormSubmit-only hidden fields if any.
         -->
         <form
           id="waitlist-form"
-          action="https://formspree.io/f/REPLACE_WITH_FORM_ID"
+          action="https://formsubmit.co/support@biugacademy.org"
           method="post"
           novalidate
         >
           <input type="hidden" name="_subject" value="New BIU.G Academy Waitlist Submission">
           <input type="hidden" name="_next" value="https://biugacademy.org/thank-you/">
+          <input type="hidden" name="_captcha" value="false">
 
           <div class="form-group" data-field="fullName">
             <label for="fullName">Full Name <span aria-hidden="true">*</span></label>
@@ -148,6 +153,7 @@
         </form>
 
         <p class="form-privacy-note">By submitting this form, you agree to be contacted by BIU.G Academy. Your information may be used to evaluate future education, training, developer ecosystem, and platform opportunities. BIU.G Academy does not currently confer accredited academic degrees.</p>
+        <p class="form-endpoint-note">Submissions are delivered by FormSubmit to <strong>support@biugacademy.org</strong>. The first message to that inbox may include a one-time link to activate delivery—please confirm it so later waitlist entries are received.</p>
       </div>
     </section>
 

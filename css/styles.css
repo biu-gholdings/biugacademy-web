@@ -473,6 +473,16 @@ a:hover {
   margin-right: auto;
 }
 
+.form-endpoint-note {
+  margin-top: 0.85rem;
+  font-size: 0.75rem;
+  color: var(--muted-light);
+  line-height: 1.55;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .contact-regulatory {
   padding-top: 0;
 }

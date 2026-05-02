@@ -1,9 +1,11 @@
 /**
  * BIU.G Academy — shared UI and waitlist handling (static hosting).
  *
- * Waitlist uses Formspree for delivery to support@biugacademy.org.
+ * Waitlist form POSTs to FormSubmit (support@biugacademy.org). Validation and
+ * localStorage backup run in JS before the native form submit.
  *
- * TODO: Create a Formspree form connected to support@biugacademy.org and replace REPLACE_WITH_FORM_ID with the real Formspree ID.
+ * TODO (optional): Replace the form action in contact/index.html with Formspree
+ * https://formspree.io/f/YOUR_FORM_ID when you have a Formspree form ID.
  */
 
 (function () {
