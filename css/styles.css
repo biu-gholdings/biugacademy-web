@@ -122,6 +122,12 @@ a:hover { color: var(--blue-700); }
   background: var(--blue-50);
 }
 
+.nav-links a.is-active {
+  color: var(--blue-700);
+  background: var(--blue-50);
+  font-weight: 700;
+}
+
 .nav-links .nav-cta {
   background: var(--orange-500);
   color: #fff;
@@ -315,6 +321,17 @@ a:hover { color: var(--blue-700); }
   padding: 1rem 1.1rem;
   color: #415167;
   font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.about-copy {
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 52rem;
+}
+
+.about-build-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .waitlist-wrap {
@@ -390,7 +407,7 @@ details.form-extra summary {
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
-  color: inherit;
+  color: #ffffff;
   font-family: "Playfair Display", Georgia, serif;
   font-size: 1.18rem;
   font-weight: 700;
