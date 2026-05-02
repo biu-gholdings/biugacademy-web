@@ -509,6 +509,17 @@ a:hover {
   font-weight: 700;
 }
 
+a.footer-brand {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a.footer-brand:hover,
+a.footer-brand:focus-visible {
+  opacity: 0.88;
+}
+
 .footer-brand span {
   color: #7eb8ea;
 }
