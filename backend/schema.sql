@@ -1,6 +1,5 @@
--- BIU.G Academy waitlist + AI profiles (PostgreSQL / Supabase compatible)
--- Run once: psql "$DATABASE_URL" -f sql/schema.sql
--- Or use npm run db:init
+-- BIU.G Academy — run in Supabase SQL Editor (or psql) against your project database.
+-- Optional columns certifications + tools_used may be empty string.
 
 CREATE TABLE IF NOT EXISTS waitlist_applications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -13,14 +12,14 @@ CREATE TABLE IF NOT EXISTS waitlist_applications (
   area_of_interest TEXT NOT NULL,
   current_role TEXT NOT NULL,
   expertise TEXT NOT NULL,
-  certifications TEXT NOT NULL DEFAULT '',
   ai_experience_level TEXT NOT NULL,
   preferred_learning_track TEXT NOT NULL,
   cubeshackles_ecosystem_interest TEXT NOT NULL,
-  tools_used TEXT NOT NULL,
   problem_to_solve TEXT NOT NULL,
   why_join TEXT NOT NULL,
   consent BOOLEAN NOT NULL DEFAULT FALSE,
+  certifications TEXT NOT NULL DEFAULT '',
+  tools_used TEXT NOT NULL DEFAULT '',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

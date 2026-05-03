@@ -1,6 +1,7 @@
 /**
  * BIU.G Academy — navigation and waitlist form (JSON POST to backend AI intake).
  *
+ * POST JSON to {biug-api-base}/api/waitlist; on success redirects to /thank-you/.
  * API base: <meta name="biug-api-base" content="http://localhost:3000"> or empty for same-origin /api/waitlist.
  */
 (function () {
@@ -91,11 +92,9 @@
     if (!data.area_of_interest) errors.push("area_of_interest");
     if (!data.current_role) errors.push("current_role");
     if (!data.expertise) errors.push("expertise");
-    if (!data.certifications) errors.push("certifications");
     if (!data.ai_experience_level) errors.push("ai_experience_level");
     if (!data.preferred_learning_track) errors.push("preferred_learning_track");
     if (!data.cubeshackles_ecosystem_interest) errors.push("cubeshackles_ecosystem_interest");
-    if (!data.tools_used) errors.push("tools_used");
     if (!data.problem_to_solve) errors.push("problem_to_solve");
     if (!data.why_join) errors.push("why_join");
     if (!data.consent) errors.push("consent");

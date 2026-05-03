@@ -1,4 +1,6 @@
-import OpenAI from "openai";
+"use strict";
+
+const OpenAI = require("openai");
 
 const LEARNER_TYPES = new Set([
   "Developer",
@@ -54,27 +56,26 @@ function normalizeProfile(raw) {
   };
 }
 
-const SYSTEM = `You are the BIU.G Academy intake intelligence layer (not a chatbot). You classify waitlist applicants for a technical education initiative in Angola and for the CubeShackles talent pipeline.
+const SYSTEM = `You are the BIU.G Academy AI intake layer (not a chatbot). Classify waitlist applicants for Angola-first technical education and the CubeShackles talent pipeline.
 
 Return ONLY a single JSON object (no markdown, no prose) with exactly these keys and types:
 - learner_type: string, one of: Developer, Founder, Trader, Operator, Analyst, Educator, Civic Builder, Beginner Talent, Unknown
 - skill_level: string, one of: Beginner, Intermediate, Advanced
-- ai_readiness_score: integer 0-100 (how ready they are to use AI in learning/work)
-- cubeshackles_fit_score: integer 0-100 (fit for ecosystem builder / operator / dev pipeline)
-- recommended_track: short string (concrete BIU.G-style track recommendation)
+- ai_readiness_score: integer 0-100
+- cubeshackles_fit_score: integer 0-100
+- recommended_track: short string
 - priority_level: string, one of: Low, Medium, High, Strategic
 - strengths: array of short strings (3-8 items)
 - gaps: array of short strings (2-6 items)
-- recommended_next_steps: array of short strings (3-6 actionable steps)
-- tags: array of short lowercase kebab-case or single-word tags (5-12 items)
+- recommended_next_steps: array of short strings (3-6 items)
+- tags: array of short tags (5-12 items)
 
-Be evidence-based from the application fields only. If data is thin, use conservative scores and learner_type Unknown or Beginner Talent.`;
+Use only the application payload. If data is thin, be conservative and use Unknown or Beginner Talent where appropriate.`;
 
 /**
  * @param {Record<string, unknown>} application
- * @returns {Promise<ReturnType<typeof normalizeProfile>>}
  */
-export async function classifyApplicant(application) {
+async function classifyApplicant(application) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     throw new Error("OPENAI_API_KEY is not configured");
@@ -82,8 +83,6 @@ export async function classifyApplicant(application) {
 
   const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
   const client = new OpenAI({ apiKey });
-
-  const userPayload = JSON.stringify(application, null, 2);
 
   const completion = await client.chat.completions.create({
     model,
@@ -93,7 +92,7 @@ export async function classifyApplicant(application) {
       { role: "system", content: SYSTEM },
       {
         role: "user",
-        content: `Application JSON:\n${userPayload}\n\nRespond with the JSON object only.`,
+        content: `Application JSON:\n${JSON.stringify(application, null, 2)}\n\nRespond with the JSON object only.`,
       },
     ],
   });
@@ -112,3 +111,5 @@ export async function classifyApplicant(application) {
 
   return normalizeProfile(parsed);
 }
+
+module.exports = { classifyApplicant };
