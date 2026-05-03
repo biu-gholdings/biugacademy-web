@@ -2,15 +2,173 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=/waitlist.html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Get Early Access | BIU.G Academy</title>
+  <title>Join Waitlist | BIU.G Academy</title>
+  <meta name="description" content="Join the BIU.G Academy waitlist — practical education for Angola.">
   <link rel="icon" type="image/png" sizes="32x32" href="https://biugacademy.org/assets/biug-academy-logo.png">
   <link rel="icon" type="image/png" sizes="192x192" href="https://biugacademy.org/assets/biug-academy-logo.png">
   <link rel="apple-touch-icon" href="https://biugacademy.org/assets/biug-academy-logo.png">
   <link rel="shortcut icon" href="https://biugacademy.org/assets/biug-academy-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <p>Redirecting to <a href="/waitlist.html">Get Early Access</a>...</p>
+  <header class="site-nav">
+    <div class="inner">
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav">&#9776;</button>
+      <a href="/index.html" class="brand">
+        <img src="/assets/biug-academy-logo.png" width="38" height="38" alt="">
+        <span class="brand-text">BIU.G <span>Academy</span></span>
+      </a>
+      <ul class="nav-links" id="primary-nav">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/how-it-works.html">How it works</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact/" class="nav-cta is-active">Get Early Access</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <header class="page-hero">
+      <div class="container">
+        <h1>Join the waitlist</h1>
+        <p class="sub">Tell us about your background and interests. Submissions are sent securely through Formspree — no email app required.</p>
+      </div>
+    </header>
+
+    <section class="section section-light">
+      <div class="section-inner">
+        <div class="waitlist-wrap">
+          <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+
+          <!--
+            TODO: Create a Formspree form connected to support@biugacademy.org and replace REPLACE_WITH_FORM_ID with the real Formspree ID.
+          -->
+          <form
+            id="waitlist-form"
+            action="https://formspree.io/f/REPLACE_WITH_FORM_ID"
+            method="POST"
+            novalidate
+          >
+            <input type="hidden" name="_subject" value="New BIU.G Academy Waitlist Submission">
+            <input type="hidden" name="_next" value="https://biugacademy.org/thank-you/">
+
+            <div class="form-group" data-field="fullName">
+              <label for="fullName">Full Name <span class="req" aria-hidden="true">*</span></label>
+              <input id="fullName" name="fullName" type="text" autocomplete="name">
+              <span class="error">Please enter your full name.</span>
+            </div>
+
+            <div class="form-group" data-field="email">
+              <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+              <input id="email" name="email" type="email" autocomplete="email">
+              <span class="error">Please enter a valid email address.</span>
+            </div>
+
+            <div class="form-group" data-field="phone">
+              <label for="phone">Phone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel">
+              <span class="error">Please enter your phone number or WhatsApp.</span>
+            </div>
+
+            <div class="form-group" data-field="country">
+              <label for="country">Country <span class="req" aria-hidden="true">*</span></label>
+              <input id="country" name="country" type="text" autocomplete="country-name">
+              <span class="error">Please enter your country.</span>
+            </div>
+
+            <div class="form-group" data-field="province">
+              <label for="province">Province <span class="req" aria-hidden="true">*</span></label>
+              <input id="province" name="province" type="text">
+              <span class="error">Please enter your province or region.</span>
+            </div>
+
+            <div class="form-group" data-field="city">
+              <label for="city">City <span class="req" aria-hidden="true">*</span></label>
+              <input id="city" name="city" type="text" autocomplete="address-level2">
+              <span class="error">Please enter your city.</span>
+            </div>
+
+            <div class="form-group" data-field="areaOfInterest">
+              <label for="areaOfInterest">Area of Interest <span class="req" aria-hidden="true">*</span></label>
+              <select id="areaOfInterest" name="areaOfInterest">
+                <option value="">Select an area</option>
+                <option value="financial-literacy">Financial literacy</option>
+                <option value="entrepreneurship">Entrepreneurship / small business</option>
+                <option value="digital-skills">Digital skills</option>
+                <option value="software-development">Software development</option>
+                <option value="technical-careers">Technical careers / foundations</option>
+                <option value="general">General / early access</option>
+              </select>
+              <span class="error">Please select an area of interest.</span>
+            </div>
+
+            <div class="form-group" data-field="areasOfExpertise">
+              <label for="areasOfExpertise">Areas of Expertise</label>
+              <textarea id="areasOfExpertise" name="areasOfExpertise" rows="3"></textarea>
+              <span class="error"></span>
+            </div>
+
+            <div class="form-group" data-field="recentCerts">
+              <label for="recentCerts">Recent Accreditations or Certificates</label>
+              <textarea id="recentCerts" name="recentCerts" rows="3"></textarea>
+              <span class="error"></span>
+            </div>
+
+            <div class="form-group" data-field="currentRole">
+              <label for="currentRole">Current Role</label>
+              <input id="currentRole" name="currentRole" type="text">
+              <span class="error"></span>
+            </div>
+
+            <div class="form-group" data-field="whyJoin">
+              <label for="whyJoin">Why do you want to join BIU.G Academy?</label>
+              <textarea id="whyJoin" name="whyJoin" rows="4"></textarea>
+              <span class="error"></span>
+            </div>
+
+            <div class="form-group" data-field="consent">
+              <label class="checkbox-row">
+                <input type="checkbox" name="consent" value="yes">
+                <span>I agree to be contacted by BIU.G Academy and understand that my information may be used to evaluate future education, training, developer ecosystem, and platform opportunities. <span class="req" aria-hidden="true">*</span></span>
+              </label>
+              <span class="error">Please accept the consent statement to continue.</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary form-submit-btn">Submit waitlist</button>
+          </form>
+
+          <p class="form-privacy-note">By submitting this form, you agree to be contacted by BIU.G Academy. Your information may be used to evaluate future education, training, developer ecosystem, and platform opportunities. BIU.G Academy does not currently confer accredited academic degrees.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="content-block contact-regulatory">
+      <h2 class="contact-regulatory-title">Regulatory disclosure</h2>
+      <p>BIU.G Academy is a technical education and training initiative under development, structured in alignment with the academic and regulatory standards of Angola. Programs are being designed in accordance with <a href="https://www.mescti.gov.ao/" target="_blank" rel="noopener noreferrer">MESCTI</a> and <a href="https://sepe.gov.ao/" target="_blank" rel="noopener noreferrer">INAAREES</a> guidelines. BIU.G Academy does not currently confer accredited academic degrees.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div>
+        <a href="/index.html" class="footer-brand-stack">
+          <img class="footer-logo" src="/assets/biug-academy-logo.png" width="44" height="44" alt="">
+          <span>BIU.G <span>Academy</span></span>
+        </a>
+        <p class="footer-tag">Practical, Angola-first learning for real-life progress.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="/index.html">Home</a>
+        <a href="/how-it-works.html">How it works</a>
+        <a href="/about.html">About</a>
+        <a href="/contact/">Get Early Access</a>
+      </nav>
+    </div>
+    <p class="footer-copy">© 2026 BIU.G Academy. All rights reserved.</p>
+  </footer>
+
+  <script src="/js/script.js"></script>
 </body>
 </html>

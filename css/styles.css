@@ -387,6 +387,159 @@ a:hover { color: var(--blue-700); }
   resize: vertical;
 }
 
+.form-group {
+  margin-bottom: 1.1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.83rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: #29415f;
+}
+
+.form-group .req {
+  color: #b45309;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid #c7d7e8;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text);
+  background: #fff;
+}
+
+.form-group textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.form-group .error {
+  font-size: 0.75rem;
+  color: #b91c1c;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+.form-group.is-invalid .error {
+  display: block;
+}
+
+.form-group.is-invalid input,
+.form-group.is-invalid select,
+.form-group.is-invalid textarea {
+  border-color: #b91c1c;
+}
+
+.form-group.is-invalid .checkbox-row input {
+  outline: 2px solid #b91c1c;
+  outline-offset: 2px;
+}
+
+.form-submit-btn {
+  width: 100%;
+  margin-top: 0.35rem;
+}
+
+.form-privacy-note {
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.contact-regulatory {
+  padding-top: 0;
+}
+
+.contact-regulatory-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+
+.contact-regulatory p {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.form-message {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+
+.form-message.is-visible {
+  display: block;
+}
+
+.form-message.success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.form-message.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.checkbox-row input {
+  width: auto;
+  margin-top: 0.2rem;
+}
+
+.thank-you-body {
+  padding-top: 1rem;
+}
+
+.thank-you-inner {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 2rem;
+}
+
+.thank-you-inner p {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.thank-you-lead {
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.thank-you-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  justify-content: flex-start;
+}
+
 details.form-extra {
   margin-top: 1rem;
   border: 1px solid #c7d8ea;
