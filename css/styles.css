@@ -421,6 +421,13 @@ a:hover { color: var(--blue-700); }
   resize: vertical;
 }
 
+/* 16px+ on waitlist avoids iOS zoom on focus */
+.waitlist-wrap .form-group input,
+.waitlist-wrap .form-group select,
+.waitlist-wrap .form-group textarea {
+  font-size: 1rem;
+}
+
 .form-group .error {
   font-size: 0.75rem;
   color: #b91c1c;
@@ -446,6 +453,11 @@ a:hover { color: var(--blue-700); }
 .form-submit-btn {
   width: 100%;
   margin-top: 0.35rem;
+}
+
+.form-submit-btn:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
 }
 
 .form-privacy-note {

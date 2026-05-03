@@ -11,6 +11,8 @@
   <meta property="og:image" content="https://biugacademy.org/assets/biug-academy-logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:image" content="https://biugacademy.org/assets/biug-academy-logo.png">
+  <!-- API base for waitlist JSON POST (e.g. http://localhost:3000). Empty = same origin /api/waitlist -->
+  <meta name="biug-api-base" content="">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
@@ -36,7 +38,7 @@
     <header class="page-hero">
       <div class="container">
         <h1>Join the waitlist</h1>
-        <p class="sub">Tell us about your background and interests. Submissions are sent securely through Formspree — no email app required.</p>
+        <p class="sub">Tell us about your background and goals. Submissions are validated, stored securely, and classified to match you with the right BIU.G Academy track.</p>
       </div>
     </header>
 
@@ -45,96 +47,138 @@
         <div class="waitlist-wrap">
           <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
 
-          <!--
-            TODO: Create a Formspree form connected to support@biugacademy.org and replace REPLACE_WITH_FORM_ID with the real Formspree ID.
-          -->
-          <form
-            id="waitlist-form"
-            action="https://formspree.io/f/REPLACE_WITH_FORM_ID"
-            method="POST"
-            novalidate
-          >
-            <input type="hidden" name="_subject" value="New BIU.G Academy Waitlist Submission">
-            <input type="hidden" name="_next" value="https://biugacademy.org/thank-you/">
-
-            <div class="form-group" data-field="fullName">
-              <label for="fullName">Full Name <span class="req" aria-hidden="true">*</span></label>
-              <input id="fullName" name="fullName" type="text" autocomplete="name">
+          <form id="waitlist-form" method="post" action="#" novalidate>
+            <div class="form-group" data-field="full_name">
+              <label for="full_name">Full Name <span class="req" aria-hidden="true">*</span></label>
+              <input id="full_name" name="full_name" type="text" autocomplete="name" required maxlength="200">
               <span class="error">Please enter your full name.</span>
             </div>
 
             <div class="form-group" data-field="email">
               <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
-              <input id="email" name="email" type="email" autocomplete="email">
+              <input id="email" name="email" type="email" autocomplete="email" required inputmode="email" maxlength="320">
               <span class="error">Please enter a valid email address.</span>
             </div>
 
             <div class="form-group" data-field="phone">
               <label for="phone">Phone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel">
-              <span class="error">Please enter your phone number or WhatsApp.</span>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required minlength="8" maxlength="40" title="Include country code if applicable; at least 8 digits total.">
+              <span class="error">Enter a valid phone or WhatsApp number (at least 8 digits).</span>
             </div>
 
             <div class="form-group" data-field="country">
               <label for="country">Country <span class="req" aria-hidden="true">*</span></label>
-              <input id="country" name="country" type="text" autocomplete="country-name">
+              <input id="country" name="country" type="text" autocomplete="country-name" required maxlength="120" value="Angola">
               <span class="error">Please enter your country.</span>
             </div>
 
             <div class="form-group" data-field="province">
-              <label for="province">Province <span class="req" aria-hidden="true">*</span></label>
-              <input id="province" name="province" type="text">
-              <span class="error">Please enter your province or region.</span>
+              <label for="province">Province (Angola) <span class="req" aria-hidden="true">*</span></label>
+              <input id="province" name="province" type="text" autocomplete="address-level1" required maxlength="120">
+              <span class="error">Please enter your province.</span>
             </div>
 
             <div class="form-group" data-field="city">
-              <label for="city">City <span class="req" aria-hidden="true">*</span></label>
-              <input id="city" name="city" type="text" autocomplete="address-level2">
-              <span class="error">Please enter your city.</span>
+              <label for="city">City / Municipality <span class="req" aria-hidden="true">*</span></label>
+              <input id="city" name="city" type="text" autocomplete="address-level2" required maxlength="120">
+              <span class="error">Please enter your city or municipality.</span>
             </div>
 
-            <div class="form-group" data-field="areaOfInterest">
-              <label for="areaOfInterest">Area of Interest <span class="req" aria-hidden="true">*</span></label>
-              <select id="areaOfInterest" name="areaOfInterest">
-                <option value="">Select an area</option>
-                <option value="financial-literacy">Financial literacy</option>
-                <option value="entrepreneurship">Entrepreneurship / small business</option>
-                <option value="digital-skills">Digital skills</option>
-                <option value="software-development">Software development</option>
-                <option value="technical-careers">Technical careers / foundations</option>
-                <option value="general">General / early access</option>
+            <div class="form-group" data-field="area_of_interest">
+              <label for="area_of_interest">Area of Interest <span class="req" aria-hidden="true">*</span></label>
+              <select id="area_of_interest" name="area_of_interest" required>
+                <option value="" selected disabled>Select an area</option>
+                <option value="Financial Literacy">Financial Literacy</option>
+                <option value="Entrepreneurship">Entrepreneurship</option>
+                <option value="Technology / Software">Technology / Software</option>
+                <option value="AI / Data">AI / Data</option>
+                <option value="Trading and Markets">Trading &amp; Markets</option>
+                <option value="Other">Other</option>
               </select>
               <span class="error">Please select an area of interest.</span>
             </div>
 
-            <div class="form-group" data-field="areasOfExpertise">
-              <label for="areasOfExpertise">Areas of Expertise</label>
-              <textarea id="areasOfExpertise" name="areasOfExpertise" rows="3"></textarea>
-              <span class="error"></span>
+            <div class="form-group" data-field="current_role">
+              <label for="current_role">Current Role <span class="req" aria-hidden="true">*</span></label>
+              <select id="current_role" name="current_role" required>
+                <option value="" selected disabled>Select your role</option>
+                <option value="Student">Student</option>
+                <option value="Developer">Developer</option>
+                <option value="Entrepreneur">Entrepreneur</option>
+                <option value="Trader">Trader</option>
+                <option value="Professional">Professional</option>
+                <option value="Other">Other</option>
+              </select>
+              <span class="error">Please select your current role.</span>
             </div>
 
-            <div class="form-group" data-field="recentCerts">
-              <label for="recentCerts">Recent Accreditations or Certificates</label>
-              <textarea id="recentCerts" name="recentCerts" rows="3"></textarea>
-              <span class="error"></span>
+            <div class="form-group" data-field="expertise">
+              <label for="expertise">Areas of Expertise (skills, tools, languages) <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="expertise" name="expertise" rows="4" required minlength="10" maxlength="4000" placeholder="e.g. Python, Excel, small business accounting, Portuguese + English"></textarea>
+              <span class="error">List your skills, tools, or languages (at least a few words).</span>
             </div>
 
-            <div class="form-group" data-field="currentRole">
-              <label for="currentRole">Current Role</label>
-              <input id="currentRole" name="currentRole" type="text">
-              <span class="error"></span>
+            <div class="form-group" data-field="certifications">
+              <label for="certifications">Recent Certifications <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="certifications" name="certifications" rows="3" required minlength="2" maxlength="2000" placeholder="List credentials or enter N/A if none"></textarea>
+              <span class="error">Enter certifications or N/A.</span>
             </div>
 
-            <div class="form-group" data-field="whyJoin">
-              <label for="whyJoin">Why do you want to join BIU.G Academy?</label>
-              <textarea id="whyJoin" name="whyJoin" rows="4"></textarea>
-              <span class="error"></span>
+            <div class="form-group" data-field="ai_experience_level">
+              <label for="ai_experience_level">AI experience level <span class="req" aria-hidden="true">*</span></label>
+              <select id="ai_experience_level" name="ai_experience_level" required>
+                <option value="" selected disabled>Select level</option>
+                <option value="None — not yet started">None — not yet started</option>
+                <option value="Beginner — occasional use">Beginner — occasional use</option>
+                <option value="Intermediate — regular use in workflow">Intermediate — regular use in workflow</option>
+                <option value="Advanced — building or automating with AI">Advanced — building or automating with AI</option>
+                <option value="Expert — models, pipelines, or teaching others">Expert — models, pipelines, or teaching others</option>
+              </select>
+              <span class="error">Please select your AI experience level.</span>
+            </div>
+
+            <div class="form-group" data-field="preferred_learning_track">
+              <label for="preferred_learning_track">Preferred learning track <span class="req" aria-hidden="true">*</span></label>
+              <select id="preferred_learning_track" name="preferred_learning_track" required>
+                <option value="" selected disabled>Select a track</option>
+                <option value="Financial Literacy">Financial Literacy</option>
+                <option value="Entrepreneurship &amp; business">Entrepreneurship &amp; business</option>
+                <option value="Software &amp; platform engineering">Software &amp; platform engineering</option>
+                <option value="AI &amp; Data">AI &amp; Data</option>
+                <option value="Trading &amp; markets">Trading &amp; markets</option>
+                <option value="Cross-functional / undecided">Cross-functional / undecided</option>
+              </select>
+              <span class="error">Please select a preferred track.</span>
+            </div>
+
+            <div class="form-group" data-field="cubeshackles_ecosystem_interest">
+              <label for="cubeshackles_ecosystem_interest">Interest in the CubeShackles ecosystem <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="cubeshackles_ecosystem_interest" name="cubeshackles_ecosystem_interest" rows="3" required minlength="10" maxlength="2000" placeholder="Products, community, Angola-first opportunities, or how you want to contribute"></textarea>
+              <span class="error">Please describe your interest (at least a sentence).</span>
+            </div>
+
+            <div class="form-group" data-field="tools_used">
+              <label for="tools_used">Tools you use today <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="tools_used" name="tools_used" rows="3" required minlength="5" maxlength="2000" placeholder="Editors, frameworks, spreadsheets, trading platforms, etc."></textarea>
+              <span class="error">List the tools you use.</span>
+            </div>
+
+            <div class="form-group" data-field="problem_to_solve">
+              <label for="problem_to_solve">Problem you want to solve next <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="problem_to_solve" name="problem_to_solve" rows="4" required minlength="15" maxlength="4000" placeholder="Concrete outcome you are working toward"></textarea>
+              <span class="error">Describe the problem or outcome (be specific).</span>
+            </div>
+
+            <div class="form-group" data-field="why_join">
+              <label for="why_join">Why do you want to join? (Be specific) <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="why_join" name="why_join" rows="5" required minlength="20" maxlength="4000" placeholder="What you hope to learn or build, and how BIU.G Academy fits your goals."></textarea>
+              <span class="error">Please write at least 20 characters so we can understand your goals.</span>
             </div>
 
             <div class="form-group" data-field="consent">
               <label class="checkbox-row">
-                <input type="checkbox" name="consent" value="yes">
-                <span>I agree to be contacted by BIU.G Academy and understand that my information may be used to evaluate future education, training, developer ecosystem, and platform opportunities. <span class="req" aria-hidden="true">*</span></span>
+                <input type="checkbox" name="consent" value="yes" required>
+                <span>I agree to be contacted by BIU.G Academy and understand that my information may be used to evaluate future education, training, developer ecosystem, and platform opportunities (including the CubeShackles ecosystem). <span class="req" aria-hidden="true">*</span></span>
               </label>
               <span class="error">Please accept the consent statement to continue.</span>
             </div>
