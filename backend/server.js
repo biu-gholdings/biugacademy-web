@@ -10,6 +10,7 @@ const { z } = require("zod");
 
 const { getPool, ensureSchema } = require("./db");
 const { classifyApplicant } = require("./ai");
+const { scoreApplicant } = require("./scoring");
 
 const PORT = Number(process.env.PORT) || 3000;
 
@@ -130,8 +131,6 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
   }
 
   const b = parsed.data;
-  const certifications = b.certifications;
-  const tools_used = b.tools_used;
 
   const row = {
     full_name: b.full_name.trim(),
@@ -149,27 +148,8 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
     problem_to_solve: b.problem_to_solve.trim(),
     why_join: b.why_join.trim(),
     consent: true,
-    certifications,
-    tools_used,
-  };
-
-  const applicationForAi = {
-    full_name: row.full_name,
-    email: row.email,
-    phone: row.phone,
-    country: row.country,
-    province: row.province,
-    city: row.city,
-    area_of_interest: row.area_of_interest,
-    current_role: row.current_role,
-    expertise: row.expertise,
-    certifications: row.certifications,
-    tools_used: row.tools_used,
-    ai_experience_level: row.ai_experience_level,
-    preferred_learning_track: row.preferred_learning_track,
-    cubeshackles_ecosystem_interest: row.cubeshackles_ecosystem_interest,
-    problem_to_solve: row.problem_to_solve,
-    why_join: row.why_join,
+    certifications: b.certifications,
+    tools_used: b.tools_used,
   };
 
   const pool = getPool();
@@ -179,7 +159,7 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
     const insertApp = await pool.query(
       `INSERT INTO waitlist_applications (
         full_name, email, phone, country, province, city,
-        area_of_interest, current_role, expertise,
+        area_of_interest, "current_role", expertise,
         ai_experience_level, preferred_learning_track, cubeshackles_ecosystem_interest,
         problem_to_solve, why_join, consent, certifications, tools_used
       ) VALUES (
@@ -215,21 +195,37 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
   }
 
   let profile;
-  try {
-    profile = await classifyApplicant(applicationForAi);
-  } catch (e) {
-    console.error("OpenAI classification failed", e);
+  let aiProvider = "deterministic";
+  let aiError = null;
+
+  const apiKey = (process.env.OPENAI_API_KEY || "").trim();
+  const openaiAvailable = apiKey && !apiKey.startsWith("sk-placeholder");
+
+  if (openaiAvailable) {
     try {
-      await pool.query(`DELETE FROM waitlist_applications WHERE id = $1`, [
-        applicationId,
-      ]);
-    } catch (delErr) {
-      console.error("Rollback delete failed", delErr);
+      profile = await classifyApplicant(row);
+      aiProvider = "openai";
+    } catch (e) {
+      console.error("OpenAI classification failed, falling back to deterministic scoring:", e.message);
+      aiError = e.message;
     }
-    return res.status(502).json({
-      success: false,
-      error: "Application could not be analyzed. Please try again shortly.",
-    });
+  }
+
+  if (!profile) {
+    const local = scoreApplicant(row);
+    profile = {
+      learner_type: "Unknown",
+      skill_level: "Beginner",
+      ai_readiness_score: local.score * 5,
+      cubeshackles_fit_score: local.score * 5,
+      recommended_track: local.track,
+      priority_level: local.priority === "high" ? "High" : local.priority === "mid" ? "Medium" : "Low",
+      strengths: local.tags,
+      gaps: [],
+      recommended_next_steps: [],
+      tags: local.tags,
+    };
+    aiProvider = "deterministic";
   }
 
   try {
@@ -254,24 +250,17 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
     );
   } catch (e) {
     console.error("DB insert AI profile failed", e);
-    try {
-      await pool.query(`DELETE FROM waitlist_applications WHERE id = $1`, [
-        applicationId,
-      ]);
-    } catch (delErr) {
-      console.error("Rollback delete failed", delErr);
-    }
-    return res.status(500).json({
-      success: false,
-      error: "Could not store analysis result.",
-    });
   }
 
+  const local = scoreApplicant(row);
+
   return res.status(201).json({
-    success: true,
-    message: "Application received and analyzed.",
-    application_id: applicationId,
-    ai_profile: profile,
+    ok: true,
+    applicant_id: applicationId,
+    score: local.score,
+    track: local.track,
+    priority: local.priority,
+    ai_provider: aiProvider,
   });
 });
 
@@ -294,4 +283,8 @@ async function start() {
   });
 }
 
-start();
+if (require.main === module) {
+  start();
+}
+
+module.exports = { app, start };
