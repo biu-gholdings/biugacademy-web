@@ -106,4 +106,23 @@ describe("POST /api/waitlist", () => {
     assert.ok(["high", "mid", "low"].includes(res.body.priority), `unexpected priority: ${res.body.priority}`);
     assert.equal(res.body.ai_provider, "deterministic");
   });
+
+  it("accepts simplified payload (contact/interest/motivation) and returns 201", async () => {
+    const payload = {
+      full_name: "Test User",
+      contact: "simplified-" + Date.now() + "@example.com",
+      interest: "Starting a business",
+      motivation: "I want to start and grow a small business in Angola.",
+    };
+
+    const res = await request("POST", "/api/waitlist", payload);
+
+    assert.equal(res.status, 201, `Expected 201 but got ${res.status}: ${JSON.stringify(res.body)}`);
+    assert.equal(res.body.ok, true);
+    assert.ok(res.body.applicant_id, "applicant_id must be present");
+    assert.equal(typeof res.body.score, "number");
+    assert.ok(["money", "business", "digital", "technical"].includes(res.body.track));
+    assert.ok(["high", "mid", "low"].includes(res.body.priority));
+    assert.equal(res.body.ai_provider, "deterministic");
+  });
 });

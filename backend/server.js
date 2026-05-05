@@ -15,6 +15,7 @@ const { scoreApplicant } = require("./scoring");
 const PORT = Number(process.env.PORT) || 3000;
 
 const phoneDigitsOk = (s) => String(s).replace(/\D/g, "").length >= 8;
+const looksLikeEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s).trim());
 
 const waitlistBodySchema = z.object({
   full_name: z.string().trim().min(1).max(200),
@@ -49,6 +50,36 @@ const waitlistBodySchema = z.object({
     z.boolean().refine((v) => v === true, { message: "consent must be true" })
   ),
 });
+
+function isSimplifiedPayload(body) {
+  return body && body.contact && !body.email && !body.phone;
+}
+
+function normalizeSimplifiedPayload(body) {
+  const contact = String(body.contact || "").trim();
+  const email = looksLikeEmail(contact) ? contact : "unknown@pending.local";
+  const phone = looksLikeEmail(contact) ? "00000000" : contact;
+
+  return {
+    full_name: body.full_name || body.name || "",
+    email,
+    phone,
+    country: body.country || "Unknown",
+    province: body.province || "Unknown",
+    city: body.city || "Unknown",
+    area_of_interest: body.interest || body.area_of_interest || "Unknown",
+    current_role: body.current_role || "Not specified",
+    expertise: body.expertise || "Not specified",
+    ai_experience_level: body.ai_experience_level || "Nenhuma experiência",
+    preferred_learning_track: body.preferred_learning_track || body.interest || "General",
+    cubeshackles_ecosystem_interest: body.cubeshackles_ecosystem_interest || "Talvez",
+    problem_to_solve: body.problem_to_solve || body.motivation || "Not specified",
+    why_join: body.why_join || body.motivation || "Not specified",
+    certifications: body.certifications || "",
+    tools_used: body.tools_used || "",
+    consent: true,
+  };
+}
 
 function buildAllowedOrigins() {
   const raw = (process.env.FRONTEND_ORIGIN || "").trim().replace(/\/+$/, "");
@@ -118,7 +149,11 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
-  const parsed = waitlistBodySchema.safeParse(req.body);
+  const input = isSimplifiedPayload(req.body)
+    ? normalizeSimplifiedPayload(req.body)
+    : req.body;
+
+  const parsed = waitlistBodySchema.safeParse(input);
   if (!parsed.success) {
     const details = parsed.error.errors.map(
       (e) => `${e.path.join(".") || "body"}: ${e.message}`
