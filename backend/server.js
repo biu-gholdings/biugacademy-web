@@ -179,7 +179,7 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
     const insertApp = await pool.query(
       `INSERT INTO waitlist_applications (
         full_name, email, phone, country, province, city,
-        area_of_interest, current_role, expertise,
+        area_of_interest, "current_role", expertise,
         ai_experience_level, preferred_learning_track, cubeshackles_ecosystem_interest,
         problem_to_solve, why_join, consent, certifications, tools_used
       ) VALUES (

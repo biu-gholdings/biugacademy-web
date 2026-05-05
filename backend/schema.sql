@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS waitlist_applications (
   province TEXT NOT NULL,
   city TEXT NOT NULL,
   area_of_interest TEXT NOT NULL,
-  current_role TEXT NOT NULL,
+  "current_role" TEXT NOT NULL,
   expertise TEXT NOT NULL,
   ai_experience_level TEXT NOT NULL,
   preferred_learning_track TEXT NOT NULL,
