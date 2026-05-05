@@ -139,6 +139,28 @@ a:hover { color: var(--blue-700); }
   color: #fff;
 }
 
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.lang-switcher a {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #3f4d61;
+  border: 1px solid #c9d8ea;
+  border-radius: 999px;
+  padding: 0.22rem 0.48rem;
+}
+
+.lang-switcher a.is-active {
+  color: var(--blue-700);
+  border-color: #8fb6e1;
+  background: #eef6ff;
+}
+
 @media (max-width: 768px) {
   .nav-toggle {
     display: block;
@@ -169,12 +191,16 @@ a:hover { color: var(--blue-700); }
     padding: 0.65rem 0.5rem;
     border-radius: 10px;
   }
+
+  .lang-switcher {
+    display: none;
+  }
 }
 
 .hero {
   background: linear-gradient(165deg, var(--blue-100) 0%, #f3f9ff 70%, #fff 100%);
   border-bottom: 1px solid var(--border);
-  padding: 3.5rem 1.25rem 3rem;
+  padding: 2.7rem 1.25rem 2.3rem;
   text-align: center;
 }
 
@@ -201,6 +227,14 @@ a:hover { color: var(--blue-700); }
   flex-wrap: wrap;
   gap: 0.9rem;
   justify-content: center;
+}
+
+.urgency {
+  font-size: 0.88rem;
+  color: #5a6d82;
+  text-align: center;
+  margin-top: 0.8rem;
+  line-height: 1.55;
 }
 
 .btn {
@@ -239,7 +273,11 @@ a:hover { color: var(--blue-700); }
 }
 
 .section {
-  padding: 2.8rem 1.25rem;
+  padding: 2rem 1.25rem;
+}
+
+.intent-section {
+  padding-top: 1.6rem;
 }
 
 .section-light {
@@ -249,7 +287,7 @@ a:hover { color: var(--blue-700); }
 .section-title {
   font-size: clamp(1.5rem, 3vw, 1.875rem);
   text-align: left;
-  margin-bottom: 1.05rem;
+  margin-bottom: 0.8rem;
   color: var(--text);
 }
 
@@ -267,7 +305,7 @@ a:hover { color: var(--blue-700); }
 .credibility-strip {
   background: #f7fbff;
   border-bottom: 1px solid var(--border);
-  padding: 0.7rem 1.25rem;
+  padding: 0.6rem 1.25rem;
 }
 
 .credibility-strip .section-inner {
@@ -323,11 +361,11 @@ a:hover { color: var(--blue-700); }
   line-height: 1.75;
 }
 
-.trust {
+section.trust {
   background: #fff;
 }
 
-.trust .notice {
+section.trust .notice {
   border: 1px solid #cfe0f2;
   border-radius: 16px;
   background: #f7fbff;
@@ -335,6 +373,14 @@ a:hover { color: var(--blue-700); }
   color: #415167;
   font-size: 0.94rem;
   line-height: 1.7;
+}
+
+p.trust {
+  font-size: 0.86rem;
+  color: #4f5f70;
+  text-align: center;
+  margin: 0.65rem auto 0;
+  line-height: 1.5;
 }
 
 .about-copy {
@@ -355,6 +401,23 @@ a:hover { color: var(--blue-700); }
   border-radius: 20px;
   box-shadow: 0 16px 40px rgba(20, 45, 76, 0.09);
   padding: 1.35rem;
+}
+
+.waitlist-intro {
+  max-width: 720px;
+  margin: 0 auto 1rem;
+}
+
+.waitlist-intro h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.3rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.waitlist-intro p {
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .form-row {
@@ -557,7 +620,7 @@ details.form-extra {
   border: 1px solid #c7d8ea;
   border-radius: 14px;
   background: #f7fbff;
-  padding: 0.85rem 0.9rem 0.2rem;
+  padding: 0.7rem 0.9rem 0.25rem;
 }
 
 details.form-extra summary {
@@ -565,10 +628,36 @@ details.form-extra summary {
   color: #234b79;
   font-weight: 700;
   list-style: none;
+  padding: 0.25rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 details.form-extra summary::-webkit-details-marker {
   display: none;
+}
+
+details.form-extra summary:focus {
+  outline: none;
+}
+
+details.form-extra summary::marker {
+  content: "";
+}
+
+details.form-extra summary::after {
+  content: "+";
+  font-size: 1.1rem;
+  color: #2c4c70;
+}
+
+details.form-extra[open] summary::after {
+  content: "-";
+}
+
+details.form-extra .form-group:first-of-type {
+  margin-top: 0.8rem;
 }
 
 details.form-extra summary:focus-visible {
@@ -579,7 +668,7 @@ details.form-extra summary:focus-visible {
 .site-footer {
   background: var(--footer);
   padding: 2.4rem 1.25rem 1.5rem;
-  margin-top: 4rem;
+  margin-top: 3rem;
 }
 
 .footer-top {
@@ -652,7 +741,7 @@ details.form-extra summary:focus-visible {
 }
 
 .page-hero {
-  padding: 2.5rem 1.25rem 1.9rem;
+  padding: 2rem 1.25rem 1.4rem;
   background: linear-gradient(165deg, var(--blue-100) 0%, #f4f9ff 100%);
   border-bottom: 1px solid var(--border);
 }
