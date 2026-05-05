@@ -1,13 +1,27 @@
 /**
- * BIU.G Academy — navigation and waitlist form (JSON POST to backend AI intake).
+ * BIU.G Academy — navigation and waitlist form.
  *
- * POST JSON to {biug-api-base}/api/waitlist; on success redirects to /thank-you/.
- * API base: <meta name="biug-api-base" content="http://localhost:3000"> or empty for same-origin /api/waitlist.
+ * Dual-mode submission:
+ * 1. If WAITLIST_API_URL is set, POST JSON to backend AI intake endpoint.
+ * 2. If WAITLIST_API_URL is empty, fall through to FormSubmit (normal form POST).
+ *
+ * Local backup is always stored in localStorage under biugAcademyApplications.
+ * A frontend-only heuristic score is calculated for internal backup purposes.
  */
+
+// TODO: Replace FormSubmit fallback with BIU.G Academy backend AI intake endpoint.
+// Future backend responsibilities:
+// 1. Save raw application to database.
+// 2. Run AI classification.
+// 3. Score applicant readiness.
+// 4. Segment by province, interest, skill level, and CubeShackles ecosystem fit.
+// 5. Store results for admin dashboard and cohort selection.
+
 (function () {
   "use strict";
 
-  var WAITLIST_STORAGE_KEY = "biugAcademyWaitlistSubmissions";
+  var WAITLIST_API_URL = "";
+  var WAITLIST_STORAGE_KEY = "biugAcademyApplications";
 
   function initNav() {
     var toggle = document.querySelector(".nav-toggle");
@@ -25,15 +39,6 @@
         toggle.setAttribute("aria-expanded", "false");
       });
     });
-  }
-
-  function getWaitlistApiUrl() {
-    var m = document.querySelector('meta[name="biug-api-base"]');
-    var base = m && m.getAttribute("content") ? m.getAttribute("content").trim() : "";
-    if (base) {
-      return base.replace(/\/+$/, "") + "/api/waitlist";
-    }
-    return "/api/waitlist";
   }
 
   function validateEmail(value) {
@@ -56,32 +61,31 @@
     if (group) group.classList.add("is-invalid");
   }
 
-  function gatherWaitlistPayload(form) {
+  function gatherPayload(form) {
     var fd = new FormData(form);
+    var get = function (name) { return (fd.get(name) || "").toString().trim(); };
     return {
-      full_name: (fd.get("full_name") || "").toString().trim(),
-      email: (fd.get("email") || "").toString().trim(),
-      phone: (fd.get("phone") || "").toString().trim(),
-      country: (fd.get("country") || "").toString().trim(),
-      province: (fd.get("province") || "").toString().trim(),
-      city: (fd.get("city") || "").toString().trim(),
-      area_of_interest: (fd.get("area_of_interest") || "").toString().trim(),
-      current_role: (fd.get("current_role") || "").toString().trim(),
-      expertise: (fd.get("expertise") || "").toString().trim(),
-      certifications: (fd.get("certifications") || "").toString().trim(),
-      ai_experience_level: (fd.get("ai_experience_level") || "").toString().trim(),
-      preferred_learning_track: (fd.get("preferred_learning_track") || "").toString().trim(),
-      cubeshackles_ecosystem_interest: (fd.get("cubeshackles_ecosystem_interest") || "")
-        .toString()
-        .trim(),
-      tools_used: (fd.get("tools_used") || "").toString().trim(),
-      problem_to_solve: (fd.get("problem_to_solve") || "").toString().trim(),
-      why_join: (fd.get("why_join") || "").toString().trim(),
+      full_name: get("full_name"),
+      email: get("email"),
+      phone: get("phone"),
+      country: get("country"),
+      province: get("province"),
+      city: get("city"),
+      area_of_interest: get("area_of_interest"),
+      commitment_level: get("commitment_level"),
+      ai_experience_level: get("ai_experience_level"),
+      cubeshackles_ecosystem_interest: get("cubeshackles_ecosystem_interest"),
+      expertise: get("expertise"),
+      problem_to_solve: get("problem_to_solve"),
+      why_join: get("why_join"),
       consent: fd.get("consent") === "yes",
+      whatsapp_optin: fd.get("whatsapp_optin") === "yes",
+      certifications: get("certifications"),
+      tools_used: get("tools_used")
     };
   }
 
-  function validateWaitlistExtras(data) {
+  function validatePayload(data) {
     var errors = [];
     if (!data.full_name) errors.push("full_name");
     if (!data.email || !validateEmail(data.email)) errors.push("email");
@@ -90,18 +94,52 @@
     if (!data.province) errors.push("province");
     if (!data.city) errors.push("city");
     if (!data.area_of_interest) errors.push("area_of_interest");
-    if (!data.current_role) errors.push("current_role");
-    if (!data.expertise) errors.push("expertise");
+    if (!data.commitment_level) errors.push("commitment_level");
     if (!data.ai_experience_level) errors.push("ai_experience_level");
-    if (!data.preferred_learning_track) errors.push("preferred_learning_track");
     if (!data.cubeshackles_ecosystem_interest) errors.push("cubeshackles_ecosystem_interest");
+    if (!data.expertise) errors.push("expertise");
     if (!data.problem_to_solve) errors.push("problem_to_solve");
     if (!data.why_join) errors.push("why_join");
     if (!data.consent) errors.push("consent");
+    if (!data.whatsapp_optin) errors.push("whatsapp_optin");
     return errors;
   }
 
-  function persistWaitlistBackup(data) {
+  function computeLocalScore(data) {
+    var score = 0;
+    if (data.province) score += 10;
+    if (data.city) score += 10;
+    if (data.why_join && data.why_join.length > 50) score += 15;
+    if (data.problem_to_solve && data.problem_to_solve.length > 50) score += 15;
+    var cl = (data.commitment_level || "").toLowerCase();
+    if (cl.indexOf("tecnologia") !== -1 || cl.indexOf("ia") !== -1 || cl.indexOf("futuras") !== -1) score += 15;
+    if (data.cubeshackles_ecosystem_interest === "Sim") score += 10;
+    if (data.whatsapp_optin) score += 10;
+    var ai = (data.ai_experience_level || "").toLowerCase();
+    if (ai === "iniciante" || ai === "intermédio" || ai === "avançado") score += 10;
+    if (score > 100) score = 100;
+
+    var tier;
+    if (score >= 70) tier = "high_signal";
+    else if (score >= 40) tier = "medium_signal";
+    else tier = "low_signal";
+
+    var followup;
+    if (tier === "high_signal") followup = "Priority review — strong alignment with first cohort.";
+    else if (tier === "medium_signal") followup = "Standard review — additional context may improve candidacy.";
+    else followup = "Needs more information — encourage resubmission with detail.";
+
+    return { score: score, tier: tier, recommended_followup: followup };
+  }
+
+  function persistBackup(data) {
+    var classification = computeLocalScore(data);
+    var entry = {
+      raw_application: data,
+      local_classification_preview: classification,
+      submitted_at: new Date().toISOString()
+    };
+
     var list = [];
     try {
       var raw = localStorage.getItem(WAITLIST_STORAGE_KEY);
@@ -110,15 +148,11 @@
     } catch (e) {
       list = [];
     }
-    list.push(
-      Object.assign({}, data, {
-        submittedAt: new Date().toISOString(),
-      })
-    );
+    list.push(entry);
     try {
       localStorage.setItem(WAITLIST_STORAGE_KEY, JSON.stringify(list));
     } catch (e) {
-      console.warn("Could not write waitlist backup to localStorage", e);
+      console.warn("Could not write application backup to localStorage", e);
     }
   }
 
@@ -128,12 +162,12 @@
     el.className = "form-message is-visible " + (type || "");
   }
 
-  function resetSubmitUi(form, submitBtn, defaultBtnLabel) {
-    form.removeAttribute("data-waitlist-submitting");
+  function resetSubmitUi(form, submitBtn, defaultLabel) {
+    form.removeAttribute("data-submitting");
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.removeAttribute("aria-busy");
-      submitBtn.textContent = defaultBtnLabel;
+      submitBtn.textContent = defaultLabel;
     }
   }
 
@@ -143,108 +177,91 @@
 
     var msg = document.getElementById("form-message");
     var submitBtn = form.querySelector('button[type="submit"]');
-    var defaultBtnLabel = submitBtn ? submitBtn.textContent : "";
+    var defaultLabel = submitBtn ? submitBtn.textContent : "";
 
     form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      if (form.getAttribute("data-waitlist-submitting") === "1") {
+      if (form.getAttribute("data-submitting") === "1") {
+        e.preventDefault();
         return;
       }
 
       clearFieldErrors(form);
-      if (msg) {
-        msg.className = "form-message";
-        msg.textContent = "";
-      }
+      if (msg) { msg.className = "form-message"; msg.textContent = ""; }
 
-      if (typeof form.reportValidity === "function" && !form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
-      var data = gatherWaitlistPayload(form);
-      var invalid = validateWaitlistExtras(data);
+      var data = gatherPayload(form);
+      var invalid = validatePayload(data);
 
       if (invalid.length) {
-        invalid.forEach(function (name) {
-          setFieldError(form, name);
-        });
-        showFormMessage(
-          msg,
-          "error",
-          "Please complete all required fields with valid email and phone before submitting."
-        );
+        e.preventDefault();
+        invalid.forEach(function (name) { setFieldError(form, name); });
+        showFormMessage(msg, "error", "Por favor preencha todos os campos obrigatórios com email e telefone válidos.");
+        var firstInvalid = form.querySelector(".form-group.is-invalid");
+        if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
       }
 
-      var payload = Object.assign({}, data, { consent: true });
+      persistBackup(data);
 
-      form.setAttribute("data-waitlist-submitting", "1");
+      form.setAttribute("data-submitting", "1");
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.setAttribute("aria-busy", "true");
-        submitBtn.textContent = "Submitting…";
+        submitBtn.textContent = "A enviar candidatura...";
       }
-      showFormMessage(msg, "success", "Submitting your application…");
 
-      var url = getWaitlistApiUrl();
+      if (WAITLIST_API_URL) {
+        e.preventDefault();
+        showFormMessage(msg, "success", "A enviar candidatura...");
 
-      fetch(url, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      })
-        .then(function (res) {
-          return res.text().then(function (text) {
-            var body = {};
-            if (text) {
-              try {
-                body = JSON.parse(text);
-              } catch (ignore) {
-                body = {};
-              }
+        var payload = {
+          full_name: data.full_name,
+          email: data.email,
+          phone: data.phone,
+          country: data.country,
+          province: data.province,
+          city: data.city,
+          area_of_interest: data.area_of_interest,
+          current_role: data.commitment_level,
+          expertise: data.expertise,
+          certifications: data.certifications,
+          ai_experience_level: data.ai_experience_level,
+          preferred_learning_track: data.area_of_interest,
+          cubeshackles_ecosystem_interest: data.cubeshackles_ecosystem_interest,
+          tools_used: data.tools_used,
+          problem_to_solve: data.problem_to_solve,
+          why_join: data.why_join,
+          consent: true
+        };
+
+        fetch(WAITLIST_API_URL, {
+          method: "POST",
+          headers: { "Accept": "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            return res.text().then(function (text) {
+              var body = {};
+              try { body = JSON.parse(text); } catch (ignore) { body = {}; }
+              return { res: res, body: body };
+            });
+          })
+          .then(function (ref) {
+            if (ref.res.ok && ref.body && ref.body.success) {
+              window.location.href = "/thank-you/";
+              return;
             }
-            return { res: res, body: body };
+            var detail = (ref.body && ref.body.details && ref.body.details.length)
+              ? ref.body.details.join(" ")
+              : (ref.body && ref.body.error) ? ref.body.error : "A submissão falhou. Tente novamente.";
+            showFormMessage(msg, "error", detail);
+            resetSubmitUi(form, submitBtn, defaultLabel);
+          })
+          .catch(function () {
+            showFormMessage(msg, "error", "Não foi possível contactar o servidor. Verifique a sua ligação.");
+            resetSubmitUi(form, submitBtn, defaultLabel);
           });
-        })
-        .then(function (_ref) {
-          var res = _ref.res;
-          var body = _ref.body;
-          if (res.ok && body && body.success) {
-            try {
-              persistWaitlistBackup(
-                Object.assign({}, data, {
-                  application_id: body.application_id,
-                  ai_profile: body.ai_profile,
-                })
-              );
-            } catch (err) {
-              console.warn(err);
-            }
-            window.location.assign("/thank-you/");
-            return;
-          }
-          var detail =
-            body && body.details && body.details.length
-              ? body.details.join(" ")
-              : body && body.error
-                ? body.error
-                : "Submission failed. Please try again.";
-          showFormMessage(msg, "error", detail);
-          resetSubmitUi(form, submitBtn, defaultBtnLabel);
-        })
-        .catch(function () {
-          showFormMessage(
-            msg,
-            "error",
-            "Could not reach the server. Check your connection and API base URL (meta biug-api-base)."
-          );
-          resetSubmitUi(form, submitBtn, defaultBtnLabel);
-        });
+      }
+      // If WAITLIST_API_URL is empty, allow normal FormSubmit POST (do not preventDefault)
     });
   }
 
