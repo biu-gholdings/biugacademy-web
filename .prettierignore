@@ -1,0 +1,7 @@
+.venv/
+backend/node_modules/
+node_modules/
+dist/
+.git/
+*.min.js
+package-lock.json

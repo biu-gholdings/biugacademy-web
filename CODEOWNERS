@@ -1,0 +1,27 @@
+# BIU.G Academy — code ownership
+# Update @handles or @org/team when GitHub teams are configured.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default review for all changes
+* @biu-gholdings
+
+# Institutional documentation
+/docs/ @biu-gholdings
+
+# Governance and policies
+/README.md @biu-gholdings
+/CONTRIBUTING.md @biu-gholdings
+/GOVERNANCE.md @biu-gholdings
+/SECURITY.md @biu-gholdings
+/ROADMAP.md @biu-gholdings
+/ARCHITECTURE.md @biu-gholdings
+/CODE_OF_CONDUCT.md @biu-gholdings
+
+# Public site (regulatory copy)
+/pt/ @biu-gholdings
+/en/ @biu-gholdings
+/fr/ @biu-gholdings
+/css/ @biu-gholdings
+
+# CI and templates
+/.github/ @biu-gholdings

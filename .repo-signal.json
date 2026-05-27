@@ -1,0 +1,13 @@
+{
+  "organization": "biu-gholdings",
+  "ecosystem": "CubeShackles",
+  "repo_role": "Education and developer ecosystem platform for Biu-g/CubeShackles: technical training, cohorts, contributor onboarding, and Angola-first digital infrastructure education.",
+  "genesis_currency": "AOA",
+  "currency_display": "Kz",
+  "regulator_safe": true,
+  "public_repo": true,
+  "sensitive_data_allowed": false,
+  "economic_awareness": false,
+  "revenue_attribution_ready": false,
+  "last_updated_context": "economic-hardening-phase"
+}

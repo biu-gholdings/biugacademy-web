@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security disclosure
+    url: https://github.com/biu-gholdings/biugacademy-web/blob/main/SECURITY.md
+    about: Do not file public issues for vulnerabilities. Email support@biugacademy.org.
+  - name: General support
+    url: mailto:support@biugacademy.org
+    about: Institutional and program inquiries

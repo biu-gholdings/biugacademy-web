@@ -1,0 +1,5 @@
+backend/**
+backend/node_modules/**
+.venv/
+dist/
+CHANGELOG.md
