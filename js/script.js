@@ -1,27 +1,33 @@
 /**
- * BIU.G Academy — navigation and waitlist form.
+ * BIU.G Academy — navigation and intake form.
  *
- * Dual-mode submission:
- * 1. If WAITLIST_API_URL is set, POST JSON to backend AI intake endpoint.
- * 2. If WAITLIST_API_URL is empty, fall through to FormSubmit (normal form POST).
- *
- * Local backup is always stored in localStorage under biugAcademyApplications.
- * A frontend-only heuristic score is calculated for internal backup purposes.
+ * Primary mode: POST JSON to /api/waitlist (or configured API base).
+ * Fallback mode: if API fails and the form has an action URL, submit natively.
  */
-
-// TODO: Replace FormSubmit fallback with BIU.G Academy backend AI intake endpoint.
-// Future backend responsibilities:
-// 1. Save raw application to database.
-// 2. Run AI classification.
-// 3. Score applicant readiness.
-// 4. Segment by province, interest, skill level, and CubeShackles ecosystem fit.
-// 5. Store results for admin dashboard and cohort selection.
 
 (function () {
   "use strict";
 
-  var WAITLIST_API_URL = "";
-  var WAITLIST_STORAGE_KEY = "biugAcademyApplications";
+  var WAITLIST_STORAGE_KEY = "biugAcademyApplicationsV2";
+  var DEFAULT_WAITLIST_PATH = "/api/waitlist";
+  var PROVINCES = [
+    "Bengo",
+    "Benguela",
+    "Bié",
+    "Cabinda",
+    "Cuando Cubango",
+    "Cunene",
+    "Huambo",
+    "Huíla",
+    "Luanda",
+    "Lunda Norte",
+    "Lunda Sul",
+    "Malanje",
+    "Moxico",
+    "Namibe",
+    "Uíge",
+    "Zaire",
+  ];
 
   function initNav() {
     var toggle = document.querySelector(".nav-toggle");
@@ -45,9 +51,25 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
   }
 
+  function normalizePhone(value) {
+    var digits = String(value || "").replace(/\D/g, "");
+    if (!digits) return "";
+    if (digits.indexOf("244") === 0) return "+" + digits;
+    return "+244" + digits;
+  }
+
   function validatePhone(value) {
-    var d = String(value).replace(/\D/g, "");
-    return d.length >= 8;
+    return String(value || "").replace(/\D/g, "").length >= 8;
+  }
+
+  function normalizeProvince(value) {
+    var raw = String(value || "").trim();
+    if (!raw) return "";
+    var lower = raw.toLowerCase();
+    for (var i = 0; i < PROVINCES.length; i += 1) {
+      if (PROVINCES[i].toLowerCase() === lower) return PROVINCES[i];
+    }
+    return raw;
   }
 
   function clearFieldErrors(form) {
@@ -61,86 +83,83 @@
     if (group) group.classList.add("is-invalid");
   }
 
+  function guessReferralSource() {
+    var params = new URLSearchParams(window.location.search);
+    return (
+      params.get("ref") ||
+      params.get("utm_source") ||
+      document.referrer ||
+      "direct"
+    );
+  }
+
   function gatherPayload(form) {
     var fd = new FormData(form);
     var get = function (name) {
       return (fd.get(name) || "").toString().trim();
     };
+    var interestList = fd.getAll("areas_of_interest").map(function (v) {
+      return String(v || "").trim();
+    }).filter(Boolean);
+    var phone = normalizePhone(get("phone_number"));
+    var whatsapp = normalizePhone(get("whatsapp_number") || get("phone_number"));
     return {
       full_name: get("full_name"),
       email: get("email"),
-      phone: get("phone"),
-      country: get("country"),
-      province: get("province"),
-      city: get("city"),
-      area_of_interest: get("area_of_interest"),
-      commitment_level: get("commitment_level"),
-      ai_experience_level: get("ai_experience_level"),
-      cubeshackles_ecosystem_interest: get("cubeshackles_ecosystem_interest"),
-      expertise: get("expertise"),
-      problem_to_solve: get("problem_to_solve"),
-      why_join: get("why_join"),
-      consent: fd.get("consent") === "yes",
-      whatsapp_optin: fd.get("whatsapp_optin") === "yes",
-      certifications: get("certifications"),
-      tools_used: get("tools_used"),
+      phone_number: phone,
+      whatsapp_number: whatsapp,
+      province: normalizeProvince(get("province")),
+      municipality: get("municipality"),
+      age_range: get("age_range"),
+      primary_language: get("primary_language"),
+      education_level: get("education_level"),
+      areas_of_interest: interestList,
+      technical_background: get("technical_background"),
+      internet_access_level: get("internet_access_level"),
+      device_access: get("device_access"),
+      employment_status: get("employment_status"),
+      linkedin_optional: get("linkedin_optional"),
+      github_optional: get("github_optional"),
+      motivation_statement: get("motivation_statement"),
+      consent_checkbox: fd.get("consent_checkbox") === "yes",
+      source_platform: get("source_platform") || "biugacademy-web",
+      browser_language: get("browser_language") || (navigator.language || ""),
+      timezone: get("timezone") || (
+        Intl && Intl.DateTimeFormat ? Intl.DateTimeFormat().resolvedOptions().timeZone || "" : ""
+      ),
+      referral_source: get("referral_source") || guessReferralSource(),
+      submission_timestamp: get("submission_timestamp") || new Date().toISOString(),
+      honeypot: get("website"),
     };
   }
 
   function validatePayload(data) {
     var errors = [];
-    if (!data.full_name) errors.push("full_name");
+    if (!data.full_name || data.full_name.trim().length < 2) errors.push("full_name");
     if (!data.email || !validateEmail(data.email)) errors.push("email");
-    if (!data.phone || !validatePhone(data.phone)) errors.push("phone");
-    if (!data.country) errors.push("country");
+    if (!data.phone_number || !validatePhone(data.phone_number)) errors.push("phone_number");
+    if (data.whatsapp_number && !validatePhone(data.whatsapp_number)) errors.push("whatsapp_number");
     if (!data.province) errors.push("province");
-    if (!data.city) errors.push("city");
-    if (!data.area_of_interest) errors.push("area_of_interest");
-    if (!data.commitment_level) errors.push("commitment_level");
-    if (!data.ai_experience_level) errors.push("ai_experience_level");
-    if (!data.cubeshackles_ecosystem_interest) errors.push("cubeshackles_ecosystem_interest");
-    if (!data.expertise) errors.push("expertise");
-    if (!data.problem_to_solve) errors.push("problem_to_solve");
-    if (!data.why_join) errors.push("why_join");
-    if (!data.consent) errors.push("consent");
-    if (!data.whatsapp_optin) errors.push("whatsapp_optin");
+    if (!data.municipality) errors.push("municipality");
+    if (!data.age_range) errors.push("age_range");
+    if (!data.primary_language) errors.push("primary_language");
+    if (!data.education_level) errors.push("education_level");
+    if (!data.areas_of_interest || data.areas_of_interest.length === 0) errors.push("areas_of_interest");
+    if (!data.technical_background) errors.push("technical_background");
+    if (!data.internet_access_level) errors.push("internet_access_level");
+    if (!data.device_access) errors.push("device_access");
+    if (!data.employment_status) errors.push("employment_status");
+    if (!data.motivation_statement || data.motivation_statement.trim().length < 20) {
+      errors.push("motivation_statement");
+    }
+    if (!data.consent_checkbox) errors.push("consent_checkbox");
+    if (data.honeypot) errors.push("honeypot");
     return errors;
   }
 
-  function computeLocalScore(data) {
-    var score = 0;
-    if (data.province) score += 10;
-    if (data.city) score += 10;
-    if (data.why_join && data.why_join.length > 50) score += 15;
-    if (data.problem_to_solve && data.problem_to_solve.length > 50) score += 15;
-    var cl = (data.commitment_level || "").toLowerCase();
-    if (cl.indexOf("tecnologia") !== -1 || cl.indexOf("ia") !== -1 || cl.indexOf("futuras") !== -1)
-      score += 15;
-    if (data.cubeshackles_ecosystem_interest === "Sim") score += 10;
-    if (data.whatsapp_optin) score += 10;
-    var ai = (data.ai_experience_level || "").toLowerCase();
-    if (ai === "iniciante" || ai === "intermédio" || ai === "avançado") score += 10;
-    if (score > 100) score = 100;
-
-    var tier;
-    if (score >= 70) tier = "high_signal";
-    else if (score >= 40) tier = "medium_signal";
-    else tier = "low_signal";
-
-    var followup;
-    if (tier === "high_signal") followup = "Priority review — strong alignment with first cohort.";
-    else if (tier === "medium_signal")
-      followup = "Standard review — additional context may improve candidacy.";
-    else followup = "Needs more information — encourage resubmission with detail.";
-
-    return { score: score, tier: tier, recommended_followup: followup };
-  }
-
   function persistBackup(data) {
-    var classification = computeLocalScore(data);
     var entry = {
       raw_application: data,
-      local_classification_preview: classification,
       submitted_at: new Date().toISOString(),
     };
 
@@ -175,13 +194,36 @@
     }
   }
 
-  function initWaitlistForm() {
-    var form = document.getElementById("waitlist-form");
+  function resolveApiEndpoint(form) {
+    var baseTag = document.querySelector('meta[name="biug-api-base"]');
+    var base = form.getAttribute("data-api-base") || (baseTag ? baseTag.getAttribute("content") : "");
+    base = (base || "").replace(/\/+$/, "");
+    if (!base) return DEFAULT_WAITLIST_PATH;
+    return base + DEFAULT_WAITLIST_PATH;
+  }
+
+  function populateHiddenMetadata(form) {
+    var browserLanguageInput = form.querySelector('input[name="browser_language"]');
+    var timezoneInput = form.querySelector('input[name="timezone"]');
+    var referralInput = form.querySelector('input[name="referral_source"]');
+    var submittedAtInput = form.querySelector('input[name="submission_timestamp"]');
+    if (browserLanguageInput) browserLanguageInput.value = navigator.language || "";
+    if (timezoneInput && Intl && Intl.DateTimeFormat) {
+      timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    }
+    if (referralInput) referralInput.value = guessReferralSource();
+    if (submittedAtInput) submittedAtInput.value = new Date().toISOString();
+  }
+
+  function initWaitlistForm(form) {
     if (!form) return;
 
     var msg = document.getElementById("form-message");
     var submitBtn = form.querySelector('button[type="submit"]');
     var defaultLabel = submitBtn ? submitBtn.textContent : "";
+    var apiEndpoint = resolveApiEndpoint(form);
+
+    populateHiddenMetadata(form);
 
     form.addEventListener("submit", function (e) {
       if (form.getAttribute("data-submitting") === "1") {
@@ -206,7 +248,7 @@
         showFormMessage(
           msg,
           "error",
-          "Por favor preencha todos os campos obrigatórios com email e telefone válidos."
+          "Please fill in all required fields with valid contact details."
         );
         var firstInvalid = form.querySelector(".form-group.is-invalid");
         if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -222,75 +264,59 @@
         submitBtn.textContent = "A enviar candidatura...";
       }
 
-      if (WAITLIST_API_URL) {
-        e.preventDefault();
-        showFormMessage(msg, "success", "A enviar candidatura...");
+      e.preventDefault();
+      showFormMessage(msg, "success", "Submitting your application...");
 
-        var payload = {
-          full_name: data.full_name,
-          email: data.email,
-          phone: data.phone,
-          country: data.country,
-          province: data.province,
-          city: data.city,
-          area_of_interest: data.area_of_interest,
-          current_role: data.commitment_level,
-          expertise: data.expertise,
-          certifications: data.certifications,
-          ai_experience_level: data.ai_experience_level,
-          preferred_learning_track: data.area_of_interest,
-          cubeshackles_ecosystem_interest: data.cubeshackles_ecosystem_interest,
-          tools_used: data.tools_used,
-          problem_to_solve: data.problem_to_solve,
-          why_join: data.why_join,
-          consent: true,
-        };
-
-        fetch(WAITLIST_API_URL, {
-          method: "POST",
-          headers: { Accept: "application/json", "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        })
-          .then(function (res) {
-            return res.text().then(function (text) {
-              var body = {};
-              try {
-                body = JSON.parse(text);
-              } catch (ignore) {
-                body = {};
-              }
-              return { res: res, body: body };
-            });
-          })
-          .then(function (ref) {
-            if (ref.res.ok && ref.body && ref.body.success) {
-              window.location.href = "/thank-you/";
-              return;
+      fetch(apiEndpoint, {
+        method: "POST",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then(function (res) {
+          return res.text().then(function (text) {
+            var body = {};
+            try {
+              body = JSON.parse(text);
+            } catch (ignore) {
+              body = {};
             }
-            var detail =
-              ref.body && ref.body.details && ref.body.details.length
-                ? ref.body.details.join(" ")
-                : ref.body && ref.body.error
-                  ? ref.body.error
-                  : "A submissão falhou. Tente novamente.";
-            showFormMessage(msg, "error", detail);
-            resetSubmitUi(form, submitBtn, defaultLabel);
-          })
-          .catch(function () {
-            showFormMessage(
-              msg,
-              "error",
-              "Não foi possível contactar o servidor. Verifique a sua ligação."
-            );
-            resetSubmitUi(form, submitBtn, defaultLabel);
+            return { res: res, body: body };
           });
-      }
-      // If WAITLIST_API_URL is empty, allow normal FormSubmit POST (do not preventDefault)
+        })
+        .then(function (ref) {
+          if (ref.res.ok && ref.body && ref.body.ok) {
+            window.location.href = "/thank-you/";
+            return;
+          }
+          var detail =
+            ref.body && ref.body.details && ref.body.details.length
+              ? ref.body.details.join(" ")
+              : ref.body && ref.body.error
+                ? ref.body.error
+                : "Submission failed. Please try again.";
+          showFormMessage(msg, "error", detail);
+          resetSubmitUi(form, submitBtn, defaultLabel);
+        })
+        .catch(function () {
+          // Graceful fallback keeps low-bandwidth submission path available.
+          if (form.action) {
+            form.submit();
+            return;
+          }
+          showFormMessage(
+            msg,
+            "error",
+            "Could not contact the intake server. Please try again."
+          );
+          resetSubmitUi(form, submitBtn, defaultLabel);
+        });
     });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
-    initWaitlistForm();
+    document.querySelectorAll("form[data-intake-form='waitlist']").forEach(function (form) {
+      initWaitlistForm(form);
+    });
   });
 })();

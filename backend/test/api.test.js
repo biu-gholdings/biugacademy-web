@@ -75,26 +75,33 @@ describe("POST /api/waitlist", () => {
     assert.equal(res.body.success, false);
   });
 
-  it("returns 201 with deterministic scoring when OPENAI_API_KEY is missing", async () => {
+  it("returns 201 for valid intake payload", async () => {
     const payload = {
       full_name: "Test Applicant",
       email: "test-" + Date.now() + "@example.com",
-      phone: "+244923456789",
-      country: "Angola",
+      phone_number: "+244923456789",
+      whatsapp_number: "+244923456789",
       province: "Luanda",
-      city: "Luanda",
-      area_of_interest: "Technology / Software",
-      current_role: "Developer",
-      expertise: "JavaScript, PostgreSQL, REST APIs",
-      ai_experience_level: "Intermediate",
-      preferred_learning_track: "Software & platform engineering",
-      cubeshackles_ecosystem_interest: "Interested in Angola-first product opportunities",
-      problem_to_solve: "Ship a production API with observability and build tools for Angola",
-      why_join:
-        "Structured technical education aligned with BIU.G Academy goals and building for Angola.",
-      certifications: "N/A",
-      tools_used: "VS Code, Git, Node.js",
-      consent: true,
+      municipality: "Luanda",
+      age_range: "25-34",
+      primary_language: "Portuguese",
+      education_level: "Secondary",
+      areas_of_interest: ["financial-literacy", "digital-skills"],
+      technical_background: "Basic digital tools and customer support",
+      internet_access_level: "Mobile data only",
+      device_access: "Smartphone only",
+      employment_status: "Informal worker",
+      linkedin_optional: "",
+      github_optional: "",
+      motivation_statement:
+        "I want to improve my practical skills to grow income opportunities and support my family.",
+      consent_checkbox: true,
+      source_platform: "biugacademy-web",
+      browser_language: "pt-AO",
+      timezone: "Africa/Luanda",
+      referral_source: "website-home",
+      submission_timestamp: new Date().toISOString(),
+      honeypot: "",
     };
 
     const res = await request("POST", "/api/waitlist", payload);
@@ -106,42 +113,51 @@ describe("POST /api/waitlist", () => {
     );
     assert.equal(res.body.ok, true);
     assert.ok(res.body.applicant_id, "applicant_id must be present");
-    assert.equal(typeof res.body.score, "number");
-    assert.ok(
-      res.body.score >= 0 && res.body.score <= 20,
-      `score ${res.body.score} out of 0-20 range`
-    );
-    assert.ok(
-      ["money", "business", "digital", "technical"].includes(res.body.track),
-      `unexpected track: ${res.body.track}`
-    );
-    assert.ok(
-      ["high", "mid", "low"].includes(res.body.priority),
-      `unexpected priority: ${res.body.priority}`
-    );
-    assert.equal(res.body.ai_provider, "deterministic");
+    assert.equal(res.body.status, "received");
   });
 
-  it("accepts simplified payload (contact/interest/motivation) and returns 201", async () => {
+  it("returns 409 for duplicate email or phone", async () => {
     const payload = {
-      full_name: "Test User",
-      contact: "simplified-" + Date.now() + "@example.com",
-      interest: "Starting a business",
-      motivation: "I want to start and grow a small business in Angola.",
+      full_name: "Duplicate Applicant",
+      email: "duplicate-" + Date.now() + "@example.com",
+      phone_number: "+244900000001",
+      whatsapp_number: "+244900000001",
+      province: "Luanda",
+      municipality: "Belas",
+      age_range: "25-34",
+      primary_language: "Portuguese",
+      education_level: "Secondary",
+      areas_of_interest: ["digital-skills"],
+      technical_background: "Beginner",
+      internet_access_level: "Mobile data only",
+      device_access: "Smartphone only",
+      employment_status: "Seeking employment",
+      linkedin_optional: "",
+      github_optional: "",
+      motivation_statement:
+        "I want to join this cohort and improve practical capabilities for the local economy.",
+      consent_checkbox: true,
+      source_platform: "biugacademy-web",
+      browser_language: "pt-AO",
+      timezone: "Africa/Luanda",
+      referral_source: "website",
+      submission_timestamp: new Date().toISOString(),
+      honeypot: "",
     };
 
-    const res = await request("POST", "/api/waitlist", payload);
+    const first = await request("POST", "/api/waitlist", payload);
+    assert.equal(first.status, 201);
 
-    assert.equal(
-      res.status,
-      201,
-      `Expected 201 but got ${res.status}: ${JSON.stringify(res.body)}`
-    );
+    const second = await request("POST", "/api/waitlist", payload);
+    assert.equal(second.status, 409);
+    assert.equal(second.body.success, false);
+  });
+
+  it("silently accepts honeypot spam payload", async () => {
+    const res = await request("POST", "/api/waitlist", {
+      honeypot: "bot-filled",
+    });
+    assert.equal(res.status, 202);
     assert.equal(res.body.ok, true);
-    assert.ok(res.body.applicant_id, "applicant_id must be present");
-    assert.equal(typeof res.body.score, "number");
-    assert.ok(["money", "business", "digital", "technical"].includes(res.body.track));
-    assert.ok(["high", "mid", "low"].includes(res.body.priority));
-    assert.equal(res.body.ai_provider, "deterministic");
   });
 });

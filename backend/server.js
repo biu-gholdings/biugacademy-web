@@ -9,75 +9,160 @@ const rateLimit = require("express-rate-limit");
 const { z } = require("zod");
 
 const { getPool, ensureSchema } = require("./db");
-const { classifyApplicant } = require("./ai");
-const { scoreApplicant } = require("./scoring");
-
 const PORT = Number(process.env.PORT) || 3000;
 
-const phoneDigitsOk = (s) => String(s).replace(/\D/g, "").length >= 8;
-const looksLikeEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s).trim());
+const MIN_PHONE_DIGITS = 8;
+const MIN_MOTIVATION_LENGTH = 20;
+
+const PROVINCE_MAP = {
+  "bengo": "Bengo",
+  "benguela": "Benguela",
+  "bie": "Bié",
+  "bié": "Bié",
+  "cabinda": "Cabinda",
+  "cuando cubango": "Cuando Cubango",
+  "cuando cubango": "Cuando Cubango",
+  "cunene": "Cunene",
+  "huambo": "Huambo",
+  "huila": "Huíla",
+  "huíla": "Huíla",
+  "luanda": "Luanda",
+  "lunda norte": "Lunda Norte",
+  "lunda sul": "Lunda Sul",
+  "malanje": "Malanje",
+  "moxico": "Moxico",
+  "namibe": "Namibe",
+  "uige": "Uíge",
+  "uíge": "Uíge",
+  "zaire": "Zaire",
+};
+
+function looksLikeEmail(s) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s).trim());
+}
+
+function normalizePhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("244")) return `+${digits}`;
+  return `+${digits}`;
+}
+
+function phoneDigitsOk(value) {
+  return String(value || "").replace(/\D/g, "").length >= MIN_PHONE_DIGITS;
+}
+
+function normalizeProvince(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  const key = raw.toLowerCase().replace(/\s+/g, " ");
+  return PROVINCE_MAP[key] || raw.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function preprocessInterests(v) {
+  if (Array.isArray(v)) return v;
+  if (typeof v === "string") {
+    return v
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
 
 const waitlistBodySchema = z.object({
   full_name: z.string().trim().min(1).max(200),
   email: z.string().trim().email().max(320),
-  phone: z
+  phone_number: z
     .string()
     .trim()
     .min(3)
     .max(40)
-    .refine(phoneDigitsOk, "Phone must contain at least 8 digits"),
-  country: z.string().trim().min(1).max(120),
+    .refine(phoneDigitsOk, "phone_number must contain at least 8 digits"),
+  whatsapp_number: z
+    .preprocess((v) => (v === undefined || v === null ? "" : v), z.string().trim().max(40))
+    .refine((v) => v === "" || phoneDigitsOk(v), "whatsapp_number must contain at least 8 digits"),
   province: z.string().trim().min(1).max(120),
-  city: z.string().trim().min(1).max(120),
-  area_of_interest: z.string().trim().min(1).max(200),
-  current_role: z.string().trim().min(1).max(120),
-  expertise: z.string().trim().min(1).max(4000),
-  ai_experience_level: z.string().trim().min(1).max(200),
-  preferred_learning_track: z.string().trim().min(1).max(200),
-  cubeshackles_ecosystem_interest: z.string().trim().min(1).max(2000),
-  problem_to_solve: z.string().trim().min(1).max(4000),
-  why_join: z.string().trim().min(1).max(4000),
-  certifications: z.preprocess(
+  municipality: z.string().trim().min(1).max(120),
+  age_range: z.string().trim().min(1).max(60),
+  primary_language: z.string().trim().min(1).max(60),
+  education_level: z.string().trim().min(1).max(120),
+  areas_of_interest: z.preprocess(preprocessInterests, z.array(z.string().trim().min(1).max(100)).min(1)),
+  technical_background: z.string().trim().min(1).max(2000),
+  internet_access_level: z.string().trim().min(1).max(120),
+  device_access: z.string().trim().min(1).max(120),
+  employment_status: z.string().trim().min(1).max(120),
+  linkedin_optional: z.preprocess(
     (v) => (v === undefined || v === null ? "" : v),
-    z.string().trim().max(2000)
+    z.string().trim().max(240)
   ),
-  tools_used: z.preprocess(
+  github_optional: z.preprocess(
     (v) => (v === undefined || v === null ? "" : v),
-    z.string().trim().max(2000)
+    z.string().trim().max(240)
   ),
-  consent: z.preprocess(
-    (v) => (v === true || v === "true" || v === "yes" ? true : v),
-    z.boolean().refine((v) => v === true, { message: "consent must be true" })
+  motivation_statement: z
+    .string()
+    .trim()
+    .min(MIN_MOTIVATION_LENGTH, `motivation_statement must be at least ${MIN_MOTIVATION_LENGTH} chars`)
+    .max(4000),
+  consent_checkbox: z.preprocess(
+    (v) => (v === true || v === "true" || v === "yes" || v === "on" ? true : v),
+    z.boolean().refine((v) => v === true, { message: "consent_checkbox must be true" })
   ),
+  source_platform: z.preprocess(
+    (v) => (v === undefined || v === null || String(v).trim() === "" ? "website-waitlist" : v),
+    z.string().trim().max(80)
+  ),
+  browser_language: z.preprocess(
+    (v) => (v === undefined || v === null ? "" : v),
+    z.string().trim().max(40)
+  ),
+  timezone: z.preprocess((v) => (v === undefined || v === null ? "" : v), z.string().trim().max(80)),
+  referral_source: z.preprocess(
+    (v) => (v === undefined || v === null ? "" : v),
+    z.string().trim().max(240)
+  ),
+  submission_timestamp: z.preprocess(
+    (v) => (v === undefined || v === null || v === "" ? new Date().toISOString() : v),
+    z.string().datetime({ offset: true })
+  ),
+  honeypot: z.preprocess((v) => (v === undefined || v === null ? "" : v), z.string().max(120)),
 });
 
 function isSimplifiedPayload(body) {
-  return body && body.contact && !body.email && !body.phone;
+  return body && body.contact && !body.email && !body.phone_number;
 }
 
 function normalizeSimplifiedPayload(body) {
   const contact = String(body.contact || "").trim();
-  const email = looksLikeEmail(contact) ? contact : "unknown@pending.local";
-  const phone = looksLikeEmail(contact) ? "00000000" : contact;
+  const email = looksLikeEmail(contact) ? contact : `pending-${Date.now()}@pending.local`;
+  const phone = looksLikeEmail(contact) ? "+244000000000" : normalizePhone(contact);
 
   return {
     full_name: body.full_name || body.name || "",
     email,
-    phone,
-    country: body.country || "Unknown",
-    province: body.province || "Unknown",
-    city: body.city || "Unknown",
-    area_of_interest: body.interest || body.area_of_interest || "Unknown",
-    current_role: body.current_role || "Not specified",
-    expertise: body.expertise || "Not specified",
-    ai_experience_level: body.ai_experience_level || "Nenhuma experiência",
-    preferred_learning_track: body.preferred_learning_track || body.interest || "General",
-    cubeshackles_ecosystem_interest: body.cubeshackles_ecosystem_interest || "Talvez",
-    problem_to_solve: body.problem_to_solve || body.motivation || "Not specified",
-    why_join: body.why_join || body.motivation || "Not specified",
-    certifications: body.certifications || "",
-    tools_used: body.tools_used || "",
-    consent: true,
+    phone_number: phone,
+    whatsapp_number: phone,
+    province: normalizeProvince(body.province || "Luanda"),
+    municipality: body.municipality || body.city || "N/A",
+    age_range: body.age_range || "18-24",
+    primary_language: body.primary_language || "Portuguese",
+    education_level: body.education_level || "Not specified",
+    areas_of_interest: [body.interest || "General"],
+    technical_background: body.technical_background || body.current_role || "Not specified",
+    internet_access_level: body.internet_access_level || "Limited",
+    device_access: body.device_access || "Smartphone only",
+    employment_status: body.employment_status || "Not specified",
+    linkedin_optional: body.linkedin_optional || "",
+    github_optional: body.github_optional || "",
+    motivation_statement: body.motivation || body.why_join || "Wants to join BIU.G Academy.",
+    consent_checkbox: true,
+    source_platform: body.source_platform || "website-waitlist",
+    browser_language: body.browser_language || "",
+    timezone: body.timezone || "",
+    referral_source: body.referral_source || "",
+    submission_timestamp: body.submission_timestamp || new Date().toISOString(),
+    honeypot: "",
   };
 }
 
@@ -151,6 +236,11 @@ app.get("/api/health", (_req, res) => {
 app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
   const input = isSimplifiedPayload(req.body) ? normalizeSimplifiedPayload(req.body) : req.body;
 
+  // Silent success for obvious bot submissions; do not leak spam defenses.
+  if (input && String(input.honeypot || "").trim() !== "") {
+    return res.status(202).json({ ok: true, status: "accepted" });
+  }
+
   const parsed = waitlistBodySchema.safeParse(input);
   if (!parsed.success) {
     const details = parsed.error.errors.map((e) => `${e.path.join(".") || "body"}: ${e.message}`);
@@ -166,54 +256,85 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
   const row = {
     full_name: b.full_name.trim(),
     email: b.email.trim().toLowerCase(),
-    phone: b.phone.trim(),
-    country: b.country.trim(),
-    province: b.province.trim(),
-    city: b.city.trim(),
-    area_of_interest: b.area_of_interest.trim(),
-    current_role: b.current_role.trim(),
-    expertise: b.expertise.trim(),
-    ai_experience_level: b.ai_experience_level.trim(),
-    preferred_learning_track: b.preferred_learning_track.trim(),
-    cubeshackles_ecosystem_interest: b.cubeshackles_ecosystem_interest.trim(),
-    problem_to_solve: b.problem_to_solve.trim(),
-    why_join: b.why_join.trim(),
-    consent: true,
-    certifications: b.certifications,
-    tools_used: b.tools_used,
+    phone_number: normalizePhone(b.phone_number),
+    whatsapp_number: b.whatsapp_number ? normalizePhone(b.whatsapp_number) : "",
+    province: normalizeProvince(b.province),
+    municipality: b.municipality.trim(),
+    age_range: b.age_range.trim(),
+    primary_language: b.primary_language.trim(),
+    education_level: b.education_level.trim(),
+    areas_of_interest: b.areas_of_interest,
+    technical_background: b.technical_background.trim(),
+    internet_access_level: b.internet_access_level.trim(),
+    device_access: b.device_access.trim(),
+    employment_status: b.employment_status.trim(),
+    linkedin_optional: b.linkedin_optional,
+    github_optional: b.github_optional,
+    motivation_statement: b.motivation_statement.trim(),
+    consent_checkbox: true,
+    source_platform: b.source_platform.trim(),
+    browser_language: (b.browser_language || req.headers["accept-language"] || "").toString().slice(0, 40),
+    timezone: b.timezone.trim(),
+    referral_source: b.referral_source.trim(),
+    submission_timestamp: b.submission_timestamp,
+    raw_form_payload: input,
   };
 
   const pool = getPool();
   let applicationId;
 
   try {
+    const duplicate = await pool.query(
+      `SELECT id
+       FROM waitlist_applications
+       WHERE lower(email) = lower($1)
+         OR phone_number = $2
+       ORDER BY created_at DESC
+       LIMIT 1`,
+      [row.email, row.phone_number]
+    );
+    if (duplicate.rowCount > 0) {
+      return res.status(409).json({
+        success: false,
+        error: "Duplicate submission detected. Your application is already in review.",
+      });
+    }
+
     const insertApp = await pool.query(
       `INSERT INTO waitlist_applications (
-        full_name, email, phone, country, province, city,
-        area_of_interest, "current_role", expertise,
-        ai_experience_level, preferred_learning_track, cubeshackles_ecosystem_interest,
-        problem_to_solve, why_join, consent, certifications, tools_used
+        full_name, email, phone_number, whatsapp_number, province, municipality, age_range,
+        primary_language, education_level, areas_of_interest, technical_background,
+        internet_access_level, device_access, employment_status, linkedin_optional,
+        github_optional, motivation_statement, consent_checkbox, source_platform,
+        browser_language, timezone, referral_source, submission_timestamp, raw_form_payload
       ) VALUES (
-        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17
+        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24::jsonb
       ) RETURNING id`,
       [
         row.full_name,
         row.email,
-        row.phone,
-        row.country,
+        row.phone_number,
+        row.whatsapp_number,
         row.province,
-        row.city,
-        row.area_of_interest,
-        row.current_role,
-        row.expertise,
-        row.ai_experience_level,
-        row.preferred_learning_track,
-        row.cubeshackles_ecosystem_interest,
-        row.problem_to_solve,
-        row.why_join,
-        row.consent,
-        row.certifications,
-        row.tools_used,
+        row.municipality,
+        row.age_range,
+        row.primary_language,
+        row.education_level,
+        JSON.stringify(row.areas_of_interest),
+        row.technical_background,
+        row.internet_access_level,
+        row.device_access,
+        row.employment_status,
+        row.linkedin_optional,
+        row.github_optional,
+        row.motivation_statement,
+        row.consent_checkbox,
+        row.source_platform,
+        row.browser_language,
+        row.timezone,
+        row.referral_source,
+        row.submission_timestamp,
+        JSON.stringify(row.raw_form_payload),
       ]
     );
     applicationId = insertApp.rows[0].id;
@@ -225,77 +346,10 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
     });
   }
 
-  let profile;
-  let aiProvider = "deterministic";
-  let aiError = null;
-
-  const apiKey = (process.env.OPENAI_API_KEY || "").trim();
-  const openaiAvailable = apiKey && !apiKey.startsWith("sk-placeholder");
-
-  if (openaiAvailable) {
-    try {
-      profile = await classifyApplicant(row);
-      aiProvider = "openai";
-    } catch (e) {
-      console.error(
-        "OpenAI classification failed, falling back to deterministic scoring:",
-        e.message
-      );
-      aiError = e.message;
-    }
-  }
-
-  if (!profile) {
-    const local = scoreApplicant(row);
-    profile = {
-      learner_type: "Unknown",
-      skill_level: "Beginner",
-      ai_readiness_score: local.score * 5,
-      cubeshackles_fit_score: local.score * 5,
-      recommended_track: local.track,
-      priority_level:
-        local.priority === "high" ? "High" : local.priority === "mid" ? "Medium" : "Low",
-      strengths: local.tags,
-      gaps: [],
-      recommended_next_steps: [],
-      tags: local.tags,
-    };
-    aiProvider = "deterministic";
-  }
-
-  try {
-    await pool.query(
-      `INSERT INTO waitlist_ai_profiles (
-        application_id, learner_type, skill_level, ai_readiness_score, cubeshackles_fit_score,
-        recommended_track, priority_level, strengths, gaps, recommended_next_steps, tags
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9::jsonb,$10::jsonb,$11::jsonb)`,
-      [
-        applicationId,
-        profile.learner_type,
-        profile.skill_level,
-        profile.ai_readiness_score,
-        profile.cubeshackles_fit_score,
-        profile.recommended_track,
-        profile.priority_level,
-        JSON.stringify(profile.strengths),
-        JSON.stringify(profile.gaps),
-        JSON.stringify(profile.recommended_next_steps),
-        JSON.stringify(profile.tags),
-      ]
-    );
-  } catch (e) {
-    console.error("DB insert AI profile failed", e);
-  }
-
-  const local = scoreApplicant(row);
-
   return res.status(201).json({
     ok: true,
     applicant_id: applicationId,
-    score: local.score,
-    track: local.track,
-    priority: local.priority,
-    ai_provider: aiProvider,
+    status: "received",
   });
 });
 

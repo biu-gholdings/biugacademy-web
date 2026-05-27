@@ -1,46 +1,43 @@
--- BIU.G Academy — run in Supabase SQL Editor (or psql) against your project database.
--- Optional columns certifications + tools_used may be empty string.
+-- BIU.G Academy waitlist intake schema.
+-- PostgreSQL preferred. Run in Supabase SQL Editor or psql.
 
 CREATE TABLE IF NOT EXISTS waitlist_applications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   full_name TEXT NOT NULL,
   email TEXT NOT NULL,
-  phone TEXT NOT NULL,
-  country TEXT NOT NULL,
+  phone_number TEXT NOT NULL,
+  whatsapp_number TEXT NOT NULL DEFAULT '',
   province TEXT NOT NULL,
-  city TEXT NOT NULL,
-  area_of_interest TEXT NOT NULL,
-  "current_role" TEXT NOT NULL,
-  expertise TEXT NOT NULL,
-  ai_experience_level TEXT NOT NULL,
-  preferred_learning_track TEXT NOT NULL,
-  cubeshackles_ecosystem_interest TEXT NOT NULL,
-  problem_to_solve TEXT NOT NULL,
-  why_join TEXT NOT NULL,
-  consent BOOLEAN NOT NULL DEFAULT FALSE,
-  certifications TEXT NOT NULL DEFAULT '',
-  tools_used TEXT NOT NULL DEFAULT '',
+  municipality TEXT NOT NULL,
+  age_range TEXT NOT NULL,
+  primary_language TEXT NOT NULL,
+  education_level TEXT NOT NULL,
+  areas_of_interest JSONB NOT NULL DEFAULT '[]'::jsonb,
+  technical_background TEXT NOT NULL,
+  internet_access_level TEXT NOT NULL,
+  device_access TEXT NOT NULL,
+  employment_status TEXT NOT NULL,
+  linkedin_optional TEXT NOT NULL DEFAULT '',
+  github_optional TEXT NOT NULL DEFAULT '',
+  motivation_statement TEXT NOT NULL,
+  consent_checkbox BOOLEAN NOT NULL DEFAULT FALSE,
+  source_platform TEXT NOT NULL DEFAULT 'website-waitlist',
+  browser_language TEXT NOT NULL DEFAULT '',
+  timezone TEXT NOT NULL DEFAULT '',
+  referral_source TEXT NOT NULL DEFAULT '',
+  submission_timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  raw_form_payload JSONB NOT NULL DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_waitlist_applications_email ON waitlist_applications (lower(email));
-CREATE INDEX IF NOT EXISTS idx_waitlist_applications_created_at ON waitlist_applications (created_at DESC);
-
-CREATE TABLE IF NOT EXISTS waitlist_ai_profiles (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  application_id UUID NOT NULL REFERENCES waitlist_applications (id) ON DELETE CASCADE,
-  learner_type TEXT NOT NULL,
-  skill_level TEXT NOT NULL,
-  ai_readiness_score SMALLINT NOT NULL,
-  cubeshackles_fit_score SMALLINT NOT NULL,
-  recommended_track TEXT NOT NULL,
-  priority_level TEXT NOT NULL,
-  strengths JSONB NOT NULL DEFAULT '[]'::jsonb,
-  gaps JSONB NOT NULL DEFAULT '[]'::jsonb,
-  recommended_next_steps JSONB NOT NULL DEFAULT '[]'::jsonb,
-  tags JSONB NOT NULL DEFAULT '[]'::jsonb,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE (application_id)
-);
-
-CREATE INDEX IF NOT EXISTS idx_waitlist_ai_profiles_application_id ON waitlist_ai_profiles (application_id);
+-- Duplicate prevention preparation and query performance.
+CREATE INDEX IF NOT EXISTS idx_waitlist_applications_email_lower
+  ON waitlist_applications (lower(email));
+CREATE INDEX IF NOT EXISTS idx_waitlist_applications_phone_number
+  ON waitlist_applications (phone_number);
+CREATE INDEX IF NOT EXISTS idx_waitlist_applications_created_at
+  ON waitlist_applications (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_waitlist_applications_province
+  ON waitlist_applications (province);
+CREATE INDEX IF NOT EXISTS idx_waitlist_applications_primary_language
+  ON waitlist_applications (primary_language);
