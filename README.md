@@ -30,42 +30,42 @@ Develop disciplined, accessible learning infrastructure that strengthens real-ec
 
 Capabilities are labeled consistently across the repository:
 
-| State | Meaning |
-|-------|---------|
-| **Operational** | Live and maintained today |
+| State                 | Meaning                                    |
+| --------------------- | ------------------------------------------ |
+| **Operational**       | Live and maintained today                  |
 | **Under development** | In active design or partial implementation |
-| **Planned** | Roadmap only; not deployed |
+| **Planned**           | Roadmap only; not deployed                 |
 
 ### Operational
 
-| Capability | Notes |
-|------------|-------|
-| Public website | Static site on GitHub Pages at biugacademy.org |
-| Multilingual public pages | Portuguese (default), English, French |
-| Candidate intake path | Application flow for **planned** first cohort |
-| Institutional documentation | `docs/`, root policies, white paper v1.0 |
+| Capability                  | Notes                                               |
+| --------------------------- | --------------------------------------------------- |
+| Public website              | Static site on GitHub Pages at biugacademy.org      |
+| Multilingual public pages   | Portuguese (default), English, French               |
+| Candidate intake path       | Application flow for **planned** first cohort       |
+| Institutional documentation | `docs/`, root policies, white paper v1.0            |
 | Repository governance files | CONTRIBUTING, GOVERNANCE, SECURITY, CODE_OF_CONDUCT |
 
 ### Under development
 
-| Capability | Notes |
-|------------|-------|
-| First cohort operations | Selection, facilitation, delivery |
-| Curriculum modules | Financial literacy core first |
-| Documentation parity | EN/FR alignment with PT |
-| Metrics collection | Framework defined; no production dashboard |
-| PDF export pipeline | Documented; automation optional |
+| Capability              | Notes                                      |
+| ----------------------- | ------------------------------------------ |
+| First cohort operations | Selection, facilitation, delivery          |
+| Curriculum modules      | Financial literacy core first              |
+| Documentation parity    | EN/FR alignment with PT                    |
+| Metrics collection      | Framework defined; no production dashboard |
+| PDF export pipeline     | Documented; automation optional            |
 
 ### Planned
 
-| Capability | Notes |
-|------------|-------|
-| LMS / structured content system | Phase 2+ |
-| Offline-first learning distribution | Phase 3 |
-| Analytics and admin dashboards | Phase 4 |
-| Full multilingual program parity | Phase 5 |
-| Formal institutional partnerships | Phase 6 |
-| Accredited degree pathways | Only if lawfully established and disclosed |
+| Capability                          | Notes                                      |
+| ----------------------------------- | ------------------------------------------ |
+| LMS / structured content system     | Phase 2+                                   |
+| Offline-first learning distribution | Phase 3                                    |
+| Analytics and admin dashboards      | Phase 4                                    |
+| Full multilingual program parity    | Phase 5                                    |
+| Formal institutional partnerships   | Phase 6                                    |
+| Accredited degree pathways          | Only if lawfully established and disclosed |
 
 **Active roadmap phase:** [Phase 0 — Public website](ROADMAP.md#phase-0--public-website--active)
 
@@ -91,14 +91,14 @@ flowchart LR
 
 ## Technology stack
 
-| Layer | Technology | Status |
-|-------|------------|--------|
-| Hosting | GitHub Pages | Operational |
-| Frontend | HTML, CSS, vanilla JS | Operational |
-| i18n | Locale directories `/pt/`, `/en/`, `/fr/` | Operational |
-| Build | None required for deploy | Operational |
-| CMS | — | Planned |
-| Auth / LMS / Analytics | — | Planned |
+| Layer                  | Technology                                | Status      |
+| ---------------------- | ----------------------------------------- | ----------- |
+| Hosting                | GitHub Pages                              | Operational |
+| Frontend               | HTML, CSS, vanilla JS                     | Operational |
+| i18n                   | Locale directories `/pt/`, `/en/`, `/fr/` | Operational |
+| Build                  | None required for deploy                  | Operational |
+| CMS                    | —                                         | Planned     |
+| Auth / LMS / Analytics | —                                         | Planned     |
 
 ---
 
@@ -157,29 +157,29 @@ Use issue and PR templates under `.github/`.
 
 Master index: **[docs/README.md](docs/README.md)**
 
-| Area | Entry |
-|------|-------|
-| White paper | [docs/whitepaper/biug-academy-whitepaper-v1.md](docs/whitepaper/biug-academy-whitepaper-v1.md) |
-| Architecture | [ARCHITECTURE.md](ARCHITECTURE.md) |
-| Regulatory | [docs/regulatory/regulatory-position.md](docs/regulatory/regulatory-position.md) |
-| Partnerships | [docs/partnerships/partnership-framework.md](docs/partnerships/partnership-framework.md) |
-| Metrics | [docs/metrics/outcomes-framework.md](docs/metrics/outcomes-framework.md) |
-| Branding | [docs/branding/brand-guidelines.md](docs/branding/brand-guidelines.md) |
-| i18n | [docs/i18n/translation-glossary.md](docs/i18n/translation-glossary.md) |
-| Maturity checklist | [docs/REPOSITORY_MATURITY.md](docs/REPOSITORY_MATURITY.md) |
+| Area               | Entry                                                                                          |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| White paper        | [docs/whitepaper/biug-academy-whitepaper-v1.md](docs/whitepaper/biug-academy-whitepaper-v1.md) |
+| Architecture       | [ARCHITECTURE.md](ARCHITECTURE.md)                                                             |
+| Regulatory         | [docs/regulatory/regulatory-position.md](docs/regulatory/regulatory-position.md)               |
+| Partnerships       | [docs/partnerships/partnership-framework.md](docs/partnerships/partnership-framework.md)       |
+| Metrics            | [docs/metrics/outcomes-framework.md](docs/metrics/outcomes-framework.md)                       |
+| Branding           | [docs/branding/brand-guidelines.md](docs/branding/brand-guidelines.md)                         |
+| i18n               | [docs/i18n/translation-glossary.md](docs/i18n/translation-glossary.md)                         |
+| Maturity checklist | [docs/REPOSITORY_MATURITY.md](docs/REPOSITORY_MATURITY.md)                                     |
 
 ---
 
 ## Disclaimer
 
-| Statement | Fact |
-|-----------|------|
-| Initiative status | **Under development** |
-| University / accredited degrees | **Not** currently offered |
-| Government approval | **Not** claimed |
-| Partnerships | Only when formally executed and published |
-| Roadmap items | **Planned** unless marked operational |
-| Financial / employment outcomes | **Not** guaranteed |
+| Statement                       | Fact                                      |
+| ------------------------------- | ----------------------------------------- |
+| Initiative status               | **Under development**                     |
+| University / accredited degrees | **Not** currently offered                 |
+| Government approval             | **Not** claimed                           |
+| Partnerships                    | Only when formally executed and published |
+| Roadmap items                   | **Planned** unless marked operational     |
+| Financial / employment outcomes | **Not** guaranteed                        |
 
 MESCTI and INAAREES are referenced as **design attention** frameworks only. See [docs/regulatory/regulatory-position.md](docs/regulatory/regulatory-position.md).
 

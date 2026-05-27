@@ -63,7 +63,9 @@
 
   function gatherPayload(form) {
     var fd = new FormData(form);
-    var get = function (name) { return (fd.get(name) || "").toString().trim(); };
+    var get = function (name) {
+      return (fd.get(name) || "").toString().trim();
+    };
     return {
       full_name: get("full_name"),
       email: get("email"),
@@ -81,7 +83,7 @@
       consent: fd.get("consent") === "yes",
       whatsapp_optin: fd.get("whatsapp_optin") === "yes",
       certifications: get("certifications"),
-      tools_used: get("tools_used")
+      tools_used: get("tools_used"),
     };
   }
 
@@ -112,7 +114,8 @@
     if (data.why_join && data.why_join.length > 50) score += 15;
     if (data.problem_to_solve && data.problem_to_solve.length > 50) score += 15;
     var cl = (data.commitment_level || "").toLowerCase();
-    if (cl.indexOf("tecnologia") !== -1 || cl.indexOf("ia") !== -1 || cl.indexOf("futuras") !== -1) score += 15;
+    if (cl.indexOf("tecnologia") !== -1 || cl.indexOf("ia") !== -1 || cl.indexOf("futuras") !== -1)
+      score += 15;
     if (data.cubeshackles_ecosystem_interest === "Sim") score += 10;
     if (data.whatsapp_optin) score += 10;
     var ai = (data.ai_experience_level || "").toLowerCase();
@@ -126,7 +129,8 @@
 
     var followup;
     if (tier === "high_signal") followup = "Priority review — strong alignment with first cohort.";
-    else if (tier === "medium_signal") followup = "Standard review — additional context may improve candidacy.";
+    else if (tier === "medium_signal")
+      followup = "Standard review — additional context may improve candidacy.";
     else followup = "Needs more information — encourage resubmission with detail.";
 
     return { score: score, tier: tier, recommended_followup: followup };
@@ -137,7 +141,7 @@
     var entry = {
       raw_application: data,
       local_classification_preview: classification,
-      submitted_at: new Date().toISOString()
+      submitted_at: new Date().toISOString(),
     };
 
     var list = [];
@@ -186,15 +190,24 @@
       }
 
       clearFieldErrors(form);
-      if (msg) { msg.className = "form-message"; msg.textContent = ""; }
+      if (msg) {
+        msg.className = "form-message";
+        msg.textContent = "";
+      }
 
       var data = gatherPayload(form);
       var invalid = validatePayload(data);
 
       if (invalid.length) {
         e.preventDefault();
-        invalid.forEach(function (name) { setFieldError(form, name); });
-        showFormMessage(msg, "error", "Por favor preencha todos os campos obrigatórios com email e telefone válidos.");
+        invalid.forEach(function (name) {
+          setFieldError(form, name);
+        });
+        showFormMessage(
+          msg,
+          "error",
+          "Por favor preencha todos os campos obrigatórios com email e telefone válidos."
+        );
         var firstInvalid = form.querySelector(".form-group.is-invalid");
         if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
@@ -230,18 +243,22 @@
           tools_used: data.tools_used,
           problem_to_solve: data.problem_to_solve,
           why_join: data.why_join,
-          consent: true
+          consent: true,
         };
 
         fetch(WAITLIST_API_URL, {
           method: "POST",
-          headers: { "Accept": "application/json", "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          headers: { Accept: "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
         })
           .then(function (res) {
             return res.text().then(function (text) {
               var body = {};
-              try { body = JSON.parse(text); } catch (ignore) { body = {}; }
+              try {
+                body = JSON.parse(text);
+              } catch (ignore) {
+                body = {};
+              }
               return { res: res, body: body };
             });
           })
@@ -250,14 +267,21 @@
               window.location.href = "/thank-you/";
               return;
             }
-            var detail = (ref.body && ref.body.details && ref.body.details.length)
-              ? ref.body.details.join(" ")
-              : (ref.body && ref.body.error) ? ref.body.error : "A submissão falhou. Tente novamente.";
+            var detail =
+              ref.body && ref.body.details && ref.body.details.length
+                ? ref.body.details.join(" ")
+                : ref.body && ref.body.error
+                  ? ref.body.error
+                  : "A submissão falhou. Tente novamente.";
             showFormMessage(msg, "error", detail);
             resetSubmitUi(form, submitBtn, defaultLabel);
           })
           .catch(function () {
-            showFormMessage(msg, "error", "Não foi possível contactar o servidor. Verifique a sua ligação.");
+            showFormMessage(
+              msg,
+              "error",
+              "Não foi possível contactar o servidor. Verifique a sua ligação."
+            );
             resetSubmitUi(form, submitBtn, defaultLabel);
           });
       }

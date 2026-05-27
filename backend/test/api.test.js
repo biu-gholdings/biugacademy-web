@@ -5,8 +5,7 @@ const assert = require("node:assert/strict");
 const http = require("node:http");
 
 process.env.DATABASE_URL =
-  process.env.DATABASE_URL ||
-  "postgresql://biug:biug_dev_pass@127.0.0.1:5432/biug_academy";
+  process.env.DATABASE_URL || "postgresql://biug:biug_dev_pass@127.0.0.1:5432/biug_academy";
 
 delete process.env.OPENAI_API_KEY;
 
@@ -55,7 +54,9 @@ after(async () => {
   const { getPool } = require("../db");
   try {
     await getPool().end();
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 });
 
 describe("GET /api/health", () => {
@@ -89,7 +90,8 @@ describe("POST /api/waitlist", () => {
       preferred_learning_track: "Software & platform engineering",
       cubeshackles_ecosystem_interest: "Interested in Angola-first product opportunities",
       problem_to_solve: "Ship a production API with observability and build tools for Angola",
-      why_join: "Structured technical education aligned with BIU.G Academy goals and building for Angola.",
+      why_join:
+        "Structured technical education aligned with BIU.G Academy goals and building for Angola.",
       certifications: "N/A",
       tools_used: "VS Code, Git, Node.js",
       consent: true,
@@ -97,13 +99,26 @@ describe("POST /api/waitlist", () => {
 
     const res = await request("POST", "/api/waitlist", payload);
 
-    assert.equal(res.status, 201, `Expected 201 but got ${res.status}: ${JSON.stringify(res.body)}`);
+    assert.equal(
+      res.status,
+      201,
+      `Expected 201 but got ${res.status}: ${JSON.stringify(res.body)}`
+    );
     assert.equal(res.body.ok, true);
     assert.ok(res.body.applicant_id, "applicant_id must be present");
     assert.equal(typeof res.body.score, "number");
-    assert.ok(res.body.score >= 0 && res.body.score <= 20, `score ${res.body.score} out of 0-20 range`);
-    assert.ok(["money", "business", "digital", "technical"].includes(res.body.track), `unexpected track: ${res.body.track}`);
-    assert.ok(["high", "mid", "low"].includes(res.body.priority), `unexpected priority: ${res.body.priority}`);
+    assert.ok(
+      res.body.score >= 0 && res.body.score <= 20,
+      `score ${res.body.score} out of 0-20 range`
+    );
+    assert.ok(
+      ["money", "business", "digital", "technical"].includes(res.body.track),
+      `unexpected track: ${res.body.track}`
+    );
+    assert.ok(
+      ["high", "mid", "low"].includes(res.body.priority),
+      `unexpected priority: ${res.body.priority}`
+    );
     assert.equal(res.body.ai_provider, "deterministic");
   });
 
@@ -117,7 +132,11 @@ describe("POST /api/waitlist", () => {
 
     const res = await request("POST", "/api/waitlist", payload);
 
-    assert.equal(res.status, 201, `Expected 201 but got ${res.status}: ${JSON.stringify(res.body)}`);
+    assert.equal(
+      res.status,
+      201,
+      `Expected 201 but got ${res.status}: ${JSON.stringify(res.body)}`
+    );
     assert.equal(res.body.ok, true);
     assert.ok(res.body.applicant_id, "applicant_id must be present");
     assert.equal(typeof res.body.score, "number");

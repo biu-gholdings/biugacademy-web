@@ -149,15 +149,11 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
-  const input = isSimplifiedPayload(req.body)
-    ? normalizeSimplifiedPayload(req.body)
-    : req.body;
+  const input = isSimplifiedPayload(req.body) ? normalizeSimplifiedPayload(req.body) : req.body;
 
   const parsed = waitlistBodySchema.safeParse(input);
   if (!parsed.success) {
-    const details = parsed.error.errors.map(
-      (e) => `${e.path.join(".") || "body"}: ${e.message}`
-    );
+    const details = parsed.error.errors.map((e) => `${e.path.join(".") || "body"}: ${e.message}`);
     return res.status(400).json({
       success: false,
       error: "Validation failed",
@@ -241,7 +237,10 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
       profile = await classifyApplicant(row);
       aiProvider = "openai";
     } catch (e) {
-      console.error("OpenAI classification failed, falling back to deterministic scoring:", e.message);
+      console.error(
+        "OpenAI classification failed, falling back to deterministic scoring:",
+        e.message
+      );
       aiError = e.message;
     }
   }
@@ -254,7 +253,8 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
       ai_readiness_score: local.score * 5,
       cubeshackles_fit_score: local.score * 5,
       recommended_track: local.track,
-      priority_level: local.priority === "high" ? "High" : local.priority === "mid" ? "Medium" : "Low",
+      priority_level:
+        local.priority === "high" ? "High" : local.priority === "mid" ? "Medium" : "Low",
       strengths: local.tags,
       gaps: [],
       recommended_next_steps: [],

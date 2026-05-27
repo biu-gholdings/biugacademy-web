@@ -13,11 +13,11 @@ BIU.G Academy may eventually align advanced technical pathways with contributor 
 
 ## Boundaries (current)
 
-| Allowed in this repository | Not allowed |
-|----------------------------|-------------|
-| Read-only education about ecosystem concepts | Wallet, settlement, or fee collection |
-| Accurate, non-promotional references | Token, investment, or return promises |
-| Contributor pathway documentation | Storage of credentials or payment data in git |
+| Allowed in this repository                   | Not allowed                                   |
+| -------------------------------------------- | --------------------------------------------- |
+| Read-only education about ecosystem concepts | Wallet, settlement, or fee collection         |
+| Accurate, non-promotional references         | Token, investment, or return promises         |
+| Contributor pathway documentation            | Storage of credentials or payment data in git |
 
 ## Relationship to CubeShackles
 

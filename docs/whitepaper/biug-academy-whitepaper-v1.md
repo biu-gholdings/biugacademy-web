@@ -27,11 +27,11 @@ Founder & CEO – Biu-g Holdings LLC
 
 Throughout this paper, capabilities are labeled:
 
-| Label | Meaning |
-|-------|---------|
-| **Current** | Live or actively maintained today |
+| Label                 | Meaning                                     |
+| --------------------- | ------------------------------------------- |
+| **Current**           | Live or actively maintained today           |
 | **Under development** | In design, pilot, or partial implementation |
-| **Future (planned)** | Roadmap intent; not operational |
+| **Future (planned)**  | Roadmap intent; not operational             |
 
 ---
 
@@ -65,7 +65,7 @@ May 2026
 
 <br><br>
 
-*This document is for institutional orientation. It does not constitute an offer, regulatory filing, or accredited academic prospectus.*
+_This document is for institutional orientation. It does not constitute an offer, regulatory filing, or accredited academic prospectus._
 
 </div>
 
@@ -156,7 +156,7 @@ Economic growth in a digital era depends on:
 
 Without distributed practical education, digital investments risk low utilization, vendor dependency, and weak domestic execution capacity. BIU.G Academy is being designed as **long-horizon human capital infrastructure**—complementary to universities, vocational institutions, NGOs, and employer training—not a replacement for them.
 
-*Note: National statistics should be verified against official sources (e.g., INE Angola, ministry publications) before use in formal regulatory submissions.*
+_Note: National statistics should be verified against official sources (e.g., INE Angola, ministry publications) before use in formal regulatory submissions._
 
 ---
 
@@ -186,13 +186,13 @@ Each skilled operator, teacher, mentor, and builder can train others. Talent com
 
 Angola needs more than consumers of technology. It needs:
 
-| Role category | Contribution |
-|---------------|--------------|
-| **Builders** | Software, integrations, local solutions |
-| **Operators** | Run systems reliably day to day |
-| **Analysts** | Interpret data for decisions |
-| **Educators** | Transmit practical knowledge at scale |
-| **Entrepreneurs** | Create livelihoods and services |
+| Role category                | Contribution                                       |
+| ---------------------------- | -------------------------------------------------- |
+| **Builders**                 | Software, integrations, local solutions            |
+| **Operators**                | Run systems reliably day to day                    |
+| **Analysts**                 | Interpret data for decisions                       |
+| **Educators**                | Transmit practical knowledge at scale              |
+| **Entrepreneurs**            | Create livelihoods and services                    |
 | **Disciplined participants** | Financial and digital habits that reduce fragility |
 
 BIU.G Academy’s strategic role is to **develop pathways** toward this capacity over time—starting with foundational literacy and expanding toward technical and ecosystem readiness **under development**.
@@ -207,17 +207,17 @@ To develop **Angola-first**, **offline-first**, practical education and training
 
 ### 4.2 Institutional principles
 
-| Principle | Definition | Status |
-|-----------|------------|--------|
-| **Angola-first** | Design for Angolan economic, linguistic, and connectivity context first | Active in public positioning |
-| **Offline-first** | Learning and platforms must function under constrained connectivity | Under development in curriculum/platform |
-| **Mobile-first** | Primary experience optimized for smartphones | **Current** (static site) |
-| **Practical-first** | Emphasize applied skills and real-economy outcomes | Under development (curriculum) |
-| **Accessibility** | Readable, inclusive design; progressive enhancement | **Current** (baseline); improving |
-| **Affordability** | Seek low-cost access models; avoid predatory pricing | Future program design |
-| **Multilingual inclusion** | Portuguese primary; English secondary; French later | **Current** (PT/EN/FR pages); parity ongoing |
-| **Long-term thinking** | Build institutional documentation and governance early | **Current** (repository docs) |
-| **Ethical technology adoption** | Teach responsible AI and digital tool use; human oversight | Under development |
+| Principle                       | Definition                                                              | Status                                       |
+| ------------------------------- | ----------------------------------------------------------------------- | -------------------------------------------- |
+| **Angola-first**                | Design for Angolan economic, linguistic, and connectivity context first | Active in public positioning                 |
+| **Offline-first**               | Learning and platforms must function under constrained connectivity     | Under development in curriculum/platform     |
+| **Mobile-first**                | Primary experience optimized for smartphones                            | **Current** (static site)                    |
+| **Practical-first**             | Emphasize applied skills and real-economy outcomes                      | Under development (curriculum)               |
+| **Accessibility**               | Readable, inclusive design; progressive enhancement                     | **Current** (baseline); improving            |
+| **Affordability**               | Seek low-cost access models; avoid predatory pricing                    | Future program design                        |
+| **Multilingual inclusion**      | Portuguese primary; English secondary; French later                     | **Current** (PT/EN/FR pages); parity ongoing |
+| **Long-term thinking**          | Build institutional documentation and governance early                  | **Current** (repository docs)                |
+| **Ethical technology adoption** | Teach responsible AI and digital tool use; human oversight              | Under development                            |
 
 ---
 
@@ -225,25 +225,25 @@ To develop **Angola-first**, **offline-first**, practical education and training
 
 ### 5.1 Current objectives
 
-| Objective | Description | Status |
-|-----------|-------------|--------|
-| Public website | Credible institutional presence at biugacademy.org | **Current** |
-| Informational content | Mission, program direction, regulatory notices | **Current** |
-| Candidate intake | Application / waitlist flow for planned first cohort | **Current** (intake path); cohort **not completed** |
-| Educational ecosystem building | Documentation, curriculum frameworks, contributor norms | **Under development** |
-| Multilingual public communication | PT / EN / FR surfaces | **Current** (ongoing quality work) |
+| Objective                         | Description                                             | Status                                              |
+| --------------------------------- | ------------------------------------------------------- | --------------------------------------------------- |
+| Public website                    | Credible institutional presence at biugacademy.org      | **Current**                                         |
+| Informational content             | Mission, program direction, regulatory notices          | **Current**                                         |
+| Candidate intake                  | Application / waitlist flow for planned first cohort    | **Current** (intake path); cohort **not completed** |
+| Educational ecosystem building    | Documentation, curriculum frameworks, contributor norms | **Under development**                               |
+| Multilingual public communication | PT / EN / FR surfaces                                   | **Current** (ongoing quality work)                  |
 
 ### 5.2 Future objectives (planned — not operational)
 
-| Objective | Description | Target phase (indicative) |
-|-----------|-------------|---------------------------|
-| Learning Management System (LMS) | Structured modules, progress tracking | Phase 2–3 |
-| Certification models | Non-degree certificates; any accredited pathway only if formally established | Phase 2+ |
-| Admin dashboards | Cohort and application management | Phase 3–4 |
-| Offline access | Downloadable modules, sync when connected | Phase 3 |
-| Scholarship systems | Needs-based access mechanisms | Phase 6 |
-| Mentor ecosystem | Volunteer/professional mentor matching | Phase 6 |
-| AI-assisted personalization | Assistive learning and **reviewer support**; not autonomous admissions | Phase 5 |
+| Objective                        | Description                                                                  | Target phase (indicative) |
+| -------------------------------- | ---------------------------------------------------------------------------- | ------------------------- |
+| Learning Management System (LMS) | Structured modules, progress tracking                                        | Phase 2–3                 |
+| Certification models             | Non-degree certificates; any accredited pathway only if formally established | Phase 2+                  |
+| Admin dashboards                 | Cohort and application management                                            | Phase 3–4                 |
+| Offline access                   | Downloadable modules, sync when connected                                    | Phase 3                   |
+| Scholarship systems              | Needs-based access mechanisms                                                | Phase 6                   |
+| Mentor ecosystem                 | Volunteer/professional mentor matching                                       | Phase 6                   |
+| AI-assisted personalization      | Assistive learning and **reviewer support**; not autonomous admissions       | Phase 5                   |
 
 **Explicit exclusion (Current):** BIU.G Academy does not operate production financial services, token platforms, or wallet infrastructure from this education repository.
 
@@ -253,17 +253,17 @@ To develop **Angola-first**, **offline-first**, practical education and training
 
 BIU.G Academy is being designed for multiple segments. Delivery depth and sequencing will vary; not all segments are served at launch.
 
-| Segment | Needs | Academy response (planned / under development) |
-|---------|-------|-----------------------------------------------|
-| **Students & young adults** | Skills, direction, employability | Foundational literacy → digital → technical pathways |
-| **Rural youth** | Low connectivity, limited institutions | Offline-first modules; mobile delivery |
-| **Women entrepreneurs** | Financial control, business stability | Financial literacy + entrepreneurship modules |
-| **Teachers & facilitators** | Train-the-trainer materials | Future facilitator guides |
-| **Informal workers** | Cash flow, pricing, digital tools | Practical financial + digital modules |
-| **Technical beginners** | Structured on-ramps | Progressive technical readiness track |
-| **Institutions** | Partnership, curriculum alignment | Future partnership framework (no implied deals today) |
-| **NGOs** | Complementary delivery, reach | Documented interoperability goals |
-| **Workforce pipelines** | Employer-aligned skills | Future advisory input; not operational |
+| Segment                     | Needs                                  | Academy response (planned / under development)        |
+| --------------------------- | -------------------------------------- | ----------------------------------------------------- |
+| **Students & young adults** | Skills, direction, employability       | Foundational literacy → digital → technical pathways  |
+| **Rural youth**             | Low connectivity, limited institutions | Offline-first modules; mobile delivery                |
+| **Women entrepreneurs**     | Financial control, business stability  | Financial literacy + entrepreneurship modules         |
+| **Teachers & facilitators** | Train-the-trainer materials            | Future facilitator guides                             |
+| **Informal workers**        | Cash flow, pricing, digital tools      | Practical financial + digital modules                 |
+| **Technical beginners**     | Structured on-ramps                    | Progressive technical readiness track                 |
+| **Institutions**            | Partnership, curriculum alignment      | Future partnership framework (no implied deals today) |
+| **NGOs**                    | Complementary delivery, reach          | Documented interoperability goals                     |
+| **Workforce pipelines**     | Employer-aligned skills                | Future advisory input; not operational                |
 
 **First cohort focus (Under development):** practical financial literacy for motivated applicants, with Angola-based priority described on the public site.
 
@@ -273,14 +273,14 @@ BIU.G Academy is being designed for multiple segments. Delivery depth and sequen
 
 ### 7.1 Current stack
 
-| Layer | Technology / approach | Status |
-|-------|-------------------------|--------|
-| Hosting | GitHub Pages (static) | **Current** |
-| Frontend | HTML, CSS, vanilla JavaScript | **Current** |
-| Domain | biugacademy.org (`CNAME`) | **Current** |
-| i18n | Locale paths `/pt/`, `/en/`, `/fr/` | **Current** |
-| Intake | Form submission to external bridge (e.g. serverless script) | **Current** (config-dependent) |
-| Build tooling | None required for deploy | **Current** |
+| Layer         | Technology / approach                                       | Status                         |
+| ------------- | ----------------------------------------------------------- | ------------------------------ |
+| Hosting       | GitHub Pages (static)                                       | **Current**                    |
+| Frontend      | HTML, CSS, vanilla JavaScript                               | **Current**                    |
+| Domain        | biugacademy.org (`CNAME`)                                   | **Current**                    |
+| i18n          | Locale paths `/pt/`, `/en/`, `/fr/`                         | **Current**                    |
+| Intake        | Form submission to external bridge (e.g. serverless script) | **Current** (config-dependent) |
+| Build tooling | None required for deploy                                    | **Current**                    |
 
 #### Current architecture (diagram)
 
@@ -298,15 +298,15 @@ flowchart LR
 
 ### 7.2 Planned infrastructure (Future — not operational)
 
-| Layer | Planned capability |
-|-------|-------------------|
-| Authentication | Secure learner and admin accounts |
-| CMS | Managed content publishing with review workflow |
-| Application API | Persistent, privacy-conscious application storage |
-| Analytics | Privacy-bounded usage and outcome metrics |
-| PWA | Installable, cache-friendly web app shell |
-| Offline sync | Module download and progress sync |
-| Dashboards | Admissions, cohorts, facilitator tools |
+| Layer                    | Planned capability                                  |
+| ------------------------ | --------------------------------------------------- |
+| Authentication           | Secure learner and admin accounts                   |
+| CMS                      | Managed content publishing with review workflow     |
+| Application API          | Persistent, privacy-conscious application storage   |
+| Analytics                | Privacy-bounded usage and outcome metrics           |
+| PWA                      | Installable, cache-friendly web app shell           |
+| Offline sync             | Module download and progress sync                   |
+| Dashboards               | Admissions, cohorts, facilitator tools              |
 | AI recommendation engine | **Assistive** suggestions; human decisions retained |
 
 #### Planned architecture (diagram)
@@ -370,15 +370,15 @@ Learning must **transfer to action** in Angola’s real economy: households, mar
 
 ### 8.2 Learning domains (Under development unless noted)
 
-| Domain | Focus | Cohort priority |
-|--------|-------|-----------------|
-| **Financial literacy** | Budgeting, debt awareness, savings, income planning, micro-business cash flow | **First planned cohort** |
-| **Digital literacy** | Device safety, productivity tools, professional communication | Planned expansion |
-| **Entrepreneurship** | Validation, pricing, customer relations, basic compliance awareness | Planned expansion |
-| **Technical readiness** | Problem-solving, career orientation, contributor literacy | Planned expansion |
-| **AI-native learning** | Responsible tool use, verification habits, future-of-work literacy | Planned expansion |
-| **Practical execution** | Assignments tied to real tasks, not abstract assessment only | Cross-cutting |
-| **Local context adaptation** | Angolan examples, language, connectivity constraints | Cross-cutting |
+| Domain                       | Focus                                                                         | Cohort priority          |
+| ---------------------------- | ----------------------------------------------------------------------------- | ------------------------ |
+| **Financial literacy**       | Budgeting, debt awareness, savings, income planning, micro-business cash flow | **First planned cohort** |
+| **Digital literacy**         | Device safety, productivity tools, professional communication                 | Planned expansion        |
+| **Entrepreneurship**         | Validation, pricing, customer relations, basic compliance awareness           | Planned expansion        |
+| **Technical readiness**      | Problem-solving, career orientation, contributor literacy                     | Planned expansion        |
+| **AI-native learning**       | Responsible tool use, verification habits, future-of-work literacy            | Planned expansion        |
+| **Practical execution**      | Assignments tied to real tasks, not abstract assessment only                  | Cross-cutting            |
+| **Local context adaptation** | Angolan examples, language, connectivity constraints                          | Cross-cutting            |
 
 ### 8.3 Delivery standards (Under development)
 
@@ -399,14 +399,14 @@ Programs will not promise guaranteed employment, income, loans, investment retur
 
 **BIU.G Academy:**
 
-| Statement | Fact |
-|-----------|------|
-| Operational maturity | Initiative **under development** |
-| University status | **Not** currently a university |
-| Accredited degrees | **Does not** currently issue accredited academic degrees |
-| Licensing | **Not** claiming licensed status as a higher-education institution or financial institution |
-| Program design | Educational frameworks **being designed** with attention to evolving Angolan standards |
-| Future pathways | May **explore** partnerships or accreditation routes **where appropriate and lawful**—none claimed today |
+| Statement            | Fact                                                                                                     |
+| -------------------- | -------------------------------------------------------------------------------------------------------- |
+| Operational maturity | Initiative **under development**                                                                         |
+| University status    | **Not** currently a university                                                                           |
+| Accredited degrees   | **Does not** currently issue accredited academic degrees                                                 |
+| Licensing            | **Not** claiming licensed status as a higher-education institution or financial institution              |
+| Program design       | Educational frameworks **being designed** with attention to evolving Angolan standards                   |
+| Future pathways      | May **explore** partnerships or accreditation routes **where appropriate and lawful**—none claimed today |
 
 ### 9.2 Reference frameworks (design attention only)
 
@@ -419,7 +419,7 @@ Program design references **guidance frameworks** associated with:
 
 ### 9.3 Communications discipline
 
-All public materials should use: *under development*, *being designed*, *planned*, *progressive development*. Avoid: *approved*, *accredited*, *licensed*, *official partner* without executed agreements and authorized publication.
+All public materials should use: _under development_, _being designed_, _planned_, _progressive development_. Avoid: _approved_, _accredited_, _licensed_, _official partner_ without executed agreements and authorized publication.
 
 ### 9.4 Data and learner protection
 
@@ -435,14 +435,14 @@ Technology for education in Angola must adapt to **local reality**, not expect l
 
 ### 10.2 Design commitments
 
-| Challenge | Response |
-|-----------|----------|
-| Low bandwidth | Lightweight pages; minimal dependencies; **Current** static site practice |
-| Offline need | Downloadable modules; sync later (**Future**) |
-| Mobile dominance | Mobile-first layout and navigation (**Current**) |
-| Multilingual society | PT-first content; EN/FR parity over time (**Current** / ongoing) |
-| Accessibility | Semantic HTML, contrast, keyboard focus improvements (**Current** baseline) |
-| Usability | Clear CTAs, short forms, practical copy—not marketing noise |
+| Challenge            | Response                                                                    |
+| -------------------- | --------------------------------------------------------------------------- |
+| Low bandwidth        | Lightweight pages; minimal dependencies; **Current** static site practice   |
+| Offline need         | Downloadable modules; sync later (**Future**)                               |
+| Mobile dominance     | Mobile-first layout and navigation (**Current**)                            |
+| Multilingual society | PT-first content; EN/FR parity over time (**Current** / ongoing)            |
+| Accessibility        | Semantic HTML, contrast, keyboard focus improvements (**Current** baseline) |
+| Usability            | Clear CTAs, short forms, practical copy—not marketing noise                 |
 
 ### 10.3 Ethical technology
 
@@ -454,11 +454,11 @@ AI tools, when introduced, will be positioned as **assistive**—supporting lear
 
 ### 11.1 Current structure
 
-| Element | Status |
-|---------|--------|
-| Leadership | Founder-led initiative under Biu-g Holdings LLC |
-| Execution model | Documentation-first; public repository governance artifacts |
-| Advisory bodies | **Future (planned)** — education, technical, and community advisors |
+| Element             | Status                                                              |
+| ------------------- | ------------------------------------------------------------------- |
+| Leadership          | Founder-led initiative under Biu-g Holdings LLC                     |
+| Execution model     | Documentation-first; public repository governance artifacts         |
+| Advisory bodies     | **Future (planned)** — education, technical, and community advisors |
 | Decision principles | Accuracy, learner safety, regulatory caution, educational integrity |
 
 ### 11.2 Transparency goals (Future aspirations)
@@ -486,14 +486,14 @@ BIU.G Academy intends to pursue **sustainable** delivery without compromising ac
 
 ### 12.2 Potential revenue and support channels (Future — illustrative)
 
-| Channel | Use of funds (intended) |
-|---------|-------------------------|
-| Subscriptions | Low-cost learner access tiers where appropriate |
-| Donations | Scholarships and content development |
-| Sponsorships | Cohort sponsorship with ethical firewall |
+| Channel                    | Use of funds (intended)                                                |
+| -------------------------- | ---------------------------------------------------------------------- |
+| Subscriptions              | Low-cost learner access tiers where appropriate                        |
+| Donations                  | Scholarships and content development                                   |
+| Sponsorships               | Cohort sponsorship with ethical firewall                               |
 | Institutional partnerships | Co-delivery, research, or facility support—only with formal agreements |
-| Scholarships | Needs-based access |
-| Blended access | Mix of free foundational content and supported cohorts |
+| Scholarships               | Needs-based access                                                     |
+| Blended access             | Mix of free foundational content and supported cohorts                 |
 
 ### 12.3 Safeguards (planned policy direction)
 
@@ -507,15 +507,15 @@ BIU.G Academy intends to pursue **sustainable** delivery without compromising ac
 
 Roadmap phases align with repository `ROADMAP.md` with institutional Phase 6 added for partnerships.
 
-| Phase | Name | Focus | Status |
-|-------|------|-------|--------|
-| **0** | Public Presence | Website, docs, intake foundation | **Active** |
-| **1** | Initial Cohorts | Admissions, first cohort delivery | **Under development** |
-| **2** | Curriculum Expansion | Modules across core domains | **Planned** |
-| **3** | Offline Learning Systems | Download/sync, facilitator kits | **Planned** |
-| **4** | Data & Analytics | API, database, dashboards, metrics | **Planned** |
-| **5** | AI-assisted Infrastructure | Reviewer assist, optional learning coach | **Planned** — not production |
-| **6** | Institutional Partnerships | Universities, NGOs, employers, funders | **Planned** — no implied deals |
+| Phase | Name                       | Focus                                    | Status                         |
+| ----- | -------------------------- | ---------------------------------------- | ------------------------------ |
+| **0** | Public Presence            | Website, docs, intake foundation         | **Active**                     |
+| **1** | Initial Cohorts            | Admissions, first cohort delivery        | **Under development**          |
+| **2** | Curriculum Expansion       | Modules across core domains              | **Planned**                    |
+| **3** | Offline Learning Systems   | Download/sync, facilitator kits          | **Planned**                    |
+| **4** | Data & Analytics           | API, database, dashboards, metrics       | **Planned**                    |
+| **5** | AI-assisted Infrastructure | Reviewer assist, optional learning coach | **Planned** — not production   |
+| **6** | Institutional Partnerships | Universities, NGOs, employers, funders   | **Planned** — no implied deals |
 
 ```mermaid
 timeline
@@ -538,16 +538,16 @@ timeline
 
 Prospective partners and funders should consider material risks:
 
-| Risk | Description | Mitigation direction |
-|------|-------------|-------------------|
-| **Internet infrastructure** | Connectivity and cost limit reach | Offline-first content; lightweight site |
-| **Affordability** | Learners may lack funds for devices/data | Scholarships; low-bandwidth design |
-| **Language barriers** | Multilingual quality takes time | PT-first; reviewed translations |
-| **Educational adoption** | Completion requires motivation and time | Practical curriculum; cohort support |
-| **Regulatory evolution** | Angolan education rules may change | Conservative public claims; legal review |
-| **Operational scaling** | Facilitators and support may lag demand | Phased cohort sizes; quality standards |
-| **Funding constraints** | Initiatives may progress slower than planned | Phased roadmap; transparent reporting |
-| **Reputation** | Overstatement would damage trust | Strict Current vs Future labeling |
+| Risk                        | Description                                  | Mitigation direction                     |
+| --------------------------- | -------------------------------------------- | ---------------------------------------- |
+| **Internet infrastructure** | Connectivity and cost limit reach            | Offline-first content; lightweight site  |
+| **Affordability**           | Learners may lack funds for devices/data     | Scholarships; low-bandwidth design       |
+| **Language barriers**       | Multilingual quality takes time              | PT-first; reviewed translations          |
+| **Educational adoption**    | Completion requires motivation and time      | Practical curriculum; cohort support     |
+| **Regulatory evolution**    | Angolan education rules may change           | Conservative public claims; legal review |
+| **Operational scaling**     | Facilitators and support may lag demand      | Phased cohort sizes; quality standards   |
+| **Funding constraints**     | Initiatives may progress slower than planned | Phased roadmap; transparent reporting    |
+| **Reputation**              | Overstatement would damage trust             | Strict Current vs Future labeling        |
 
 This list is not exhaustive.
 
@@ -572,55 +572,55 @@ BIU.G Academy does **not** claim it will single-handedly transform national GDP,
 
 ### Appendix A — Glossary
 
-| Term | Definition |
-|------|------------|
-| **Angola-first** | Design priority for Angolan learners and conditions |
-| **Offline-first** | Learning viable without continuous connectivity |
-| **Cohort** | Time-bounded group of learners admitted through application |
-| **Accreditation** | Formal recognition by authorized bodies—not claimed today |
-| **Assistive AI** | Human-overseen tooling; not autonomous governance |
-| **Human capital infrastructure** | Distributed skills capacity enabling economic execution |
+| Term                             | Definition                                                  |
+| -------------------------------- | ----------------------------------------------------------- |
+| **Angola-first**                 | Design priority for Angolan learners and conditions         |
+| **Offline-first**                | Learning viable without continuous connectivity             |
+| **Cohort**                       | Time-bounded group of learners admitted through application |
+| **Accreditation**                | Formal recognition by authorized bodies—not claimed today   |
+| **Assistive AI**                 | Human-overseen tooling; not autonomous governance           |
+| **Human capital infrastructure** | Distributed skills capacity enabling economic execution     |
 
 ### Appendix B — Proposed platform modules (Future)
 
-| Module | Function |
-|--------|----------|
-| Learner profile | Progress, language, accessibility preferences |
-| Module player | Lessons, assessments, offline cache |
-| Admissions | Applications, reviewer workflow |
-| Cohort manager | Schedules, communications |
-| Facilitator hub | Guides, attendance, feedback |
-| Scholarship admin | Awards, eligibility |
-| Mentor matching | Structured mentorship (optional) |
-| Reporting | Aggregate outcomes (privacy-bounded) |
+| Module            | Function                                      |
+| ----------------- | --------------------------------------------- |
+| Learner profile   | Progress, language, accessibility preferences |
+| Module player     | Lessons, assessments, offline cache           |
+| Admissions        | Applications, reviewer workflow               |
+| Cohort manager    | Schedules, communications                     |
+| Facilitator hub   | Guides, attendance, feedback                  |
+| Scholarship admin | Awards, eligibility                           |
+| Mentor matching   | Structured mentorship (optional)              |
+| Reporting         | Aggregate outcomes (privacy-bounded)          |
 
 ### Appendix C — Proposed learning categories
 
-1. Financial literacy (foundational)  
-2. Digital skills  
-3. Entrepreneurship foundations  
-4. AI readiness and ethical use  
-5. Technical career orientation  
+1. Financial literacy (foundational)
+2. Digital skills
+3. Entrepreneurship foundations
+4. AI readiness and ethical use
+5. Technical career orientation
 6. Advanced technical tracks (future, advisory-gated)
 
 ### Appendix D — Proposed operational model
 
-| Function | Early phase | Mature phase (Future) |
-|----------|-------------|------------------------|
-| Admissions | Manual review | Reviewer tools + assistive AI |
-| Delivery | Facilitator-led cohorts | Blended online/offline |
-| Quality | Peer review of content | Continuous improvement loop |
-| Support | Email / community channels | Structured help desk |
+| Function   | Early phase                | Mature phase (Future)         |
+| ---------- | -------------------------- | ----------------------------- |
+| Admissions | Manual review              | Reviewer tools + assistive AI |
+| Delivery   | Facilitator-led cohorts    | Blended online/offline        |
+| Quality    | Peer review of content     | Continuous improvement loop   |
+| Support    | Email / community channels | Structured help desk          |
 
 ### Appendix E — Proposed future integrations (no implied partnerships)
 
 Illustrative integration categories only—**not active agreements**:
 
-- NGO learning management handoffs  
-- University extension programs  
-- Employer trainee pipelines  
-- Public digital literacy campaigns  
-- Open-source educational tooling  
+- NGO learning management handoffs
+- University extension programs
+- Employer trainee pipelines
+- Public digital literacy campaigns
+- Open-source educational tooling
 
 Any integration will be announced only with executed agreements and privacy review.
 
@@ -628,14 +628,14 @@ Any integration will be announced only with executed agreements and privacy revi
 
 ## Document control
 
-| Field | Value |
-|-------|-------|
-| Version | 1.0 |
-| Date | May 2026 |
-| Author | Fabio Guilherme Massanga |
-| Next review | Upon Phase 1 cohort launch or material regulatory change |
-| Repository path | `docs/whitepaper/biug-academy-whitepaper-v1.md` |
+| Field           | Value                                                    |
+| --------------- | -------------------------------------------------------- |
+| Version         | 1.0                                                      |
+| Date            | May 2026                                                 |
+| Author          | Fabio Guilherme Massanga                                 |
+| Next review     | Upon Phase 1 cohort launch or material regulatory change |
+| Repository path | `docs/whitepaper/biug-academy-whitepaper-v1.md`          |
 
 ---
 
-*End of white paper*
+_End of white paper_

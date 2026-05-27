@@ -2,11 +2,11 @@
 
 ## Language priority
 
-| Order | Language | Notes |
-|-------|----------|-------|
-| 1 | Portuguese (Angola) | Primary for public pages and curriculum |
-| 2 | English | Secondary; maintain semantic parity with PT |
-| 3 | French | Later; update when quality review available |
+| Order | Language            | Notes                                       |
+| ----- | ------------------- | ------------------------------------------- |
+| 1     | Portuguese (Angola) | Primary for public pages and curriculum     |
+| 2     | English             | Secondary; maintain semantic parity with PT |
+| 3     | French              | Later; update when quality review available |
 
 ## Tone
 

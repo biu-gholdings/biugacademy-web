@@ -14,13 +14,13 @@ Educators, developers, translators, designers, and institutional reviewers may p
 
 ## Branch naming
 
-| Prefix | Use |
-|--------|-----|
-| `docs/` | Documentation only |
-| `fix/` | Bug fix (site or tooling) |
+| Prefix     | Use                        |
+| ---------- | -------------------------- |
+| `docs/`    | Documentation only         |
+| `fix/`     | Bug fix (site or tooling)  |
 | `content/` | Public copy (extra review) |
-| `i18n/` | Translation updates |
-| `chore/` | Tooling, lint, templates |
+| `i18n/`    | Translation updates        |
+| `chore/`   | Tooling, lint, templates   |
 
 Examples: `docs/update-transparency-policy`, `i18n/fr-cohort-page`
 
@@ -50,14 +50,14 @@ Required confirmations:
 
 ## Documentation expectations
 
-| Rule | Detail |
-|------|--------|
-| Tone | Institutional, clear, no hype |
-| Status | Label operational / under development / planned |
-| Links | Use relative links within `docs/` |
-| Structure | Follow [docs/README.md](docs/README.md) taxonomy |
-| Disclaimers | Preserve regulatory language on public copy |
-| Changelog | Update [CHANGELOG.md](CHANGELOG.md) for notable releases |
+| Rule        | Detail                                                   |
+| ----------- | -------------------------------------------------------- |
+| Tone        | Institutional, clear, no hype                            |
+| Status      | Label operational / under development / planned          |
+| Links       | Use relative links within `docs/`                        |
+| Structure   | Follow [docs/README.md](docs/README.md) taxonomy         |
+| Disclaimers | Preserve regulatory language on public copy              |
+| Changelog   | Update [CHANGELOG.md](CHANGELOG.md) for notable releases |
 
 Architecture or roadmap changes must update [ARCHITECTURE.md](ARCHITECTURE.md) and/or [ROADMAP.md](ROADMAP.md).
 
@@ -77,11 +77,11 @@ See [docs/design/accessibility.md](docs/design/accessibility.md).
 
 ## Multilingual support expectations
 
-| Language | Priority |
-|----------|----------|
+| Language            | Priority                               |
+| ------------------- | -------------------------------------- |
 | Portuguese (Angola) | Primary — source of truth for new copy |
-| English | Secondary — maintain semantic parity |
-| French | Later — update when PT/EN stable |
+| English             | Secondary — maintain semantic parity   |
+| French              | Later — update when PT/EN stable       |
 
 - Use [docs/i18n/translation-glossary.md](docs/i18n/translation-glossary.md) for key terms
 - Regulatory disclaimers must match in **meaning** across locales

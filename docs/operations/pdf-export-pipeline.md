@@ -6,11 +6,11 @@ Guidance for publishing institutional PDFs (white paper, annual summary, partner
 
 ## Use cases
 
-| Document | Source |
-|----------|--------|
-| Strategic white paper | `docs/whitepaper/biug-academy-whitepaper-v1.md` |
-| Executive summary (future) | Planned one-pager |
-| Annual report (future) | Planned template |
+| Document                   | Source                                          |
+| -------------------------- | ----------------------------------------------- |
+| Strategic white paper      | `docs/whitepaper/biug-academy-whitepaper-v1.md` |
+| Executive summary (future) | Planned one-pager                               |
+| Annual report (future)     | Planned template                                |
 
 ---
 
@@ -67,14 +67,14 @@ Enable when maintainers want release-attached PDFs.
 
 ## Institutional formatting standards
 
-| Element | Standard |
-|---------|----------|
-| Title page | Initiative name, version, date, author line |
-| Disclaimer | Under development; no accredited degrees |
-| Headings | Numbered sections for white paper |
-| Tone | Match [../branding/brand-guidelines.md](../branding/brand-guidelines.md) |
-| Status labels | Preserve operational / planned language |
-| Footer | Page numbers, document version, biugacademy.org |
+| Element       | Standard                                                                 |
+| ------------- | ------------------------------------------------------------------------ |
+| Title page    | Initiative name, version, date, author line                              |
+| Disclaimer    | Under development; no accredited degrees                                 |
+| Headings      | Numbered sections for white paper                                        |
+| Tone          | Match [../branding/brand-guidelines.md](../branding/brand-guidelines.md) |
+| Status labels | Preserve operational / planned language                                  |
+| Footer        | Page numbers, document version, biugacademy.org                          |
 
 Optional: maintain `docs/whitepaper/pdf-metadata.yaml` for Pandoc variables (planned).
 

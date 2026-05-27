@@ -38,7 +38,7 @@ This pipeline logs waitlist form submissions into Google Sheets with these colum
 In `waitlist.html`, set:
 
 ```html
-<form action="https://script.google.com/macros/s/REPLACE_WITH_DEPLOYED_SCRIPT_ID/exec" method="POST">
+<form action="https://script.google.com/macros/s/REPLACE_WITH_DEPLOYED_SCRIPT_ID/exec" method="POST"></form>
 ```
 
 Replace `REPLACE_WITH_DEPLOYED_SCRIPT_ID` with your deployment ID.
@@ -48,7 +48,7 @@ Replace `REPLACE_WITH_DEPLOYED_SCRIPT_ID` with your deployment ID.
 The form includes:
 
 ```html
-<input type="hidden" name="redirect_url" value="https://biugacademy.org/thank-you.html">
+<input type="hidden" name="redirect_url" value="https://biugacademy.org/thank-you.html" />
 ```
 
 After a successful write, the web app redirects users to that URL.

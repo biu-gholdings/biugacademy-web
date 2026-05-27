@@ -6,13 +6,13 @@ Curriculum tracks are **under development**. The first cohort is planned to emph
 
 ## Planned learning domains
 
-| Track | Focus | Cohort priority |
-|-------|-------|-----------------|
-| [Financial literacy](financial-literacy.md) | Budgeting, debt awareness, savings, income planning | **First** |
-| [Digital skills](digital-skills.md) | Confidence with digital tools and modern work | Planned expansion |
-| [Entrepreneurship](entrepreneurship.md) | Small business readiness | Planned expansion |
-| [AI readiness](ai-readiness.md) | Responsible use and future-of-work literacy | Planned expansion |
-| [Technical careers](technical-careers.md) | Pathways toward technical roles | Planned expansion |
+| Track                                       | Focus                                               | Cohort priority   |
+| ------------------------------------------- | --------------------------------------------------- | ----------------- |
+| [Financial literacy](financial-literacy.md) | Budgeting, debt awareness, savings, income planning | **First**         |
+| [Digital skills](digital-skills.md)         | Confidence with digital tools and modern work       | Planned expansion |
+| [Entrepreneurship](entrepreneurship.md)     | Small business readiness                            | Planned expansion |
+| [AI readiness](ai-readiness.md)             | Responsible use and future-of-work literacy         | Planned expansion |
+| [Technical careers](technical-careers.md)   | Pathways toward technical roles                     | Planned expansion |
 
 ## Delivery principles
 

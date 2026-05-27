@@ -1,4 +1,8 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 :root {
   --text: #0f1f33;
@@ -34,14 +38,21 @@ h2,
   font-weight: 700;
 }
 
-a { color: var(--blue-500); }
-a:hover { color: var(--blue-700); }
+a {
+  color: var(--blue-500);
+}
+a:hover {
+  color: var(--blue-700);
+}
 
-.container { width: min(var(--max), 92%); margin: 0 auto; }
+.container {
+  width: min(var(--max), 92%);
+  margin: 0 auto;
+}
 
 .site-nav {
   position: sticky;
-  top: 0; 
+  top: 0;
   z-index: 100;
   background: #fff;
   border-bottom: 1px solid var(--border);
@@ -157,7 +168,10 @@ a:hover { color: var(--blue-700); }
   border-radius: 999px;
   padding: 0.18rem 0.4rem;
   background: rgba(255, 255, 255, 0.75);
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .lang-switcher:hover {
@@ -355,7 +369,9 @@ a:hover { color: var(--blue-700); }
 .intent-cards .tile {
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .intent-cards .tile:hover {

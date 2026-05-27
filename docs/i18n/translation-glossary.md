@@ -6,18 +6,18 @@ Preferred institutional terms for multilingual parity. Portuguese (Angola) is th
 
 ## Core terms
 
-| PT (AO) | EN | FR | Notes |
-|---------|----|----|-------|
-| BIU.G Academy | BIU.G Academy | BIU.G Academy | Do not translate brand name |
-| Primeira turma | First cohort | Première cohorte | Not “class” implying accredited semester |
-| Literacia financeira | Financial literacy | Littératie financière | |
-| Competências digitais | Digital skills | Compétences numériques | |
-| Angola-first | Angola-first | Angola-first | Keep English loanphrase or explain in FR |
-| Offline-first | Offline-first | Offline-first | Explain on first use in FR if needed |
-| Em desenvolvimento | Under development | En développement | Status label |
-| Planificado | Planned | Prévu | Roadmap only |
-| Candidatura | Application | Candidature | Admissions context |
-| Não acreditado | Not accredited | Non accrédité | Regulatory |
+| PT (AO)               | EN                 | FR                     | Notes                                    |
+| --------------------- | ------------------ | ---------------------- | ---------------------------------------- |
+| BIU.G Academy         | BIU.G Academy      | BIU.G Academy          | Do not translate brand name              |
+| Primeira turma        | First cohort       | Première cohorte       | Not “class” implying accredited semester |
+| Literacia financeira  | Financial literacy | Littératie financière  |                                          |
+| Competências digitais | Digital skills     | Compétences numériques |                                          |
+| Angola-first          | Angola-first       | Angola-first           | Keep English loanphrase or explain in FR |
+| Offline-first         | Offline-first      | Offline-first          | Explain on first use in FR if needed     |
+| Em desenvolvimento    | Under development  | En développement       | Status label                             |
+| Planificado           | Planned            | Prévu                  | Roadmap only                             |
+| Candidatura           | Application        | Candidature            | Admissions context                       |
+| Não acreditado        | Not accredited     | Non accrédité          | Regulatory                               |
 
 ---
 
@@ -39,12 +39,12 @@ Preferred institutional terms for multilingual parity. Portuguese (Angola) is th
 
 ## Avoid in all languages
 
-| Avoid | Prefer |
-|-------|--------|
-| Guaranteed jobs / income | Practical skills development |
-| Government approved | Designed with attention to guidance frameworks |
-| Revolutionary / disruptive | Institutional / practical |
-| Token / crypto promotion | (omit) |
+| Avoid                      | Prefer                                         |
+| -------------------------- | ---------------------------------------------- |
+| Guaranteed jobs / income   | Practical skills development                   |
+| Government approved        | Designed with attention to guidance frameworks |
+| Revolutionary / disruptive | Institutional / practical                      |
+| Token / crypto promotion   | (omit)                                         |
 
 ---
 

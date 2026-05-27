@@ -8,13 +8,13 @@ BIU.G Academy commits to **honest public communication** as infrastructure matur
 
 ## Reporting commitments
 
-| Report | Cadence | Status |
-|--------|---------|--------|
-| Roadmap and changelog | On material change | **Operational** |
-| Architecture and regulatory docs | Versioned in git | **Operational** |
-| Annual public summary | Yearly when programs operate at scale | **Planned** |
-| Cohort outcomes summary | After first completed cohort | **Planned** |
-| Donation / sponsorship use of funds | If fundraising activates | **Planned** |
+| Report                              | Cadence                               | Status          |
+| ----------------------------------- | ------------------------------------- | --------------- |
+| Roadmap and changelog               | On material change                    | **Operational** |
+| Architecture and regulatory docs    | Versioned in git                      | **Operational** |
+| Annual public summary               | Yearly when programs operate at scale | **Planned**     |
+| Cohort outcomes summary             | After first completed cohort          | **Planned**     |
+| Donation / sponsorship use of funds | If fundraising activates              | **Planned**     |
 
 ---
 
@@ -54,13 +54,13 @@ BIU.G Academy does **not** guarantee:
 
 ## Responsible communication standards
 
-| Standard | Application |
-|----------|-------------|
-| Evidence-based claims | Match [../../README.md](../../README.md) status tables |
-| Partnerships | Public only with executed agreements |
-| Statistics | Cite official sources; avoid unverified national figures |
-| AI | Describe as assistive and planned until deployed |
-| Photography / stories | Consent-based when learner stories are used (future) |
+| Standard              | Application                                              |
+| --------------------- | -------------------------------------------------------- |
+| Evidence-based claims | Match [../../README.md](../../README.md) status tables   |
+| Partnerships          | Public only with executed agreements                     |
+| Statistics            | Cite official sources; avoid unverified national figures |
+| AI                    | Describe as assistive and planned until deployed         |
+| Photography / stories | Consent-based when learner stories are used (future)     |
 
 ---
 

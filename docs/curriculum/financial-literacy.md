@@ -16,13 +16,13 @@ Learners should be able to:
 
 ## Module themes (draft)
 
-| Module | Topics |
-|--------|--------|
-| Foundations | Income, expenses, needs vs wants |
-| Budgeting | Monthly planning, tracking, adjustment |
-| Debt awareness | Responsible borrowing, avoidance of harmful cycles |
-| Savings | Emergency funds, goal-based saving |
-| Small business money | Simple cash flow for vendors and sole traders |
+| Module               | Topics                                             |
+| -------------------- | -------------------------------------------------- |
+| Foundations          | Income, expenses, needs vs wants                   |
+| Budgeting            | Monthly planning, tracking, adjustment             |
+| Debt awareness       | Responsible borrowing, avoidance of harmful cycles |
+| Savings              | Emergency funds, goal-based saving                 |
+| Small business money | Simple cash flow for vendors and sole traders      |
 
 ## Angola-first context
 

@@ -6,11 +6,11 @@ Lightweight governance for an initiative **under development**. This framework p
 
 ## Founder-led structure (current)
 
-| Role | Responsibility |
-|------|----------------|
-| Founder & Executive Director | Strategic direction, public representation, final merge authority |
-| Maintainers | Documentation accuracy, site integrity, contributor review |
-| Contributors | Proposals via pull request under [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Role                         | Responsibility                                                      |
+| ---------------------------- | ------------------------------------------------------------------- |
+| Founder & Executive Director | Strategic direction, public representation, final merge authority   |
+| Maintainers                  | Documentation accuracy, site integrity, contributor review          |
+| Contributors                 | Proposals via pull request under [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 BIU.G Academy operates in connection with Biu-g Holdings LLC. Corporate governance details beyond education mission are **not** published in this repository.
 
@@ -32,13 +32,13 @@ Advisors inform decisions; they do not automatically imply institutional endorse
 
 ## Transparency goals
 
-| Commitment | Status |
-|------------|--------|
-| Public roadmap and changelog | **Operational** |
-| Architecture and regulatory docs in git | **Operational** |
-| Transparency policy | [docs/governance/transparency-policy.md](docs/governance/transparency-policy.md) |
-| Annual public summary | **Planned** (when scale warrants) |
-| Donation / sponsorship reporting | **Planned** (if fundraising activates) |
+| Commitment                              | Status                                                                           |
+| --------------------------------------- | -------------------------------------------------------------------------------- |
+| Public roadmap and changelog            | **Operational**                                                                  |
+| Architecture and regulatory docs in git | **Operational**                                                                  |
+| Transparency policy                     | [docs/governance/transparency-policy.md](docs/governance/transparency-policy.md) |
+| Annual public summary                   | **Planned** (when scale warrants)                                                |
+| Donation / sponsorship reporting        | **Planned** (if fundraising activates)                                           |
 
 ---
 

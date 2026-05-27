@@ -24,24 +24,24 @@ GitHub Pages (static)
 
 ### Localized primary pages
 
-| Path | Role |
-|------|------|
-| `/` | Redirect to default locale (`/pt/`) |
-| `/pt/`, `/en/`, `/fr/` | Home |
-| `*/sobre/` · `*/about/` | About |
-| `*/como-funciona/` · `*/how-it-works/` | How it works |
-| `*/entrar-primeira-turma/` · waitlist aliases | Cohort application |
-| `*/candidatura-recebida/` · thank-you aliases | Confirmation |
+| Path                                          | Role                                |
+| --------------------------------------------- | ----------------------------------- |
+| `/`                                           | Redirect to default locale (`/pt/`) |
+| `/pt/`, `/en/`, `/fr/`                        | Home                                |
+| `*/sobre/` · `*/about/`                       | About                               |
+| `*/como-funciona/` · `*/how-it-works/`        | How it works                        |
+| `*/entrar-primeira-turma/` · waitlist aliases | Cohort application                  |
+| `*/candidatura-recebida/` · thank-you aliases | Confirmation                        |
 
 ### Institutional aliases (root)
 
-| Path | Behavior |
-|------|----------|
-| `about/` | Redirect to localized about |
-| `programs/` | Program / home redirect |
-| `platform/` | Platform orientation |
-| `waitlist/` | Redirect to cohort intake |
-| `thank-you/` | Redirect to confirmation |
+| Path         | Behavior                    |
+| ------------ | --------------------------- |
+| `about/`     | Redirect to localized about |
+| `programs/`  | Program / home redirect     |
+| `platform/`  | Platform orientation        |
+| `waitlist/`  | Redirect to cohort intake   |
+| `thank-you/` | Redirect to confirmation    |
 
 Documentation refers to **`apply/`** as the logical application route; implementation today uses `waitlist.html` and `/pt/entrar-primeira-turma/`.
 
@@ -51,9 +51,9 @@ Application forms may submit to external bridges (for example Google Apps Script
 
 ## Non-production components
 
-| Component | Status |
-|-----------|--------|
-| `backend/` | Experimental; not part of Pages deploy |
+| Component         | Status                                                            |
+| ----------------- | ----------------------------------------------------------------- |
+| `backend/`        | Experimental; not part of Pages deploy                            |
 | AI classification | Not production (see [future-ai-backend.md](future-ai-backend.md)) |
 
 ## Related documents

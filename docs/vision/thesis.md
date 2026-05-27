@@ -6,12 +6,12 @@ BIU.G Academy is being developed as an Angola-first, offline-first technical edu
 
 ## What we are building
 
-| Pillar | Direction |
-|--------|-----------|
-| Practical education | Short, actionable learning units tied to real economic activity |
-| Progressive depth | Start with foundational literacy; expand to technical and ecosystem readiness |
-| Infrastructure literacy | Prepare contributors for future digital infrastructure work without overstating current product links |
-| Institutional discipline | Documentation, governance, and regulatory-safe public language |
+| Pillar                   | Direction                                                                                             |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| Practical education      | Short, actionable learning units tied to real economic activity                                       |
+| Progressive depth        | Start with foundational literacy; expand to technical and ecosystem readiness                         |
+| Infrastructure literacy  | Prepare contributors for future digital infrastructure work without overstating current product links |
+| Institutional discipline | Documentation, governance, and regulatory-safe public language                                        |
 
 ## What we are not (today)
 

@@ -6,13 +6,13 @@
 
 ## Design implications
 
-| Area | Angola-first approach |
-|------|------------------------|
-| Language | Portuguese (Angola) as primary public language |
-| Examples | Local currency, work patterns, and small-business realities |
-| Connectivity | Offline-first lesson structure; low-bandwidth-friendly pages |
-| Cohort priority | First cohort planning emphasizes Angola-based applicants |
-| Regulation | Attention to MESCTI and INAAREES **guidance frameworks** (not claimed approval) |
+| Area            | Angola-first approach                                                           |
+| --------------- | ------------------------------------------------------------------------------- |
+| Language        | Portuguese (Angola) as primary public language                                  |
+| Examples        | Local currency, work patterns, and small-business realities                     |
+| Connectivity    | Offline-first lesson structure; low-bandwidth-friendly pages                    |
+| Cohort priority | First cohort planning emphasizes Angola-based applicants                        |
+| Regulation      | Attention to MESCTI and INAAREES **guidance frameworks** (not claimed approval) |
 
 ## Progressive development
 

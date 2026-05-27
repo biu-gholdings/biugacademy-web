@@ -8,13 +8,13 @@ BIU.G Academy’s technical architecture is intentionally simple today and docum
 
 ## Design principles
 
-| Principle | Rationale |
-|-----------|-----------|
-| **Mobile-first** | Primary access in Angola is via smartphone |
-| **Offline-first** | Learning and content must tolerate intermittent connectivity (planned for curriculum delivery) |
-| **Static-by-default** | Minimize attack surface and hosting cost for public presence |
-| **Documentation-first** | Architecture changes precede public claims |
-| **Human-in-the-loop** | Admissions and AI assist remain reviewer-governed (planned) |
+| Principle               | Rationale                                                                                      |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| **Mobile-first**        | Primary access in Angola is via smartphone                                                     |
+| **Offline-first**       | Learning and content must tolerate intermittent connectivity (planned for curriculum delivery) |
+| **Static-by-default**   | Minimize attack surface and hosting cost for public presence                                   |
+| **Documentation-first** | Architecture changes precede public claims                                                     |
+| **Human-in-the-loop**   | Admissions and AI assist remain reviewer-governed (planned)                                    |
 
 ---
 
@@ -34,12 +34,12 @@ biugacademy-web/
 └── CNAME                   # biugacademy.org
 ```
 
-| Concern | Implementation |
-|---------|----------------|
-| Routing | Directory-based static paths + HTML redirects |
-| Styling | CSS custom properties in `css/styles.css` |
-| i18n | Separate locale trees; `hreflang` on primary pages |
-| Forms | Client POST to external bridge (if configured) |
+| Concern | Implementation                                     |
+| ------- | -------------------------------------------------- |
+| Routing | Directory-based static paths + HTML redirects      |
+| Styling | CSS custom properties in `css/styles.css`          |
+| i18n    | Separate locale trees; `hreflang` on primary pages |
+| Forms   | Client POST to external bridge (if configured)     |
 
 ### Deployment model
 
@@ -95,11 +95,11 @@ Experimental FastAPI/SQLite code may exist for local intake trials. It is **not*
 
 ## Under development
 
-| Component | Direction |
-|-----------|-----------|
+| Component         | Direction                                                |
+| ----------------- | -------------------------------------------------------- |
 | Cohort operations | Manual review workflows documented in `docs/operations/` |
-| Content packaging | Module outlines in `docs/curriculum/` |
-| Documentation CI | Markdown lint via GitHub Actions (optional) |
+| Content packaging | Module outlines in `docs/curriculum/`                    |
+| Documentation CI  | Markdown lint via GitHub Actions (optional)              |
 
 ---
 
@@ -117,11 +117,11 @@ A future content management layer would support:
 
 ### Authentication (planned)
 
-| Actor | Need |
-|-------|------|
-| Learners | Progress, offline sync (future) |
-| Facilitators | Cohort management |
-| Admins | Admissions, reporting |
+| Actor        | Need                            |
+| ------------ | ------------------------------- |
+| Learners     | Progress, offline sync (future) |
+| Facilitators | Cohort management               |
+| Admins       | Admissions, reporting           |
 
 Planned properties: HTTPS-only, role-based access, no shared credentials, secrets outside the repository.
 
@@ -162,9 +162,9 @@ Human-reviewed classification and optional learning coach—see [docs/architectu
 
 ## Related documents
 
-| Document | Topic |
-|----------|-------|
-| [docs/architecture/website-architecture.md](docs/architecture/website-architecture.md) | Route and stack detail |
+| Document                                                                                       | Topic                    |
+| ---------------------------------------------------------------------------------------------- | ------------------------ |
+| [docs/architecture/website-architecture.md](docs/architecture/website-architecture.md)         | Route and stack detail   |
 | [docs/architecture/data-intake-architecture.md](docs/architecture/data-intake-architecture.md) | Intake and database plan |
-| [ROADMAP.md](ROADMAP.md) | Phase timeline |
-| [docs/whitepaper/biug-academy-whitepaper-v1.md](docs/whitepaper/biug-academy-whitepaper-v1.md) | Strategic architecture |
+| [ROADMAP.md](ROADMAP.md)                                                                       | Phase timeline           |
+| [docs/whitepaper/biug-academy-whitepaper-v1.md](docs/whitepaper/biug-academy-whitepaper-v1.md) | Strategic architecture   |

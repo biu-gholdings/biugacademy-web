@@ -6,14 +6,14 @@ Roles will expand as the initiative matures. Current participation is primarily 
 
 ## Roles (current and planned)
 
-| Role | Responsibility |
-|------|----------------|
-| **Maintainer** | Repository governance, merge decisions, public accuracy |
-| **Documentation contributor** | Improves `docs/` and policy files |
-| **Translator** | PT / EN / FR parity with style guide compliance |
-| **Educator / reviewer** | Curriculum accuracy and pedagogy (planned) |
-| **Moderator** | Community conduct enforcement (planned as forums scale) |
-| **Technical contributor** | Static site, intake bridges, future API (planned) |
+| Role                          | Responsibility                                          |
+| ----------------------------- | ------------------------------------------------------- |
+| **Maintainer**                | Repository governance, merge decisions, public accuracy |
+| **Documentation contributor** | Improves `docs/` and policy files                       |
+| **Translator**                | PT / EN / FR parity with style guide compliance         |
+| **Educator / reviewer**       | Curriculum accuracy and pedagogy (planned)              |
+| **Moderator**                 | Community conduct enforcement (planned as forums scale) |
+| **Technical contributor**     | Static site, intake bridges, future API (planned)       |
 
 ## Expectations
 

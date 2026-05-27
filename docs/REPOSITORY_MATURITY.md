@@ -8,66 +8,66 @@ Tracks institutional readiness of `biugacademy-web`. Updated as phases complete.
 
 ## Documentation system
 
-| Item | Status |
-|------|--------|
-| `docs/` taxonomy (whitepaper, partnerships, regulatory, operations, curriculum, metrics, governance, branding, i18n) | ✅ |
-| Master index `docs/README.md` | ✅ |
-| Strategic white paper v1.0 | ✅ |
-| Root ARCHITECTURE.md | ✅ |
-| Deployment guide | ✅ |
-| PDF export guidance | ✅ |
-| Transparency policy | ✅ |
-| Outcomes framework | ✅ |
-| Partnership framework | ✅ |
-| MOU template outline | ⬜ |
-| Annual report template | ⬜ |
-| Executive summary one-pager | ⬜ |
+| Item                                                                                                                 | Status |
+| -------------------------------------------------------------------------------------------------------------------- | ------ |
+| `docs/` taxonomy (whitepaper, partnerships, regulatory, operations, curriculum, metrics, governance, branding, i18n) | ✅     |
+| Master index `docs/README.md`                                                                                        | ✅     |
+| Strategic white paper v1.0                                                                                           | ✅     |
+| Root ARCHITECTURE.md                                                                                                 | ✅     |
+| Deployment guide                                                                                                     | ✅     |
+| PDF export guidance                                                                                                  | ✅     |
+| Transparency policy                                                                                                  | ✅     |
+| Outcomes framework                                                                                                   | ✅     |
+| Partnership framework                                                                                                | ✅     |
+| MOU template outline                                                                                                 | ⬜     |
+| Annual report template                                                                                               | ⬜     |
+| Executive summary one-pager                                                                                          | ⬜     |
 
 ---
 
 ## Root governance
 
-| Item | Status |
-|------|--------|
-| README (institutional) | ✅ |
-| CONTRIBUTING | ✅ |
-| GOVERNANCE | ✅ |
-| SECURITY | ✅ |
-| ROADMAP (phases 0–6) | ✅ |
-| CODE_OF_CONDUCT | ✅ |
-| LICENSE (MIT + content note) | ✅ |
-| CHANGELOG | 🔄 |
+| Item                         | Status |
+| ---------------------------- | ------ |
+| README (institutional)       | ✅     |
+| CONTRIBUTING                 | ✅     |
+| GOVERNANCE                   | ✅     |
+| SECURITY                     | ✅     |
+| ROADMAP (phases 0–6)         | ✅     |
+| CODE_OF_CONDUCT              | ✅     |
+| LICENSE (MIT + content note) | ✅     |
+| CHANGELOG                    | 🔄     |
 
 ---
 
 ## Repository hygiene
 
-| Item | Status |
-|------|--------|
-| `.editorconfig` | ✅ |
-| Prettier (HTML/CSS/MD) | ✅ |
-| Markdown lint config | ✅ |
-| README badges | ✅ |
-| CODEOWNERS | ✅ (update handles) |
-| Issue templates | ✅ |
-| PR template | ✅ |
-| Docs lint GitHub Action | ✅ |
-| HTML link checker CI | ⬜ |
-| PDF release workflow | ⬜ |
+| Item                    | Status              |
+| ----------------------- | ------------------- |
+| `.editorconfig`         | ✅                  |
+| Prettier (HTML/CSS/MD)  | ✅                  |
+| Markdown lint config    | ✅                  |
+| README badges           | ✅                  |
+| CODEOWNERS              | ✅ (update handles) |
+| Issue templates         | ✅                  |
+| PR template             | ✅                  |
+| Docs lint GitHub Action | ✅                  |
+| HTML link checker CI    | ⬜                  |
+| PDF release workflow    | ⬜                  |
 
 ---
 
 ## Product / operations
 
-| Item | Status |
-|------|--------|
-| Public website live | ✅ |
-| First cohort completed | ⬜ |
-| LMS / CMS | ⬜ |
-| Production analytics | ⬜ |
-| Offline module distribution | ⬜ |
-| Dedicated security@ email | ⬜ |
-| Formal partnership published | ⬜ |
+| Item                         | Status |
+| ---------------------------- | ------ |
+| Public website live          | ✅     |
+| First cohort completed       | ⬜     |
+| LMS / CMS                    | ⬜     |
+| Production analytics         | ⬜     |
+| Offline module distribution  | ⬜     |
+| Dedicated security@ email    | ⬜     |
+| Formal partnership published | ⬜     |
 
 ---
 

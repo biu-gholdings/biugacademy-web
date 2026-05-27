@@ -4,19 +4,19 @@ Node.js + **Express** + **PostgreSQL** (Supabase) + **OpenAI** JSON classificati
 
 ## Layout
 
-| File | Role |
-|------|------|
-| `server.js` | HTTP server, Helmet, CORS, rate limit, `POST /api/waitlist` |
-| `db.js` | PostgreSQL pool + `ensureSchema()` from `schema.sql` |
-| `ai.js` | OpenAI call + normalization to allowed enums/scores |
-| `schema.sql` | Tables for Supabase SQL Editor or `psql` |
+| File         | Role                                                        |
+| ------------ | ----------------------------------------------------------- |
+| `server.js`  | HTTP server, Helmet, CORS, rate limit, `POST /api/waitlist` |
+| `db.js`      | PostgreSQL pool + `ensureSchema()` from `schema.sql`        |
+| `ai.js`      | OpenAI call + normalization to allowed enums/scores         |
+| `schema.sql` | Tables for Supabase SQL Editor or `psql`                    |
 
 ## Supabase database
 
 1. Create a project at [Supabase](https://supabase.com).
 2. Open **SQL Editor** → New query.
 3. Paste the full contents of **`schema.sql`** → Run.
-4. In **Project Settings → Database**, copy the **URI** connection string (use the *transaction* or *session* pooler if you prefer; `DATABASE_URL` must be reachable from your API host).
+4. In **Project Settings → Database**, copy the **URI** connection string (use the _transaction_ or _session_ pooler if you prefer; `DATABASE_URL` must be reachable from your API host).
 
 ## Local `.env`
 

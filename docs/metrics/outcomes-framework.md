@@ -8,36 +8,36 @@ Defines **future** metrics for BIU.G Academy. No production analytics dashboard 
 
 ## Principles
 
-| Principle | Application |
-|-----------|-------------|
-| Privacy | Aggregate reporting default; minimize PII |
-| Honesty | Report limitations and sample bias |
-| No hype | Trends over vanity totals |
+| Principle    | Application                                           |
+| ------------ | ----------------------------------------------------- |
+| Privacy      | Aggregate reporting default; minimize PII             |
+| Honesty      | Report limitations and sample bias                    |
+| No hype      | Trends over vanity totals                             |
 | Angola-first | Disaggregate by province where appropriate and lawful |
 
 ---
 
 ## Planned metrics
 
-| Metric | Definition | Status |
-|--------|------------|--------|
-| **Active learners** | Enrolled participants with activity in period | Planned |
-| **Completion rates** | % completing defined module or cohort requirements | Planned |
-| **Regional distribution** | Participation by province (aggregated) | Planned |
-| **Language access** | Locale used for primary learning | Planned |
-| **Offline engagement** | Module access via offline/cache vs online | Planned |
-| **Scholarship allocation** | % seats supported by scholarships | Planned |
-| **Cohort participation** | Attendance / submission rates per cohort | Planned |
+| Metric                     | Definition                                         | Status  |
+| -------------------------- | -------------------------------------------------- | ------- |
+| **Active learners**        | Enrolled participants with activity in period      | Planned |
+| **Completion rates**       | % completing defined module or cohort requirements | Planned |
+| **Regional distribution**  | Participation by province (aggregated)             | Planned |
+| **Language access**        | Locale used for primary learning                   | Planned |
+| **Offline engagement**     | Module access via offline/cache vs online          | Planned |
+| **Scholarship allocation** | % seats supported by scholarships                  | Planned |
+| **Cohort participation**   | Attendance / submission rates per cohort           | Planned |
 
 ---
 
 ## Reporting cadence (planned)
 
-| Audience | Content | Cadence |
-|----------|---------|---------|
-| Public | High-level aggregates in annual summary | Annual |
-| Partners | Agreed metrics per MOU | Per agreement |
-| Internal | Operational dashboard | Monthly when live |
+| Audience | Content                                 | Cadence           |
+| -------- | --------------------------------------- | ----------------- |
+| Public   | High-level aggregates in annual summary | Annual            |
+| Partners | Agreed metrics per MOU                  | Per agreement     |
+| Internal | Operational dashboard                   | Monthly when live |
 
 ---
 
@@ -51,11 +51,11 @@ Defines **future** metrics for BIU.G Academy. No production analytics dashboard 
 
 ## Current baseline
 
-| Item | Value |
-|------|-------|
-| Completed cohorts | 0 (first cohort planned) |
-| Production LMS analytics | Not deployed |
-| Public metrics page | Not deployed |
+| Item                     | Value                    |
+| ------------------------ | ------------------------ |
+| Completed cohorts        | 0 (first cohort planned) |
+| Production LMS analytics | Not deployed             |
+| Public metrics page      | Not deployed             |
 
 Update this section when Phase 1 cohort completes.
 

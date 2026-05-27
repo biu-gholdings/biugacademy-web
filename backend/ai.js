@@ -26,21 +26,18 @@ function clampInt(n, min, max) {
 
 function asStringArray(v) {
   if (!Array.isArray(v)) return [];
-  return v.map((s) => String(s).trim()).filter(Boolean).slice(0, 50);
+  return v
+    .map((s) => String(s).trim())
+    .filter(Boolean)
+    .slice(0, 50);
 }
 
 function normalizeProfile(raw) {
-  const learner_type = LEARNER_TYPES.has(raw.learner_type)
-    ? raw.learner_type
-    : "Unknown";
+  const learner_type = LEARNER_TYPES.has(raw.learner_type) ? raw.learner_type : "Unknown";
 
-  const skill_level = SKILL_LEVELS.has(raw.skill_level)
-    ? raw.skill_level
-    : "Intermediate";
+  const skill_level = SKILL_LEVELS.has(raw.skill_level) ? raw.skill_level : "Intermediate";
 
-  const priority_level = PRIORITY_LEVELS.has(raw.priority_level)
-    ? raw.priority_level
-    : "Medium";
+  const priority_level = PRIORITY_LEVELS.has(raw.priority_level) ? raw.priority_level : "Medium";
 
   return {
     learner_type,

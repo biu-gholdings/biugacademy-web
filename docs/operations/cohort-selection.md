@@ -6,12 +6,12 @@ Selection for the first cohort will be **human-reviewed** using published criter
 
 ## Selection criteria (planned weighting)
 
-| Criterion | Rationale |
-|-----------|-----------|
-| **Motivation** | Commitment to complete practical learning |
-| **Location** | Angola-first priority; diaspora cases reviewed individually |
-| **Availability** | Ability to participate in planned schedule |
-| **Alignment** | Fit with first-cohort focus (financial literacy foundation) |
+| Criterion          | Rationale                                                           |
+| ------------------ | ------------------------------------------------------------------- |
+| **Motivation**     | Commitment to complete practical learning                           |
+| **Location**       | Angola-first priority; diaspora cases reviewed individually         |
+| **Availability**   | Ability to participate in planned schedule                          |
+| **Alignment**      | Fit with first-cohort focus (financial literacy foundation)         |
 | **Track interest** | Secondary signal for future pathways (digital, business, technical) |
 
 ## Process

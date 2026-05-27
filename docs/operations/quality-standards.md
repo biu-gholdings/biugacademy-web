@@ -6,13 +6,13 @@ Define how BIU.G Academy maintains educational and documentation quality as prog
 
 ## Content quality
 
-| Standard | Requirement |
-|----------|-------------|
-| Accuracy | Facts verifiable; regulatory language reviewed |
-| Practicality | Actionable steps; Angola-relevant examples |
-| Clarity | Plain language; defined terms |
+| Standard      | Requirement                                                                      |
+| ------------- | -------------------------------------------------------------------------------- |
+| Accuracy      | Facts verifiable; regulatory language reviewed                                   |
+| Practicality  | Actionable steps; Angola-relevant examples                                       |
+| Clarity       | Plain language; defined terms                                                    |
 | Accessibility | Readable structure; see [../design/accessibility.md](../design/accessibility.md) |
-| Versioning | Material changes logged in [../../CHANGELOG.md](../../CHANGELOG.md) |
+| Versioning    | Material changes logged in [../../CHANGELOG.md](../../CHANGELOG.md)              |
 
 ## Review process (planned)
 

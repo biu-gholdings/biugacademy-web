@@ -6,13 +6,13 @@ Admissions processes are **under development** for the first cohort.
 
 ## Principles
 
-| Principle | Description |
-|-----------|-------------|
-| Fairness | Consistent criteria applied by reviewers |
-| Transparency | Public description of process; no hidden guarantees |
-| Capacity | Admissions limited by facilitator and infrastructure readiness |
-| Privacy | Minimal data collection |
-| Integrity | No paid “guaranteed admission” schemes |
+| Principle    | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| Fairness     | Consistent criteria applied by reviewers                       |
+| Transparency | Public description of process; no hidden guarantees            |
+| Capacity     | Admissions limited by facilitator and infrastructure readiness |
+| Privacy      | Minimal data collection                                        |
+| Integrity    | No paid “guaranteed admission” schemes                         |
 
 ## Application flow (current / near-term)
 

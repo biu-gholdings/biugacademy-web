@@ -26,13 +26,13 @@ Application API  ──►  Database
 
 ## Data principles
 
-| Principle | Implementation direction |
-|-----------|-------------------------|
-| Minimization | Collect only fields needed for cohort selection |
+| Principle          | Implementation direction                                          |
+| ------------------ | ----------------------------------------------------------------- |
+| Minimization       | Collect only fields needed for cohort selection                   |
 | Purpose limitation | Use data for education admissions, not unrelated marketing resale |
-| Retention | Define retention windows before production storage |
-| Access control | Role-based admin; audit access to PII |
-| No secrets in repo | Credentials only in secure environment configuration |
+| Retention          | Define retention windows before production storage                |
+| Access control     | Role-based admin; audit access to PII                             |
+| No secrets in repo | Credentials only in secure environment configuration              |
 
 ## Fields (illustrative, subject to change)
 

@@ -6,13 +6,13 @@ The first cohort is **planned**, not yet completed. This document defines the op
 
 ## Cohort concept
 
-| Attribute | Plan |
-|-----------|------|
-| Size | Limited initial cohort (public site references a cap; exact number subject to operational confirmation) |
-| Selection | Application-based review |
-| Geography | Priority for Angola-based candidates |
-| Primary track | Practical financial literacy |
-| Delivery | Progressive; offline-first design goals |
+| Attribute     | Plan                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------- |
+| Size          | Limited initial cohort (public site references a cap; exact number subject to operational confirmation) |
+| Selection     | Application-based review                                                                                |
+| Geography     | Priority for Angola-based candidates                                                                    |
+| Primary track | Practical financial literacy                                                                            |
+| Delivery      | Progressive; offline-first design goals                                                                 |
 
 ## Phased learning expansion
 

@@ -6,13 +6,13 @@ Privacy practices are **being defined** alongside intake and cohort systems. Thi
 
 ## Principles
 
-| Principle | Commitment |
-|-----------|------------|
-| Minimization | Collect only data needed for stated educational purposes |
-| Purpose limitation | Use applicant data for admissions and program delivery, not unrelated sale |
-| Security | No secrets in git; protect production systems when deployed |
-| Transparency | Update this document when production intake storage goes live |
-| Rights respect | Provide contact channel for correction and deletion requests where applicable law requires |
+| Principle          | Commitment                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------ |
+| Minimization       | Collect only data needed for stated educational purposes                                   |
+| Purpose limitation | Use applicant data for admissions and program delivery, not unrelated sale                 |
+| Security           | No secrets in git; protect production systems when deployed                                |
+| Transparency       | Update this document when production intake storage goes live                              |
+| Rights respect     | Provide contact channel for correction and deletion requests where applicable law requires |
 
 ## Data categories (illustrative)
 

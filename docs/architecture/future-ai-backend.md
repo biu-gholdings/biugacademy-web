@@ -8,11 +8,11 @@
 
 AI tooling is being **designed** to support human reviewers—not to autonomously admit or reject candidates.
 
-| Function | Description |
-|----------|-------------|
-| Signal extraction | Summarize application text into structured tags |
-| Consistency checks | Flag incomplete or contradictory answers |
-| Routing hints | Suggest track fit for reviewer confirmation |
+| Function               | Description                                        |
+| ---------------------- | -------------------------------------------------- |
+| Signal extraction      | Summarize application text into structured tags    |
+| Consistency checks     | Flag incomplete or contradictory answers           |
+| Routing hints          | Suggest track fit for reviewer confirmation        |
 | Coach content (future) | Optional learning assistance with clear boundaries |
 
 ## Architecture sketch (planned)

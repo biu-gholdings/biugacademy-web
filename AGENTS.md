@@ -13,17 +13,21 @@ BIU.G Academy is an Angola-first technical education platform with an AI-powered
 ### Running Services
 
 **Express backend** (port 3000):
+
 ```bash
 cd backend && npm run dev
 ```
 
 **FastAPI backend** (port 8000):
+
 ```bash
 cd backend && uvicorn fastapi_intake:app --host 0.0.0.0 --port 8000 --reload
 ```
+
 Requires env vars: `DATABASE_URL`, `OPENAI_API_KEY`, `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_VERIFY_TOKEN`, `WHATSAPP_APP_SECRET`.
 
 **Static frontend** (port 8080):
+
 ```bash
 python3 -m http.server 8080
 ```
@@ -31,9 +35,11 @@ python3 -m http.server 8080
 ### PostgreSQL Setup
 
 The Express backend requires PostgreSQL. Start it with:
+
 ```bash
 pg_ctlcluster 16 main start
 ```
+
 Local dev database: `postgresql://biug:biug_dev_pass@127.0.0.1:5432/biug_academy`
 
 ### Known Gotchas

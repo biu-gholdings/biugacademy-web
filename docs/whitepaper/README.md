@@ -1,8 +1,8 @@
 # BIU.G Academy — Strategic white papers
 
-| Document | Description |
-|----------|-------------|
-| [biug-academy-whitepaper-v1.md](biug-academy-whitepaper-v1.md) | Version 1.0 — *Building Human Capital Infrastructure for Angola’s Digital Future* |
+| Document                                                       | Description                                                                       |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [biug-academy-whitepaper-v1.md](biug-academy-whitepaper-v1.md) | Version 1.0 — _Building Human Capital Infrastructure for Angola’s Digital Future_ |
 
 ## Audience
 

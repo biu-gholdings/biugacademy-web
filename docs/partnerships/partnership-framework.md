@@ -8,13 +8,13 @@ How institutions **may** engage with BIU.G Academy in the future. **No partnersh
 
 ## Partnership types (illustrative)
 
-| Type | Potential scope |
-|------|-----------------|
-| **NGO co-delivery** | Community reach, facilitator support, shared metrics |
-| **University extension** | Non-degree workshops; formal accreditation only via separate lawful process |
-| **Employer pipeline** | Skills orientation; no employment guarantees |
-| **Public literacy campaigns** | Aligned messaging with government programs only when formally authorized |
-| **Technology contributors** | Open documentation, accessibility, translation |
+| Type                          | Potential scope                                                             |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| **NGO co-delivery**           | Community reach, facilitator support, shared metrics                        |
+| **University extension**      | Non-degree workshops; formal accreditation only via separate lawful process |
+| **Employer pipeline**         | Skills orientation; no employment guarantees                                |
+| **Public literacy campaigns** | Aligned messaging with government programs only when formally authorized    |
+| **Technology contributors**   | Open documentation, accessibility, translation                              |
 
 ---
 

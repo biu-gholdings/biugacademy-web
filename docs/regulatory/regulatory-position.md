@@ -15,19 +15,19 @@ Reference to these frameworks indicates **design attention**, not approval, lice
 
 ## What we do not claim
 
-| Claim | Status |
-|-------|--------|
-| University status | No |
-| Accredited degrees | No |
-| Government approval of programs | No |
-| Formal partnerships with regulators | No (unless separately published with evidence) |
-| Licensing as a financial institution | No |
+| Claim                                | Status                                         |
+| ------------------------------------ | ---------------------------------------------- |
+| University status                    | No                                             |
+| Accredited degrees                   | No                                             |
+| Government approval of programs      | No                                             |
+| Formal partnerships with regulators  | No (unless separately published with evidence) |
+| Licensing as a financial institution | No                                             |
 
 ## Public communication standard
 
-Use: *under development*, *being designed*, *planned*, *progressive development*.
+Use: _under development_, _being designed_, _planned_, _progressive development_.
 
-Avoid: *accredited*, *licensed*, *government-approved*, *official partner* (without contract and public authorization).
+Avoid: _accredited_, _licensed_, _government-approved_, _official partner_ (without contract and public authorization).
 
 ## Related documents
 

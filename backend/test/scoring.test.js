@@ -19,7 +19,8 @@ describe("scoreApplicant", () => {
       country: "Angola",
       province: "Luanda",
       area_of_interest: "business",
-      why_join: "I want to start my own business in Luanda and learn how to manage finances and grow my small enterprise effectively.",
+      why_join:
+        "I want to start my own business in Luanda and learn how to manage finances and grow my small enterprise effectively.",
     });
     assert.ok(result.score >= 10, `Expected score >= 10, got ${result.score}`);
     assert.ok(result.tags.includes("angola_context"));
@@ -39,7 +40,8 @@ describe("scoreApplicant", () => {
       country: "Angola",
       province: "Luanda",
       area_of_interest: "money",
-      why_join: "I want to build a strong financial foundation and learn to earn money and grow my savings account in Angola",
+      why_join:
+        "I want to build a strong financial foundation and learn to earn money and grow my savings account in Angola",
       problem_to_solve: "Start a business in Luanda and improve",
     });
     assert.ok(result.score <= 20, `Score ${result.score} exceeds 20`);
@@ -49,7 +51,8 @@ describe("scoreApplicant", () => {
     const result = scoreApplicant({
       country: "Angola",
       area_of_interest: "money",
-      why_join: "I want to build a strong financial foundation and learn to earn money and grow my savings account in Angola",
+      why_join:
+        "I want to build a strong financial foundation and learn to earn money and grow my savings account in Angola",
     });
     assert.ok(result.score >= 15);
     assert.equal(result.priority, "high");

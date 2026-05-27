@@ -27,12 +27,12 @@ Open `http://localhost:8080/pt/` and test your changes at mobile width.
 
 ## Common contribution types
 
-| Type | Path | Review focus |
-|------|------|--------------|
-| Documentation | `docs/` | Accuracy, status labels |
-| Translation | `pt/`, `en/`, `fr/` | Glossary parity |
-| Accessibility | HTML, CSS | Contrast, semantics |
-| Intake copy | cohort pages | Regulatory disclaimer |
+| Type          | Path                | Review focus            |
+| ------------- | ------------------- | ----------------------- |
+| Documentation | `docs/`             | Accuracy, status labels |
+| Translation   | `pt/`, `en/`, `fr/` | Glossary parity         |
+| Accessibility | HTML, CSS           | Contrast, semantics     |
+| Intake copy   | cohort pages        | Regulatory disclaimer   |
 
 ---
 

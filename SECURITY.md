@@ -14,12 +14,12 @@ Good-faith research that respects privacy and avoids service disruption is welco
 
 ## Reporting contact
 
-| Channel | Address |
-|---------|---------|
+| Channel          | Address                                                   |
+| ---------------- | --------------------------------------------------------- |
 | Security reports | [support@biugacademy.org](mailto:support@biugacademy.org) |
-| General support | [support@biugacademy.org](mailto:support@biugacademy.org) |
+| General support  | [support@biugacademy.org](mailto:support@biugacademy.org) |
 
-*Replace or add a dedicated `security@` alias when operational.*
+_Replace or add a dedicated `security@` alias when operational._
 
 ---
 
@@ -33,13 +33,13 @@ Good-faith research that respects privacy and avoids service disruption is welco
 
 ## Data handling principles
 
-| Principle | Application |
-|-----------|-------------|
-| Minimization | Limit intake form fields |
-| Purpose limitation | Admissions and program delivery only |
+| Principle          | Application                                    |
+| ------------------ | ---------------------------------------------- |
+| Minimization       | Limit intake form fields                       |
+| Purpose limitation | Admissions and program delivery only           |
 | No secrets in repo | Use environment configuration for bridges/APIs |
-| Least privilege | Future admin roles separated |
-| Retention limits | Define before scale (planned) |
+| Least privilege    | Future admin roles separated                   |
+| Retention limits   | Define before scale (planned)                  |
 
 ---
 
