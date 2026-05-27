@@ -28,9 +28,9 @@ copyright: "Biu-g Holdings LLC"
 
 ## Module performance snapshot
 
-| Module | Demand | Completion trend | Notes |
-|---|---|---|---|
-| `<Module 1>` | `<High/Med/Low>` | `<Trend>` | `<Note>` |
+| Module       | Demand           | Completion trend | Notes    |
+| ------------ | ---------------- | ---------------- | -------- |
+| `<Module 1>` | `<High/Med/Low>` | `<Trend>`        | `<Note>` |
 
 ## Curriculum risks and actions
 
@@ -44,11 +44,11 @@ copyright: "Biu-g Holdings LLC"
 
 ## Document control
 
-| Field | Value |
-|---|---|
-| Document ID | `curriculum-report-YYYY-001` |
-| Version | `1.0` |
-| Owner | `<Owner>` |
-| Last updated | `YYYY-MM-DD` |
-| Next review | `YYYY-MM-DD` |
-| Confidentiality | `Internal` |
+| Field           | Value                        |
+| --------------- | ---------------------------- |
+| Document ID     | `curriculum-report-YYYY-001` |
+| Version         | `1.0`                        |
+| Owner           | `<Owner>`                    |
+| Last updated    | `YYYY-MM-DD`                 |
+| Next review     | `YYYY-MM-DD`                 |
+| Confidentiality | `Internal`                   |
