@@ -20,4 +20,5 @@ All templates follow:
 ## Notes
 
 - Templates are markdown source files for PDF export.
+- Use `document_date` (not `date`) in YAML front matter — Jekyll treats `date` as a publish timestamp.
 - Apply document control and confidentiality labels before sharing externally.

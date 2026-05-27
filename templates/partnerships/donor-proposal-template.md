@@ -6,7 +6,7 @@ status: "draft"
 prepared_by: "<Development Team>"
 reviewed_by: "<Governance/Compliance Reviewer>"
 approved_by: "<Executive Approver>"
-date: "YYYY-MM-DD"
+document_date: "YYYY-MM-DD"
 language: "bilingual"
 confidentiality: "restricted"
 copyright: "Biu-g Holdings LLC"
@@ -28,9 +28,9 @@ copyright: "Biu-g Holdings LLC"
 
 ## Use of funds
 
-| Budget area | Requested amount | Purpose     |
-| ----------- | ---------------- | ----------- |
-| `<Area>`    | `<Amount>`       | `<Purpose>` |
+| Budget area | Requested amount | Purpose |
+|---|---|---|
+| `<Area>` | `<Amount>` | `<Purpose>` |
 
 ## Expected outputs and outcomes
 
@@ -60,11 +60,11 @@ This proposal is provided for donor review and should not be redistributed witho
 
 ## Document control
 
-| Field           | Value                     |
-| --------------- | ------------------------- |
-| Document ID     | `donor-proposal-YYYY-001` |
-| Version         | `1.0`                     |
-| Owner           | `<Owner>`                 |
-| Last updated    | `YYYY-MM-DD`              |
-| Next review     | `YYYY-MM-DD`              |
-| Confidentiality | `Restricted`              |
+| Field | Value |
+|---|---|
+| Document ID | `donor-proposal-YYYY-001` |
+| Version | `1.0` |
+| Owner | `<Owner>` |
+| Last updated | `YYYY-MM-DD` |
+| Next review | `YYYY-MM-DD` |
+| Confidentiality | `Restricted` |

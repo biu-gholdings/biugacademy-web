@@ -49,7 +49,7 @@ status: "draft | internal | public"
 prepared_by: "Name / team"
 reviewed_by: "Name / team"
 approved_by: "Name / role"
-date: "YYYY-MM-DD"
+document_date: "YYYY-MM-DD"
 language: "pt-AO | en-US | bilingual"
 confidentiality: "public | internal | restricted"
 copyright: "Biu-g Holdings LLC"
@@ -72,10 +72,10 @@ Example:
 
 ## Versioning rules
 
-| Version type    | Rule                                     |
-| --------------- | ---------------------------------------- |
-| Major (`1.0`)   | Structural or policy-level change        |
-| Minor (`1.1`)   | Section additions or substantial updates |
+| Version type | Rule |
+|---|---|
+| Major (`1.0`) | Structural or policy-level change |
+| Minor (`1.1`) | Section additions or substantial updates |
 | Patch (`1.1.1`) | Typos, formatting, non-substantive edits |
 
 Version changes must be logged in the document control table.
@@ -104,14 +104,14 @@ If sharing with partners, include:
 
 Every final template includes a control table:
 
-| Field        | Value                         |
-| ------------ | ----------------------------- |
-| Document ID  | `<type>-<year>-<number>`      |
-| Version      | `x.y.z`                       |
-| Owner        | `<team/role>`                 |
+| Field | Value |
+|---|---|
+| Document ID | `<type>-<year>-<number>` |
+| Version | `x.y.z` |
+| Owner | `<team/role>` |
 | Review cycle | `quarterly / annual / ad hoc` |
-| Last updated | `YYYY-MM-DD`                  |
-| Next review  | `YYYY-MM-DD`                  |
+| Last updated | `YYYY-MM-DD` |
+| Next review | `YYYY-MM-DD` |
 
 ## Bilingual-ready formatting standard
 

@@ -18,7 +18,7 @@ Deployment model for the BIU.G Academy **static public site**. Backend/LMS deplo
 2. GitHub Pages builds and publishes static files (typically within minutes)
 3. Verify at `https://biugacademy.org` and `https://<org>.github.io/biugacademy-web/`
 
-No build command is required for the static site.
+No build command is required for the static site. The repository root includes `.nojekyll` so GitHub Pages publishes HTML/CSS/JS as-is and does not run Jekyll over institutional markdown templates.
 
 ```mermaid
 flowchart LR
@@ -38,11 +38,11 @@ flowchart LR
 
 ## Domain configuration (operational)
 
-| Item          | Location                                                           |
-| ------------- | ------------------------------------------------------------------ |
-| Custom domain | `CNAME` file → `biugacademy.org`                                   |
-| DNS           | Registrar points to GitHub Pages (A/AAAA or CNAME per GitHub docs) |
-| HTTPS         | Enforced in GitHub repository Pages settings                       |
+| Item | Location |
+|------|----------|
+| Custom domain | `CNAME` file → `biugacademy.org` |
+| DNS | Registrar points to GitHub Pages (A/AAAA or CNAME per GitHub docs) |
+| HTTPS | Enforced in GitHub repository Pages settings |
 
 Detail checklist: see repository `CNAME` and GitHub **Settings → Pages**.
 
@@ -50,11 +50,11 @@ Detail checklist: see repository `CNAME` and GitHub **Settings → Pages**.
 
 ## Environment handling
 
-| Environment    | Purpose                                         |
-| -------------- | ----------------------------------------------- |
-| **Production** | GitHub Pages → biugacademy.org                  |
-| **Local**      | `python3 -m http.server` or any static server   |
-| **Preview**    | PR review via local clone or future CI artifact |
+| Environment | Purpose |
+|-------------|---------|
+| **Production** | GitHub Pages → biugacademy.org |
+| **Local** | `python3 -m http.server` or any static server |
+| **Preview** | PR review via local clone or future CI artifact |
 
 ### Secrets
 
@@ -68,22 +68,22 @@ Detail checklist: see repository `CNAME` and GitHub **Settings → Pages**.
 
 The site **is** static HTML/CSS/JS—there is no separate export step today.
 
-| Action         | Command / note                              |
-| -------------- | ------------------------------------------- |
-| Local preview  | `python3 -m http.server 8080`               |
-| Validate links | Manual or future CI link checker (planned)  |
-| Asset check    | Ensure paths are root-relative (`/css/...`) |
+| Action | Command / note |
+|--------|----------------|
+| Local preview | `python3 -m http.server 8080` |
+| Validate links | Manual or future CI link checker (planned) |
+| Asset check | Ensure paths are root-relative (`/css/...`) |
 
 ---
 
 ## CI/CD expectations
 
-| Check                                 | Status                                                             |
-| ------------------------------------- | ------------------------------------------------------------------ |
-| GitHub Pages deploy on push to `main` | **Operational** (platform)                                         |
-| Markdown lint workflow                | **Under development** (`.github/workflows/docs-lint.yml`)          |
-| HTML/CSS automated tests              | **Planned**                                                        |
-| PDF build on release tag              | **Planned** — see [pdf-export-pipeline.md](pdf-export-pipeline.md) |
+| Check | Status |
+|-------|--------|
+| GitHub Pages deploy on push to `main` | **Operational** (platform) |
+| Markdown lint workflow | **Under development** (`.github/workflows/docs-lint.yml`) |
+| HTML/CSS automated tests | **Planned** |
+| PDF build on release tag | **Planned** — see [pdf-export-pipeline.md](pdf-export-pipeline.md) |
 
 ### Maintainer checklist per release
 

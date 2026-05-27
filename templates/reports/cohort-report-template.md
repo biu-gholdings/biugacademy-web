@@ -6,7 +6,7 @@ status: "internal"
 prepared_by: "<Operations Team>"
 reviewed_by: "<Academic Lead>"
 approved_by: "<Program Director>"
-date: "YYYY-MM-DD"
+document_date: "YYYY-MM-DD"
 language: "pt-AO"
 confidentiality: "internal"
 copyright: "Biu-g Holdings LLC"
@@ -16,13 +16,13 @@ copyright: "Biu-g Holdings LLC"
 
 ## Cohort profile
 
-| Item                  | Value     |
-| --------------------- | --------- |
-| Cohort name           | `<Name>`  |
-| Duration              | `<Weeks>` |
+| Item | Value |
+|---|---|
+| Cohort name | `<Name>` |
+| Duration | `<Weeks>` |
 | Participants accepted | `<Count>` |
-| Participants active   | `<Count>` |
-| Completion count      | `<Count>` |
+| Participants active | `<Count>` |
+| Completion count | `<Count>` |
 
 ## Delivery summary
 
@@ -44,11 +44,11 @@ copyright: "Biu-g Holdings LLC"
 
 ## Document control
 
-| Field           | Value                    |
-| --------------- | ------------------------ |
-| Document ID     | `cohort-report-YYYY-001` |
-| Version         | `1.0`                    |
-| Owner           | `<Owner>`                |
-| Last updated    | `YYYY-MM-DD`             |
-| Next review     | `YYYY-MM-DD`             |
-| Confidentiality | `Internal`               |
+| Field | Value |
+|---|---|
+| Document ID | `cohort-report-YYYY-001` |
+| Version | `1.0` |
+| Owner | `<Owner>` |
+| Last updated | `YYYY-MM-DD` |
+| Next review | `YYYY-MM-DD` |
+| Confidentiality | `Internal` |

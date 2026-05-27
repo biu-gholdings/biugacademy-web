@@ -6,7 +6,7 @@ status: "internal"
 prepared_by: "<Governance Owner>"
 reviewed_by: "<Compliance Reviewer>"
 approved_by: "<Executive Approver>"
-date: "YYYY-MM-DD"
+document_date: "YYYY-MM-DD"
 language: "pt-AO"
 confidentiality: "internal"
 copyright: "Biu-g Holdings LLC"
@@ -46,11 +46,11 @@ copyright: "Biu-g Holdings LLC"
 
 ## Document control
 
-| Field           | Value                        |
-| --------------- | ---------------------------- |
-| Document ID     | `governance-report-YYYY-001` |
-| Version         | `1.0`                        |
-| Owner           | `<Owner>`                    |
-| Last updated    | `YYYY-MM-DD`                 |
-| Next review     | `YYYY-MM-DD`                 |
-| Confidentiality | `Internal`                   |
+| Field | Value |
+|---|---|
+| Document ID | `governance-report-YYYY-001` |
+| Version | `1.0` |
+| Owner | `<Owner>` |
+| Last updated | `YYYY-MM-DD` |
+| Next review | `YYYY-MM-DD` |
+| Confidentiality | `Internal` |

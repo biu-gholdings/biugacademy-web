@@ -6,7 +6,7 @@ status: "draft"
 prepared_by: "<Author Name>"
 reviewed_by: "<Reviewer Name>"
 approved_by: "<Approver Name>"
-date: "YYYY-MM-DD"
+document_date: "YYYY-MM-DD"
 language: "pt-AO"
 confidentiality: "public"
 copyright: "Biu-g Holdings LLC"
@@ -52,14 +52,14 @@ copyright: "Biu-g Holdings LLC"
 
 ## Document control
 
-| Field           | Value                 |
-| --------------- | --------------------- |
-| Document ID     | `whitepaper-YYYY-001` |
-| Version         | `1.0`                 |
-| Owner           | `<Owner>`             |
-| Last updated    | `YYYY-MM-DD`          |
-| Next review     | `YYYY-MM-DD`          |
-| Confidentiality | `Public`              |
+| Field | Value |
+|---|---|
+| Document ID | `whitepaper-YYYY-001` |
+| Version | `1.0` |
+| Owner | `<Owner>` |
+| Last updated | `YYYY-MM-DD` |
+| Next review | `YYYY-MM-DD` |
+| Confidentiality | `Public` |
 
 ## Copyright
 
