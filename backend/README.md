@@ -12,13 +12,14 @@ Express + PostgreSQL intake API for BIU.G Academy waitlist applications.
 
 ## Project layout
 
-| Path                 | Role                                   |
-| -------------------- | -------------------------------------- |
-| `server.js`          | Express API and routes                 |
-| `db.js`              | PostgreSQL pool and connectivity check |
-| `migrations/`        | SQL migrations (ordered)               |
-| `scripts/migrate.js` | Migration runner                       |
-| `test/`              | Node test suite                        |
+| Path                        | Role                                   |
+| --------------------------- | -------------------------------------- |
+| `server.js`                 | Express API and routes                 |
+| `db.js`                     | PostgreSQL pool and connectivity check |
+| `migrations/`               | SQL migrations (ordered)               |
+| `scripts/migrate.js`        | Migration runner                       |
+| `scripts/migrate-status.js` | Migration status reporter              |
+| `test/`                     | Node test suite                        |
 
 ## Local setup (reproducible)
 
@@ -54,13 +55,21 @@ FRONTEND_ORIGIN=https://biugacademy.org
 NODE_ENV=development
 ```
 
-### 4) Run migrations
+### 4) Check migration status
+
+```bash
+npm run migrate:status
+```
+
+Use this before and after deployment to confirm which SQL migrations are applied or still pending. Pending migrations must be reviewed before a production release.
+
+### 5) Run migrations
 
 ```bash
 npm run migrate
 ```
 
-### 5) Start backend
+### 6) Start backend
 
 ```bash
 npm run dev
@@ -135,12 +144,13 @@ curl -sS -X POST http://localhost:3000/api/waitlist \
 
 ## Scripts
 
-| Script            | Purpose                      |
-| ----------------- | ---------------------------- |
-| `npm run migrate` | Run pending SQL migrations   |
-| `npm run dev`     | Start API with nodemon       |
-| `npm start`       | Start API in production mode |
-| `npm test`        | Run test suite               |
+| Script                   | Purpose                             |
+| ------------------------ | ----------------------------------- |
+| `npm run migrate:status` | List applied and pending migrations |
+| `npm run migrate`        | Run pending SQL migrations          |
+| `npm run dev`            | Start API with nodemon              |
+| `npm start`              | Start API in production mode        |
+| `npm test`               | Run test suite                      |
 
 ## Security notes
 

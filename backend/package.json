@@ -6,6 +6,7 @@
   "main": "server.js",
   "scripts": {
     "migrate": "node scripts/migrate.js",
+    "migrate:status": "node scripts/migrate-status.js",
     "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "node --test test/"

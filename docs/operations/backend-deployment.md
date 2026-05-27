@@ -24,20 +24,35 @@ Optional:
 
 - `OPENAI_API_KEY` (future/optional AI assist layer)
 
-## Migration command
+## Migration status and apply
 
-Run before serving traffic:
+Tracked in PostgreSQL table `schema_migrations`. Migration files live in `backend/migrations/` (for example `001_create_waitlist_applications.sql`, `002_add_waitlist_metadata_and_indexes.sql`).
+
+### Before deploy
+
+From `backend/`:
+
+```bash
+npm run migrate:status
+```
+
+Review the output table (`Migration | Status | Applied At`). Any row with status `pending` must be reviewed before production release.
+
+### During deploy
 
 ```bash
 npm run migrate
 ```
 
-This runs:
+Run pending SQL migrations in filename order.
 
-- `backend/migrations/001_create_waitlist_applications.sql`
-- `backend/migrations/002_add_waitlist_metadata_and_indexes.sql`
+### After deploy
 
-with migration tracking in `schema_migrations`.
+```bash
+npm run migrate:status
+```
+
+Confirm all expected migrations show status `applied` and have an `Applied At` timestamp.
 
 ## Render deployment
 
@@ -87,7 +102,9 @@ Do not use wildcard origins in production.
 - [ ] `DATABASE_URL` set and validated
 - [ ] `FRONTEND_ORIGIN` set to production domain
 - [ ] `NODE_ENV=production`
+- [ ] `npm run migrate:status` reviewed before deploy (no unexpected pending rows)
 - [ ] `npm run migrate` completes successfully
+- [ ] `npm run migrate:status` confirms all migrations applied after deploy
 - [ ] `/health` returns healthy
 - [ ] `/health/db` returns connected
 - [ ] Waitlist POST tested with structured payload
