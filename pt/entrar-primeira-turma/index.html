@@ -27,7 +27,7 @@
         <button
           type="button"
           class="nav-toggle"
-          aria-label="Open menu"
+          aria-label="Abrir menu"
           aria-expanded="false"
           aria-controls="primary-nav"
         >
@@ -41,17 +41,18 @@
           <li><a href="/pt/">Início</a></li>
           <li><a href="/pt/como-funciona/">Como funciona</a></li>
           <li><a href="/pt/sobre/">Sobre</a></li>
+          <li><a href="/programs/">Programas</a></li>
           <li>
             <a href="/pt/entrar-primeira-turma/" class="nav-cta is-active"
               >Entrar na Primeira Turma</a
             >
           </li>
         </ul>
-        <div class="lang-switcher" aria-label="Language switcher">
-          <a href="/pt/entrar-primeira-turma/" class="is-active">PT</a>
-          <a href="/en/waitlist/" class="">EN</a>
-          <a href="/fr/rejoindre-premiere-cohorte/" class="">FR</a>
-        </div>
+        <nav class="language-switcher" aria-label="Seletor de idioma">
+          <a class="language-link is-active" data-lang="pt" href="/pt/entrar-primeira-turma/" hreflang="pt-AO">PT</a>
+          <a class="language-link" data-lang="en" href="/en/waitlist/" hreflang="en-US">EN</a>
+          <a class="language-link" data-lang="fr" href="/fr/rejoindre-premiere-cohorte/" hreflang="fr-FR">FR</a>
+        </nav>
       </div>
     </header>
     <main>
@@ -151,9 +152,7 @@
                 </select>
               </div>
               <div class="form-group" data-field="education_level">
-                <label for="education_level"
-                  >Nível de escolaridade <span class="req">*</span></label
-                >
+                <label for="education_level">Nível de escolaridade <span class="req">*</span></label>
                 <select id="education_level" name="education_level" required>
                   <option value="">Selecionar</option>
                   <option value="Primary">Ensino primário</option>
@@ -167,11 +166,9 @@
               <div class="form-group" data-field="areas_of_interest">
                 <span>Áreas de interesse <span class="req">*</span></span>
                 <label class="checkbox-row"
-                  ><input
-                    type="checkbox"
-                    name="areas_of_interest"
-                    value="financial-literacy"
-                  /><span>Literacia financeira</span></label
+                  ><input type="checkbox" name="areas_of_interest" value="financial-literacy" /><span
+                    >Literacia financeira</span
+                  ></label
                 >
                 <label class="checkbox-row"
                   ><input type="checkbox" name="areas_of_interest" value="digital-skills" /><span
@@ -219,9 +216,7 @@
                 </select>
               </div>
               <div class="form-group" data-field="employment_status">
-                <label for="employment_status"
-                  >Situação profissional <span class="req">*</span></label
-                >
+                <label for="employment_status">Situação profissional <span class="req">*</span></label>
                 <select id="employment_status" name="employment_status" required>
                   <option value="">Selecionar</option>
                   <option value="Student">Estudante</option>
@@ -259,9 +254,7 @@
                 >
               </div>
               <p id="form-message" class="form-message" aria-live="polite"></p>
-              <button type="submit" class="btn btn-primary form-submit-btn">
-                Enviar candidatura
-              </button>
+              <button type="submit" class="btn btn-primary form-submit-btn">Enviar candidatura</button>
             </form>
           </div>
         </div>
