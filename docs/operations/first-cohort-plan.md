@@ -35,5 +35,6 @@ The first cohort is **planned**, not yet completed. This document defines the op
 
 - [admissions-framework.md](admissions-framework.md)
 - [cohort-selection.md](cohort-selection.md)
+- [first-cohort-execution.md](first-cohort-execution.md)
 - [quality-standards.md](quality-standards.md)
 - [../curriculum/financial-literacy.md](../curriculum/financial-literacy.md)

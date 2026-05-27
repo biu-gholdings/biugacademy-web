@@ -47,6 +47,33 @@
     });
   }
 
+  function detectActiveLanguage(pathname) {
+    if (pathname === "/" || pathname === "") return "pt";
+    if (pathname.indexOf("/pt") === 0) return "pt";
+    if (pathname.indexOf("/en") === 0) return "en";
+    if (pathname.indexOf("/fr") === 0) return "fr";
+    return "pt";
+  }
+
+  function initLanguageSelector() {
+    var selectors = document.querySelectorAll(".language-switcher, .lang-switcher");
+    if (!selectors.length) return;
+    var activeLang = detectActiveLanguage(window.location.pathname || "/");
+
+    selectors.forEach(function (selector) {
+      selector.querySelectorAll("a").forEach(function (link) {
+        var lang = (link.getAttribute("data-lang") || "").toLowerCase();
+        if (!lang) {
+          var href = link.getAttribute("href") || "";
+          if (href.indexOf("/en/") === 0) lang = "en";
+          else if (href.indexOf("/fr/") === 0) lang = "fr";
+          else if (href.indexOf("/pt/") === 0) lang = "pt";
+        }
+        link.classList.toggle("is-active", lang === activeLang);
+      });
+    });
+  }
+
   function validateEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
   }
@@ -85,12 +112,7 @@
 
   function guessReferralSource() {
     var params = new URLSearchParams(window.location.search);
-    return (
-      params.get("ref") ||
-      params.get("utm_source") ||
-      document.referrer ||
-      "direct"
-    );
+    return params.get("ref") || params.get("utm_source") || document.referrer || "direct";
   }
 
   function gatherPayload(form) {
@@ -98,9 +120,12 @@
     var get = function (name) {
       return (fd.get(name) || "").toString().trim();
     };
-    var interestList = fd.getAll("areas_of_interest").map(function (v) {
-      return String(v || "").trim();
-    }).filter(Boolean);
+    var interestList = fd
+      .getAll("areas_of_interest")
+      .map(function (v) {
+        return String(v || "").trim();
+      })
+      .filter(Boolean);
     var phone = normalizePhone(get("phone_number"));
     var whatsapp = normalizePhone(get("whatsapp_number") || get("phone_number"));
     return {
@@ -123,10 +148,10 @@
       motivation_statement: get("motivation_statement"),
       consent_checkbox: fd.get("consent_checkbox") === "yes",
       source_platform: get("source_platform") || "biugacademy-web",
-      browser_language: get("browser_language") || (navigator.language || ""),
-      timezone: get("timezone") || (
-        Intl && Intl.DateTimeFormat ? Intl.DateTimeFormat().resolvedOptions().timeZone || "" : ""
-      ),
+      browser_language: get("browser_language") || navigator.language || "",
+      timezone:
+        get("timezone") ||
+        (Intl && Intl.DateTimeFormat ? Intl.DateTimeFormat().resolvedOptions().timeZone || "" : ""),
       referral_source: get("referral_source") || guessReferralSource(),
       submission_timestamp: get("submission_timestamp") || new Date().toISOString(),
       honeypot: get("website"),
@@ -138,13 +163,15 @@
     if (!data.full_name || data.full_name.trim().length < 2) errors.push("full_name");
     if (!data.email || !validateEmail(data.email)) errors.push("email");
     if (!data.phone_number || !validatePhone(data.phone_number)) errors.push("phone_number");
-    if (data.whatsapp_number && !validatePhone(data.whatsapp_number)) errors.push("whatsapp_number");
+    if (data.whatsapp_number && !validatePhone(data.whatsapp_number))
+      errors.push("whatsapp_number");
     if (!data.province) errors.push("province");
     if (!data.municipality) errors.push("municipality");
     if (!data.age_range) errors.push("age_range");
     if (!data.primary_language) errors.push("primary_language");
     if (!data.education_level) errors.push("education_level");
-    if (!data.areas_of_interest || data.areas_of_interest.length === 0) errors.push("areas_of_interest");
+    if (!data.areas_of_interest || data.areas_of_interest.length === 0)
+      errors.push("areas_of_interest");
     if (!data.technical_background) errors.push("technical_background");
     if (!data.internet_access_level) errors.push("internet_access_level");
     if (!data.device_access) errors.push("device_access");
@@ -196,7 +223,8 @@
 
   function resolveApiEndpoint(form) {
     var baseTag = document.querySelector('meta[name="biug-api-base"]');
-    var base = form.getAttribute("data-api-base") || (baseTag ? baseTag.getAttribute("content") : "");
+    var base =
+      form.getAttribute("data-api-base") || (baseTag ? baseTag.getAttribute("content") : "");
     base = (base || "").replace(/\/+$/, "");
     if (!base) return DEFAULT_WAITLIST_PATH;
     return base + DEFAULT_WAITLIST_PATH;
@@ -303,11 +331,7 @@
             form.submit();
             return;
           }
-          showFormMessage(
-            msg,
-            "error",
-            "Could not contact the intake server. Please try again."
-          );
+          showFormMessage(msg, "error", "Could not contact the intake server. Please try again.");
           resetSubmitUi(form, submitBtn, defaultLabel);
         });
     });
@@ -315,6 +339,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
+    initLanguageSelector();
     document.querySelectorAll("form[data-intake-form='waitlist']").forEach(function (form) {
       initWaitlistForm(form);
     });

@@ -1,7 +1,5 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
 const pg = require("pg");
 
 const { Pool } = pg;
@@ -23,15 +21,13 @@ function getPool() {
   return pool;
 }
 
-async function ensureSchema() {
-  const sqlPath = path.join(__dirname, "schema.sql");
-  const sql = fs.readFileSync(sqlPath, "utf8");
+async function checkDbConnection() {
   const client = await getPool().connect();
   try {
-    await client.query(sql);
+    await client.query("SELECT 1");
   } finally {
     client.release();
   }
 }
 
-module.exports = { getPool, ensureSchema };
+module.exports = { getPool, checkDbConnection };

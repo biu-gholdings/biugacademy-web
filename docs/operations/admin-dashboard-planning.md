@@ -13,14 +13,14 @@ This document defines a practical dashboard plan for intake operations. It is pl
 
 ## Core modules
 
-| Module | Purpose | Phase |
-|---|---|---|
-| Applicant list | Central list of submitted records | Planned |
-| Applicant detail | Full profile and notes | Planned |
-| Filter panel | Province, language, interests, status | Planned |
-| Tagging | Cohort and scholarship tags | Planned |
-| Export center | CSV/JSON exports | Planned |
-| Metrics snapshot | High-level counts and trends | Planned |
+| Module           | Purpose                               | Phase   |
+| ---------------- | ------------------------------------- | ------- |
+| Applicant list   | Central list of submitted records     | Planned |
+| Applicant detail | Full profile and notes                | Planned |
+| Filter panel     | Province, language, interests, status | Planned |
+| Tagging          | Cohort and scholarship tags           | Planned |
+| Export center    | CSV/JSON exports                      | Planned |
+| Metrics snapshot | High-level counts and trends          | Planned |
 
 ## Applicant filtering
 

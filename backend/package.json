@@ -5,6 +5,7 @@
   "description": "BIU.G Academy AI-native waitlist intake (Express + PostgreSQL + OpenAI)",
   "main": "server.js",
   "scripts": {
+    "migrate": "node scripts/migrate.js",
     "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "node --test test/"

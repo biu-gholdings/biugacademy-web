@@ -1,96 +1,161 @@
-# BIU.G Academy — AI-native backend intake
+# BIU.G Academy intake backend
 
-Node.js + **Express** + **PostgreSQL** (Supabase) + **OpenAI** JSON classification. This is the intelligence layer for waitlist intake (not a chatbot).
+Express + PostgreSQL intake API for BIU.G Academy waitlist applications.
 
-## Layout
+## What this service does
 
-| File         | Role                                                        |
-| ------------ | ----------------------------------------------------------- |
-| `server.js`  | HTTP server, Helmet, CORS, rate limit, `POST /api/waitlist` |
-| `db.js`      | PostgreSQL pool + `ensureSchema()` from `schema.sql`        |
-| `ai.js`      | OpenAI call + normalization to allowed enums/scores         |
-| `schema.sql` | Tables for Supabase SQL Editor or `psql`                    |
+- Exposes structured intake endpoint: `POST /api/waitlist`
+- Validates payload server-side (Zod)
+- Persists intake records in PostgreSQL
+- Applies anti-spam controls (rate limit + honeypot)
+- Enforces CORS against `FRONTEND_ORIGIN`
 
-## Supabase database
+## Project layout
 
-1. Create a project at [Supabase](https://supabase.com).
-2. Open **SQL Editor** → New query.
-3. Paste the full contents of **`schema.sql`** → Run.
-4. In **Project Settings → Database**, copy the **URI** connection string (use the _transaction_ or _session_ pooler if you prefer; `DATABASE_URL` must be reachable from your API host).
+| Path                 | Role                                   |
+| -------------------- | -------------------------------------- |
+| `server.js`          | Express API and routes                 |
+| `db.js`              | PostgreSQL pool and connectivity check |
+| `migrations/`        | SQL migrations (ordered)               |
+| `scripts/migrate.js` | Migration runner                       |
+| `test/`              | Node test suite                        |
 
-## Local `.env`
+## Local setup (reproducible)
 
-Create **`backend/.env`** (never commit real secrets):
-
-```env
-PORT=3000
-DATABASE_URL=YOUR_SUPABASE_POSTGRES_CONNECTION_STRING
-OPENAI_API_KEY=YOUR_OPENAI_KEY
-FRONTEND_ORIGIN=https://biugacademy.org
-```
-
-Optional: `OPENAI_MODEL=gpt-4o-mini` (default).
-
-`FRONTEND_ORIGIN` is used for **CORS** (your static site origin). In non-production, common `http://localhost:*` origins are also allowed for local HTML/API testing.
-
-## Install & run
+### 1) Install dependencies
 
 ```bash
 cd backend
 npm install
+```
+
+### 2) Create local PostgreSQL database
+
+Example commands (adapt credentials for your machine):
+
+```bash
+createdb biug_academy
+```
+
+If your user is not default, create a role first:
+
+```bash
+createuser biug --pwprompt
+```
+
+### 3) Configure environment
+
+Create `backend/.env` from `.env.example`:
+
+```env
+DATABASE_URL=postgresql://<user>:<password>@127.0.0.1:5432/biug_academy
+PORT=3000
+FRONTEND_ORIGIN=https://biugacademy.org
+NODE_ENV=development
+```
+
+### 4) Run migrations
+
+```bash
+npm run migrate
+```
+
+### 5) Start backend
+
+```bash
 npm run dev
 ```
 
-Production:
+## Health checks
+
+### API health
 
 ```bash
-npm start
+curl -sS http://localhost:3000/health | jq .
 ```
 
-On startup the app runs `schema.sql` via `ensureSchema()` (idempotent `IF NOT EXISTS`). If you rely only on Supabase SQL Editor, that is still safe.
+Expected:
 
-## Frontend integration
+```json
+{
+  "ok": true,
+  "service": "biug-academy-intake-api",
+  "status": "healthy"
+}
+```
 
-The waitlist UI must **`POST` JSON** to **`/api/waitlist`** on your API host (see `contact/index.html` meta `biug-api-base`). On **`success`**, redirect the browser to **`/thank-you/`**. The OpenAI key exists only on the server.
+### Database health
 
-## Test with curl
+```bash
+curl -sS http://localhost:3000/health/db | jq .
+```
+
+Expected:
+
+```json
+{
+  "ok": true,
+  "database": "connected"
+}
+```
+
+## Structured intake test (curl)
 
 ```bash
 curl -sS -X POST http://localhost:3000/api/waitlist \
   -H "Content-Type: application/json" \
-  -H "Origin: http://localhost:3000" \
+  -H "Origin: http://localhost:8080" \
   -d '{
     "full_name": "Test Applicant",
     "email": "test@example.com",
-    "phone": "+244923456789",
-    "country": "Angola",
+    "phone_number": "+244923456789",
+    "whatsapp_number": "+244923456789",
     "province": "Luanda",
-    "city": "Luanda",
-    "area_of_interest": "Technology / Software",
-    "current_role": "Developer",
-    "expertise": "JavaScript, PostgreSQL, REST APIs",
-    "ai_experience_level": "Intermediate — regular use in workflow",
-    "preferred_learning_track": "Software & platform engineering",
-    "cubeshackles_ecosystem_interest": "Interested in Angola-first product opportunities",
-    "problem_to_solve": "Ship a production API with observability",
-    "why_join": "Structured technical education aligned with BIU.G Academy goals.",
-    "certifications": "N/A",
-    "tools_used": "VS Code, Git, Node.js",
-    "consent": true
+    "municipality": "Luanda",
+    "age_range": "25-34",
+    "primary_language": "Portuguese",
+    "education_level": "Secondary",
+    "areas_of_interest": ["financial-literacy", "digital-skills"],
+    "technical_background": "Basic digital tools and customer support",
+    "internet_access_level": "Mobile data only",
+    "device_access": "Smartphone only",
+    "employment_status": "Informal worker",
+    "linkedin_optional": "",
+    "github_optional": "",
+    "motivation_statement": "I want to improve practical skills for financial stability and long-term opportunities.",
+    "consent_checkbox": true,
+    "source_platform": "biugacademy-web",
+    "browser_language": "pt-AO",
+    "timezone": "Africa/Luanda",
+    "referral_source": "manual-test",
+    "submission_timestamp": "2026-05-27T15:30:00.000Z",
+    "honeypot": ""
   }' | jq .
 ```
 
-Expect **`201`** with `success`, `application_id`, and `ai_profile`.
+## Scripts
 
-## Security
+| Script            | Purpose                      |
+| ----------------- | ---------------------------- |
+| `npm run migrate` | Run pending SQL migrations   |
+| `npm run dev`     | Start API with nodemon       |
+| `npm start`       | Start API in production mode |
+| `npm test`        | Run test suite               |
 
-- **dotenv** for secrets (`OPENAI_API_KEY`, `DATABASE_URL`).
-- **helmet** for default security headers (CSP disabled for JSON API).
-- **express-rate-limit** on `POST /api/waitlist`.
-- **cors** restricted to `FRONTEND_ORIGIN` (plus `www` variant when applicable) and localhost in development.
-- **zod** validation on the request body.
-- OpenAI is only called from **`ai.js`** on the server.
+## Security notes
 
-## Deploy
+- Never commit `.env` or credentials.
+- `DATABASE_URL` is required but never logged by this service.
+- Rate limiter remains active on waitlist endpoint.
+- Honeypot remains active.
+- CORS is restricted to `FRONTEND_ORIGIN` (+ localhost in non-production).
 
-Run this service on **Render**, **Railway**, **Fly.io**, or similar; set the same env vars. Keep the static site on `biugacademy.org` and point `biug-api-base` (or a reverse proxy) to your API URL.
+## Deployment
+
+For Render, Railway, and Supabase PostgreSQL guidance, see:
+
+- `docs/operations/backend-deployment.md`
+
+## Future CI path
+
+Live database is not required in GitHub Actions today. Future CI can run against ephemeral PostgreSQL service containers with `npm run migrate` before tests.

@@ -8,33 +8,33 @@ const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const { z } = require("zod");
 
-const { getPool, ensureSchema } = require("./db");
+const { getPool, checkDbConnection } = require("./db");
 const PORT = Number(process.env.PORT) || 3000;
 
 const MIN_PHONE_DIGITS = 8;
 const MIN_MOTIVATION_LENGTH = 20;
 
 const PROVINCE_MAP = {
-  "bengo": "Bengo",
-  "benguela": "Benguela",
-  "bie": "Bié",
-  "bié": "Bié",
-  "cabinda": "Cabinda",
+  bengo: "Bengo",
+  benguela: "Benguela",
+  bie: "Bié",
+  bié: "Bié",
+  cabinda: "Cabinda",
   "cuando cubango": "Cuando Cubango",
   "cuando cubango": "Cuando Cubango",
-  "cunene": "Cunene",
-  "huambo": "Huambo",
-  "huila": "Huíla",
-  "huíla": "Huíla",
-  "luanda": "Luanda",
+  cunene: "Cunene",
+  huambo: "Huambo",
+  huila: "Huíla",
+  huíla: "Huíla",
+  luanda: "Luanda",
   "lunda norte": "Lunda Norte",
   "lunda sul": "Lunda Sul",
-  "malanje": "Malanje",
-  "moxico": "Moxico",
-  "namibe": "Namibe",
-  "uige": "Uíge",
-  "uíge": "Uíge",
-  "zaire": "Zaire",
+  malanje: "Malanje",
+  moxico: "Moxico",
+  namibe: "Namibe",
+  uige: "Uíge",
+  uíge: "Uíge",
+  zaire: "Zaire",
 };
 
 function looksLikeEmail(s) {
@@ -87,7 +87,10 @@ const waitlistBodySchema = z.object({
   age_range: z.string().trim().min(1).max(60),
   primary_language: z.string().trim().min(1).max(60),
   education_level: z.string().trim().min(1).max(120),
-  areas_of_interest: z.preprocess(preprocessInterests, z.array(z.string().trim().min(1).max(100)).min(1)),
+  areas_of_interest: z.preprocess(
+    preprocessInterests,
+    z.array(z.string().trim().min(1).max(100)).min(1)
+  ),
   technical_background: z.string().trim().min(1).max(2000),
   internet_access_level: z.string().trim().min(1).max(120),
   device_access: z.string().trim().min(1).max(120),
@@ -103,7 +106,10 @@ const waitlistBodySchema = z.object({
   motivation_statement: z
     .string()
     .trim()
-    .min(MIN_MOTIVATION_LENGTH, `motivation_statement must be at least ${MIN_MOTIVATION_LENGTH} chars`)
+    .min(
+      MIN_MOTIVATION_LENGTH,
+      `motivation_statement must be at least ${MIN_MOTIVATION_LENGTH} chars`
+    )
     .max(4000),
   consent_checkbox: z.preprocess(
     (v) => (v === true || v === "true" || v === "yes" || v === "on" ? true : v),
@@ -117,7 +123,10 @@ const waitlistBodySchema = z.object({
     (v) => (v === undefined || v === null ? "" : v),
     z.string().trim().max(40)
   ),
-  timezone: z.preprocess((v) => (v === undefined || v === null ? "" : v), z.string().trim().max(80)),
+  timezone: z.preprocess(
+    (v) => (v === undefined || v === null ? "" : v),
+    z.string().trim().max(80)
+  ),
   referral_source: z.preprocess(
     (v) => (v === undefined || v === null ? "" : v),
     z.string().trim().max(240)
@@ -229,8 +238,22 @@ const waitlistLimiter = rateLimit({
   message: { success: false, error: "Too many submissions. Try again later." },
 });
 
+app.get("/health", (_req, res) => {
+  res.json({ ok: true, service: "biug-academy-intake-api", status: "healthy" });
+});
+
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, service: "biug-academy-backend" });
+  res.json({ ok: true, service: "biug-academy-intake-api", status: "healthy" });
+});
+
+app.get("/health/db", async (_req, res) => {
+  try {
+    const pool = getPool();
+    await pool.query("SELECT 1");
+    return res.json({ ok: true, database: "connected" });
+  } catch (_error) {
+    return res.status(500).json({ ok: false, database: "unavailable" });
+  }
 });
 
 app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
@@ -273,7 +296,9 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
     motivation_statement: b.motivation_statement.trim(),
     consent_checkbox: true,
     source_platform: b.source_platform.trim(),
-    browser_language: (b.browser_language || req.headers["accept-language"] || "").toString().slice(0, 40),
+    browser_language: (b.browser_language || req.headers["accept-language"] || "")
+      .toString()
+      .slice(0, 40),
     timezone: b.timezone.trim(),
     referral_source: b.referral_source.trim(),
     submission_timestamp: b.submission_timestamp,
@@ -360,10 +385,9 @@ app.use((err, _req, res, _next) => {
 
 async function start() {
   try {
-    getPool();
-    await ensureSchema();
+    await checkDbConnection();
   } catch (e) {
-    console.error("Database init failed:", e.message);
+    console.error("Database connection failed:", e.message);
     process.exit(1);
   }
 

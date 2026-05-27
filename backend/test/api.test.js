@@ -64,7 +64,8 @@ describe("GET /api/health", () => {
     const res = await request("GET", "/api/health");
     assert.equal(res.status, 200);
     assert.equal(res.body.ok, true);
-    assert.equal(res.body.service, "biug-academy-backend");
+    assert.equal(res.body.service, "biug-academy-intake-api");
+    assert.equal(res.body.status, "healthy");
   });
 });
 

@@ -150,7 +150,8 @@ a:hover {
   color: #fff;
 }
 
-.lang-switcher {
+.lang-switcher,
+.language-switcher {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -159,7 +160,8 @@ a:hover {
   transition: opacity 0.2s ease;
 }
 
-.lang-switcher a {
+.lang-switcher a,
+.language-link {
   font-size: 0.72rem;
   font-weight: 600;
   text-decoration: none;
@@ -172,16 +174,21 @@ a:hover {
     background-color 0.2s ease,
     color 0.2s ease,
     border-color 0.2s ease;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
-.lang-switcher:hover {
+.lang-switcher:hover,
+.language-switcher:hover {
   opacity: 0.95;
 }
 
-.lang-switcher a.is-active {
+.lang-switcher a.is-active,
+.language-link.is-active {
   color: #37587c;
   border-color: #b6cadf;
   background: #f2f7fc;
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {
@@ -215,12 +222,14 @@ a:hover {
     border-radius: 10px;
   }
 
-  .lang-switcher {
+  .lang-switcher,
+  .language-switcher {
     display: inline-flex;
     margin-left: auto;
   }
 
-  .lang-switcher a {
+  .lang-switcher a,
+  .language-link {
     font-size: 0.68rem;
     padding: 0.16rem 0.34rem;
   }
@@ -884,10 +893,8 @@ details.form-extra summary:focus-visible {
   color: #fff;
 }
 
-.lang-switcher a[aria-disabled="true"] {
-  opacity: 0.45;
-  cursor: default;
-  pointer-events: none;
+.language-link.is-disabled {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
