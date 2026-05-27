@@ -804,6 +804,76 @@ details.form-extra summary:focus-visible {
   margin-top: 0.35rem;
 }
 
+.tile-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  margin-bottom: 0.55rem;
+  background: #e0f0ff;
+  color: var(--blue-700);
+  border: 1px solid #b9d5f0;
+}
+
+.tile-badge--future {
+  background: #f3f3f3;
+  color: #6b7280;
+  border-color: #d6d6d6;
+}
+
+.selection-note {
+  font-size: 0.9rem;
+  color: #415167;
+  background: #f7fbff;
+  border: 1px solid #cfe0f2;
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  margin-top: 0.6rem;
+  line-height: 1.65;
+}
+
+.notice {
+  border: 1px solid #cfe0f2;
+  border-radius: 16px;
+  background: #f7fbff;
+  padding: 1.2rem 1.3rem;
+  color: #415167;
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.notice p {
+  margin-bottom: 0.7rem;
+}
+
+.notice p:last-child {
+  margin-bottom: 0;
+}
+
+.thank-you-note {
+  font-size: 0.88rem;
+  color: #5a6d82;
+  background: #f7fbff;
+  border: 1px solid #cfe0f2;
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  line-height: 1.6;
+}
+
+.nav-links .nav-cta.is-active {
+  background: var(--orange-600);
+  color: #fff;
+}
+
+.lang-switcher a[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -821,5 +891,19 @@ details.form-extra summary:focus-visible {
 
   .page-hero {
     padding: 2.3rem 1rem 1.8rem;
+  }
+
+  .btn {
+    padding: 1rem 1.4rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
+  .site-footer {
+    padding-bottom: 2.5rem;
+  }
+
+  .page-hero + .section {
+    scroll-margin-top: 80px;
   }
 }
