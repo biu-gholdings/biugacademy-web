@@ -337,9 +337,37 @@
     });
   }
 
+  function initReveal() {
+    // Progressive enhancement: fade-up sections/cards on scroll.
+    // No-op when IntersectionObserver is missing or reduced motion is set.
+    if (!("IntersectionObserver" in window)) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var targets = document.querySelectorAll("main .section, main .tile, .page-hero, .waitlist-wrap");
+    if (!targets.length) return;
+
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-in");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.06 }
+    );
+
+    targets.forEach(function (el) {
+      el.classList.add("reveal");
+      io.observe(el);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
     initLanguageSelector();
+    initReveal();
     document.querySelectorAll("form[data-intake-form='waitlist']").forEach(function (form) {
       initWaitlistForm(form);
     });
