@@ -11,6 +11,7 @@ const { z } = require("zod");
 const { getPool, checkDbConnection } = require("./db");
 const {
   queueApplicationEmails,
+  queueSupportRequestEmail,
   dispatchPendingEmails,
   startOutboxWorker,
 } = require("./email_outbox");
@@ -77,15 +78,10 @@ function preprocessInterests(value) {
 const waitlistBodySchema = z.object({
   full_name: z.string().trim().min(1).max(200),
   email: z.string().trim().email().max(320),
-  phone_number: z
-    .string()
-    .trim()
-    .min(3)
-    .max(40)
-    .refine(phoneDigitsOk, "phone_number must contain at least 8 digits"),
+  phone_number: z.string().trim().min(3).max(40).refine(phoneDigitsOk),
   whatsapp_number: z
     .preprocess((v) => (v == null ? "" : v), z.string().trim().max(40))
-    .refine((v) => v === "" || phoneDigitsOk(v), "whatsapp_number must contain at least 8 digits"),
+    .refine((v) => v === "" || phoneDigitsOk(v)),
   province: z.string().trim().min(1).max(120),
   municipality: z.string().trim().min(1).max(120),
   age_range: z.string().trim().min(1).max(60),
@@ -101,14 +97,10 @@ const waitlistBodySchema = z.object({
   employment_status: z.string().trim().min(1).max(120),
   linkedin_optional: z.preprocess((v) => (v == null ? "" : v), z.string().trim().max(240)),
   github_optional: z.preprocess((v) => (v == null ? "" : v), z.string().trim().max(240)),
-  motivation_statement: z
-    .string()
-    .trim()
-    .min(MIN_MOTIVATION_LENGTH)
-    .max(4000),
+  motivation_statement: z.string().trim().min(MIN_MOTIVATION_LENGTH).max(4000),
   consent_checkbox: z.preprocess(
     (v) => (v === true || v === "true" || v === "yes" || v === "on" ? true : v),
-    z.boolean().refine((v) => v === true, { message: "consent_checkbox must be true" })
+    z.boolean().refine((v) => v === true)
   ),
   source_platform: z.preprocess(
     (v) => (v == null || String(v).trim() === "" ? "website-waitlist" : v),
@@ -124,6 +116,13 @@ const waitlistBodySchema = z.object({
   honeypot: z.preprocess((v) => (v == null ? "" : v), z.string().max(120)),
 });
 
+const supportBodySchema = z.object({
+  name: z.string().trim().min(2).max(200),
+  email: z.string().trim().email().max(320),
+  message: z.string().trim().min(3).max(5000),
+  page_url: z.preprocess((v) => (v == null ? "" : v), z.string().trim().max(1000)),
+});
+
 function isSimplifiedPayload(body) {
   return body && body.contact && !body.email && !body.phone_number;
 }
@@ -132,7 +131,6 @@ function normalizeSimplifiedPayload(body) {
   const contact = String(body.contact || "").trim();
   const email = looksLikeEmail(contact) ? contact : `pending-${Date.now()}@pending.local`;
   const phone = looksLikeEmail(contact) ? "+244000000000" : normalizePhone(contact);
-
   return {
     full_name: body.full_name || body.name || "",
     email,
@@ -182,13 +180,7 @@ function buildAllowedOrigins() {
 const allowedOrigins = buildAllowedOrigins();
 const app = express();
 app.set("trust proxy", 1);
-
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-  })
-);
+app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(
   cors({
     origin(origin, callback) {
@@ -202,7 +194,7 @@ app.use(
 );
 app.use(express.json({ limit: "256kb" }));
 
-const waitlistLimiter = rateLimit({
+const publicPostLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 30,
   standardHeaders: true,
@@ -213,11 +205,9 @@ const waitlistLimiter = rateLimit({
 app.get("/health", (_req, res) => {
   res.json({ ok: true, service: "biug-academy-intake-api", status: "healthy" });
 });
-
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "biug-academy-intake-api", status: "healthy" });
 });
-
 app.get("/health/db", async (_req, res) => {
   try {
     await getPool().query("SELECT 1");
@@ -226,13 +216,10 @@ app.get("/health/db", async (_req, res) => {
     return res.status(500).json({ ok: false, database: "unavailable" });
   }
 });
-
 app.get("/health/email", async (_req, res) => {
   try {
     const result = await getPool().query(
-      `SELECT status, COUNT(*)::int AS count
-       FROM email_outbox
-       GROUP BY status`
+      `SELECT status, COUNT(*)::int AS count FROM email_outbox GROUP BY status`
     );
     return res.json({
       ok: Boolean(process.env.RESEND_API_KEY),
@@ -244,9 +231,8 @@ app.get("/health/email", async (_req, res) => {
   }
 });
 
-app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
+app.post("/api/waitlist", publicPostLimiter, async (req, res) => {
   const input = isSimplifiedPayload(req.body) ? normalizeSimplifiedPayload(req.body) : req.body;
-
   if (input && String(input.honeypot || "").trim() !== "") {
     return res.status(202).json({ ok: true, status: "accepted" });
   }
@@ -281,9 +267,7 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
     motivation_statement: b.motivation_statement.trim(),
     consent_checkbox: true,
     source_platform: b.source_platform.trim(),
-    browser_language: (b.browser_language || req.headers["accept-language"] || "")
-      .toString()
-      .slice(0, 40),
+    browser_language: (b.browser_language || req.headers["accept-language"] || "").toString().slice(0, 40),
     timezone: b.timezone.trim(),
     referral_source: b.referral_source.trim(),
     submission_timestamp: b.submission_timestamp,
@@ -296,22 +280,14 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
 
   try {
     await client.query("BEGIN");
-
-    // Serialize identical email/phone submissions so duplicate checks remain race-safe.
-    await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [
-      `${row.email}|${row.phone_number}`,
-    ]);
+    await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [`${row.email}|${row.phone_number}`]);
 
     const duplicate = await client.query(
-      `SELECT id
-       FROM waitlist_applications
-       WHERE lower(email) = lower($1)
-          OR phone_number = $2
-       ORDER BY created_at DESC
-       LIMIT 1`,
+      `SELECT id FROM waitlist_applications
+       WHERE lower(email) = lower($1) OR phone_number = $2
+       ORDER BY created_at DESC LIMIT 1`,
       [row.email, row.phone_number]
     );
-
     if (duplicate.rowCount > 0) {
       await client.query("ROLLBACK");
       return res.status(409).json({
@@ -332,54 +308,27 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
         $1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24::jsonb
       ) RETURNING *`,
       [
-        row.full_name,
-        row.email,
-        row.phone_number,
-        row.whatsapp_number,
-        row.province,
-        row.municipality,
-        row.age_range,
-        row.primary_language,
-        row.education_level,
-        JSON.stringify(row.areas_of_interest),
-        row.technical_background,
-        row.internet_access_level,
-        row.device_access,
-        row.employment_status,
-        row.linkedin_optional,
-        row.github_optional,
-        row.motivation_statement,
-        row.consent_checkbox,
-        row.source_platform,
-        row.browser_language,
-        row.timezone,
-        row.referral_source,
-        row.submission_timestamp,
-        JSON.stringify(row.raw_form_payload),
+        row.full_name, row.email, row.phone_number, row.whatsapp_number, row.province,
+        row.municipality, row.age_range, row.primary_language, row.education_level,
+        JSON.stringify(row.areas_of_interest), row.technical_background,
+        row.internet_access_level, row.device_access, row.employment_status,
+        row.linkedin_optional, row.github_optional, row.motivation_statement,
+        row.consent_checkbox, row.source_platform, row.browser_language, row.timezone,
+        row.referral_source, row.submission_timestamp, JSON.stringify(row.raw_form_payload),
       ]
     );
 
     application = inserted.rows[0];
-
-    // Critical invariant: application + both email intents commit together.
     await queueApplicationEmails(client, application);
     await client.query("COMMIT");
   } catch (error) {
-    try {
-      await client.query("ROLLBACK");
-    } catch (_rollbackError) {
-      // Original error is more useful.
-    }
+    try { await client.query("ROLLBACK"); } catch (_rollbackError) {}
     console.error("Application transaction failed", error);
-    return res.status(500).json({
-      success: false,
-      error: "Could not save application.",
-    });
+    return res.status(500).json({ success: false, error: "Could not save application." });
   } finally {
     client.release();
   }
 
-  // Immediate delivery attempt. Failure does not lose the emails; the outbox worker retries.
   try {
     await dispatchPendingEmails(pool, 2);
   } catch (error) {
@@ -387,19 +336,52 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
   }
 
   const emailState = await pool.query(
-    `SELECT message_type, status, attempts
-     FROM email_outbox
-     WHERE application_id = $1
-     ORDER BY message_type`,
+    `SELECT message_type, status, attempts FROM email_outbox
+     WHERE application_id = $1 ORDER BY message_type`,
     [application.id]
   );
-
   return res.status(201).json({
     ok: true,
     applicant_id: application.id,
     status: "received",
     emails: emailState.rows,
   });
+});
+
+app.post("/api/support", publicPostLimiter, async (req, res) => {
+  const parsed = supportBodySchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ success: false, error: "Invalid support request." });
+  }
+
+  const pool = getPool();
+  const client = await pool.connect();
+  let supportRequest;
+  try {
+    await client.query("BEGIN");
+    const inserted = await client.query(
+      `INSERT INTO support_requests (name, email, message, page_url)
+       VALUES ($1, $2, $3, $4) RETURNING *`,
+      [parsed.data.name, parsed.data.email.toLowerCase(), parsed.data.message, parsed.data.page_url]
+    );
+    supportRequest = inserted.rows[0];
+    await queueSupportRequestEmail(client, supportRequest);
+    await client.query("COMMIT");
+  } catch (error) {
+    try { await client.query("ROLLBACK"); } catch (_rollbackError) {}
+    console.error("Support request transaction failed", error);
+    return res.status(500).json({ success: false, error: "Could not save support request." });
+  } finally {
+    client.release();
+  }
+
+  try {
+    await dispatchPendingEmails(pool, 1);
+  } catch (error) {
+    console.error("Immediate support email dispatch failed", error);
+  }
+
+  return res.status(201).json({ ok: true, support_request_id: supportRequest.id, status: "received" });
 });
 
 app.use((err, _req, res, _next) => {
@@ -414,17 +396,11 @@ async function start() {
     console.error("Database connection failed:", error.message);
     process.exit(1);
   }
-
   const pool = getPool();
   startOutboxWorker(pool);
-
-  app.listen(PORT, () => {
-    console.log(`BIU.G Academy backend listening on port ${PORT}`);
-  });
+  app.listen(PORT, () => console.log(`BIU.G Academy backend listening on port ${PORT}`));
 }
 
-if (require.main === module) {
-  start();
-}
+if (require.main === module) start();
 
 module.exports = { app, start };
