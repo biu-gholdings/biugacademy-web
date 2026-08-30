@@ -1,10 +1,22 @@
 -- 003_create_email_outbox.sql
--- Atomically queues application notification and applicant confirmation emails.
+-- Persists support requests and atomically queues transactional emails.
+
+CREATE TABLE IF NOT EXISTS support_requests (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  message TEXT NOT NULL,
+  page_url TEXT,
+  status TEXT NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'open', 'resolved', 'closed')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 
 CREATE TABLE IF NOT EXISTS email_outbox (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   application_id UUID REFERENCES waitlist_applications(id) ON DELETE CASCADE,
-  message_type TEXT NOT NULL CHECK (message_type IN ('support_application_received', 'applicant_confirmation')),
+  support_request_id UUID REFERENCES support_requests(id) ON DELETE CASCADE,
+  message_type TEXT NOT NULL CHECK (message_type IN ('support_application_received', 'applicant_confirmation', 'support_request')),
   recipient_email TEXT NOT NULL,
   subject TEXT NOT NULL,
   payload JSONB NOT NULL DEFAULT '{}'::jsonb,
@@ -24,3 +36,7 @@ CREATE INDEX IF NOT EXISTS idx_email_outbox_dispatch
 CREATE UNIQUE INDEX IF NOT EXISTS idx_email_outbox_application_type
   ON email_outbox (application_id, message_type)
   WHERE application_id IS NOT NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_email_outbox_support_request_type
+  ON email_outbox (support_request_id, message_type)
+  WHERE support_request_id IS NOT NULL;
