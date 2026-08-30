@@ -2,125 +2,158 @@
 
 ## Purpose
 
-Deployment and hardening guide for BIU.G Academy intake backend (`backend/`) using PostgreSQL with safe migrations.
+Production deployment guide for the BIU.G Academy API (`backend/`). The API is the system of record for applications and website support requests.
+
+## Production data path
+
+```text
+biugacademy.org
+  -> /api/waitlist or /api/support
+  -> BIU.G Academy Node API
+  -> PostgreSQL transaction
+       -> application/support row
+       -> email_outbox row(s)
+  -> COMMIT
+  -> Resend delivery attempt
+  -> background retry worker until sent or max attempts reached
+```
+
+Application submission creates three durable records in one transaction boundary:
+
+1. the applicant record;
+2. a support-notification email intent to `support@biugacademy.org`;
+3. an applicant-confirmation email intent to the applicant.
+
+The database transaction is committed before provider delivery is attempted. This prevents a provider outage from losing a valid application and prevents a database rollback from producing emails for an application that was never persisted.
+
+Website support uses the same architecture: the support request and its email intent are committed atomically.
 
 ## Supported targets
 
 - Render
 - Railway
-- Any Node host with PostgreSQL
-- Supabase (database provider)
+- Any Node 20+ host with PostgreSQL
+- Supabase as the PostgreSQL provider
 
-## Environment variables
-
-Required:
+## Required environment variables
 
 - `DATABASE_URL` — PostgreSQL connection string
 - `PORT` — API port (default `3000`)
-- `FRONTEND_ORIGIN` — allowed frontend origin (example: `https://biugacademy.org`)
-- `NODE_ENV` — `production` in deployment
+- `FRONTEND_ORIGIN=https://biugacademy.org`
+- `NODE_ENV=production`
+- `RESEND_API_KEY` — server-side Resend API key
+- `SUPPORT_EMAIL=support@biugacademy.org`
+- `EMAIL_FROM=BIU.G Academy <support@biugacademy.org>`
 
-Optional:
+Optional tuning:
 
-- `OPENAI_API_KEY` (future/optional AI assist layer)
+- `EMAIL_WORKER_INTERVAL_MS=15000`
+- `EMAIL_MAX_ATTEMPTS=5`
 
-## Migration status and apply
+The sending domain must be verified with the transactional email provider before production delivery. Keep provider credentials only in the deployment environment; never place them in frontend JavaScript or Git.
 
-Tracked in PostgreSQL table `schema_migrations`. Migration files live in `backend/migrations/` (for example `001_create_waitlist_applications.sql`, `002_add_waitlist_metadata_and_indexes.sql`).
+## Migrations
 
-### Before deploy
+Tracked in `schema_migrations`. Files are applied lexicographically from `backend/migrations/`.
 
-From `backend/`:
+Current critical migrations:
+
+- `001_create_waitlist_applications.sql`
+- `002_add_waitlist_metadata_and_indexes.sql`
+- `003_create_email_outbox.sql`
+
+Before deploy:
 
 ```bash
 npm run migrate:status
 ```
 
-Review the output table (`Migration | Status | Applied At`). Any row with status `pending` must be reviewed before production release.
-
-### During deploy
+During deploy:
 
 ```bash
 npm run migrate
 ```
 
-Run pending SQL migrations in filename order.
-
-### After deploy
+After deploy:
 
 ```bash
 npm run migrate:status
 ```
 
-Confirm all expected migrations show status `applied` and have an `Applied At` timestamp.
+All expected migrations must show `applied`.
 
-## Render deployment
+## Static-site API routing
 
-Suggested settings:
+GitHub Pages cannot execute `/api/*`. Production must therefore use one of these two patterns:
 
-- Build command: `npm install`
-- Start command: `npm run migrate && npm start`
-- Root directory: `backend`
-- Environment variables: set all required vars above
+### Preferred: reverse proxy / edge route
 
-Health checks:
+Keep browser URLs same-origin:
+
+```text
+https://biugacademy.org/api/* -> deployed BIU.G Academy API
+```
+
+This keeps the frontend on `/api/waitlist` and `/api/support` without exposing infrastructure details in page markup.
+
+### Alternative: explicit API origin
+
+Add this to the page `<head>` after the API is deployed:
+
+```html
+<meta name="biug-api-base" content="https://api.biugacademy.org" />
+```
+
+The backend CORS allowlist must include `https://biugacademy.org`.
+
+## Health checks
 
 - `/health`
 - `/health/db`
+- `/health/email`
 
-## Railway deployment
+`/health/email` reports whether the provider key is configured and current outbox status counts. It does not expose secrets.
 
-Suggested settings:
+## Deployment target examples
+
+### Render
+
+- Root directory: `backend`
+- Build command: `npm install`
+- Start command: `npm run migrate && npm start`
+- Health check: `/health`
+
+### Railway
 
 - Project root: `backend`
 - Deploy command: `npm run migrate && npm start`
-- Set environment variables in Railway dashboard
-- Attach PostgreSQL service or external Supabase DB URL
+- Attach PostgreSQL or configure external `DATABASE_URL`
 
-## Supabase PostgreSQL connection
+## Release gate
 
-Use Supabase as managed DB provider:
+Before making the API the live submission endpoint:
 
-1. Create project in Supabase
-2. Copy PostgreSQL URI from project settings
-3. Set URI as `DATABASE_URL` in deployment platform
-4. Run `npm run migrate`
+- [ ] PostgreSQL reachable from runtime
+- [ ] migration `003_create_email_outbox.sql` applied
+- [ ] `RESEND_API_KEY` configured
+- [ ] `support@biugacademy.org` sending domain verified with provider
+- [ ] `/health` healthy
+- [ ] `/health/db` connected
+- [ ] `/health/email` shows `provider_configured: true`
+- [ ] test applicant receives confirmation email
+- [ ] `support@biugacademy.org` receives the complete application details
+- [ ] application exists in `waitlist_applications`
+- [ ] two corresponding application rows exist in `email_outbox`
+- [ ] test support request is persisted in `support_requests`
+- [ ] support request reaches `support@biugacademy.org`
+- [ ] duplicate application submission returns HTTP 409
+- [ ] API base/reverse proxy is configured for the production website
+- [ ] no provider secret exists in the browser bundle or repository
 
-## CORS configuration
+## Failure semantics
 
-`FRONTEND_ORIGIN` is enforced by backend CORS logic.
+If PostgreSQL cannot commit, the API returns failure and no transactional email intent is created.
 
-Production recommendation:
+If PostgreSQL commits but the email provider is unavailable, the application remains accepted and the outbox marks delivery failed for retry. The background worker retries with backoff up to `EMAIL_MAX_ATTEMPTS`.
 
-- Set only `https://biugacademy.org`
-- Optionally include `https://www.biugacademy.org` if used
-
-Do not use wildcard origins in production.
-
-## Production checklist
-
-- [ ] `DATABASE_URL` set and validated
-- [ ] `FRONTEND_ORIGIN` set to production domain
-- [ ] `NODE_ENV=production`
-- [ ] `npm run migrate:status` reviewed before deploy (no unexpected pending rows)
-- [ ] `npm run migrate` completes successfully
-- [ ] `npm run migrate:status` confirms all migrations applied after deploy
-- [ ] `/health` returns healthy
-- [ ] `/health/db` returns connected
-- [ ] Waitlist POST tested with structured payload
-- [ ] Secrets only in platform env vars (not git)
-- [ ] Rate limiting confirmed active
-- [ ] Honeypot behavior verified
-
-## CI/testing path (future)
-
-Current CI does not require live DB.
-
-Future path:
-
-1. Start ephemeral PostgreSQL service container in CI
-2. Set CI `DATABASE_URL`
-3. Run `npm run migrate`
-4. Run `npm test`
-
-This allows reproducible schema + test validation without production DB access.
+This is the required reliability boundary for BIU.G Academy admissions.
