@@ -180,7 +180,9 @@ function buildAllowedOrigins() {
 const allowedOrigins = buildAllowedOrigins();
 const app = express();
 app.set("trust proxy", 1);
-app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(
+  helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: { policy: "cross-origin" } })
+);
 app.use(
   cors({
     origin(origin, callback) {
@@ -267,7 +269,9 @@ app.post("/api/waitlist", publicPostLimiter, async (req, res) => {
     motivation_statement: b.motivation_statement.trim(),
     consent_checkbox: true,
     source_platform: b.source_platform.trim(),
-    browser_language: (b.browser_language || req.headers["accept-language"] || "").toString().slice(0, 40),
+    browser_language: (b.browser_language || req.headers["accept-language"] || "")
+      .toString()
+      .slice(0, 40),
     timezone: b.timezone.trim(),
     referral_source: b.referral_source.trim(),
     submission_timestamp: b.submission_timestamp,
@@ -280,7 +284,9 @@ app.post("/api/waitlist", publicPostLimiter, async (req, res) => {
 
   try {
     await client.query("BEGIN");
-    await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [`${row.email}|${row.phone_number}`]);
+    await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [
+      `${row.email}|${row.phone_number}`,
+    ]);
 
     const duplicate = await client.query(
       `SELECT id FROM waitlist_applications
@@ -308,13 +314,30 @@ app.post("/api/waitlist", publicPostLimiter, async (req, res) => {
         $1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24::jsonb
       ) RETURNING *`,
       [
-        row.full_name, row.email, row.phone_number, row.whatsapp_number, row.province,
-        row.municipality, row.age_range, row.primary_language, row.education_level,
-        JSON.stringify(row.areas_of_interest), row.technical_background,
-        row.internet_access_level, row.device_access, row.employment_status,
-        row.linkedin_optional, row.github_optional, row.motivation_statement,
-        row.consent_checkbox, row.source_platform, row.browser_language, row.timezone,
-        row.referral_source, row.submission_timestamp, JSON.stringify(row.raw_form_payload),
+        row.full_name,
+        row.email,
+        row.phone_number,
+        row.whatsapp_number,
+        row.province,
+        row.municipality,
+        row.age_range,
+        row.primary_language,
+        row.education_level,
+        JSON.stringify(row.areas_of_interest),
+        row.technical_background,
+        row.internet_access_level,
+        row.device_access,
+        row.employment_status,
+        row.linkedin_optional,
+        row.github_optional,
+        row.motivation_statement,
+        row.consent_checkbox,
+        row.source_platform,
+        row.browser_language,
+        row.timezone,
+        row.referral_source,
+        row.submission_timestamp,
+        JSON.stringify(row.raw_form_payload),
       ]
     );
 
@@ -322,7 +345,9 @@ app.post("/api/waitlist", publicPostLimiter, async (req, res) => {
     await queueApplicationEmails(client, application);
     await client.query("COMMIT");
   } catch (error) {
-    try { await client.query("ROLLBACK"); } catch (_rollbackError) {}
+    try {
+      await client.query("ROLLBACK");
+    } catch (_rollbackError) {}
     console.error("Application transaction failed", error);
     return res.status(500).json({ success: false, error: "Could not save application." });
   } finally {
@@ -368,7 +393,9 @@ app.post("/api/support", publicPostLimiter, async (req, res) => {
     await queueSupportRequestEmail(client, supportRequest);
     await client.query("COMMIT");
   } catch (error) {
-    try { await client.query("ROLLBACK"); } catch (_rollbackError) {}
+    try {
+      await client.query("ROLLBACK");
+    } catch (_rollbackError) {}
     console.error("Support request transaction failed", error);
     return res.status(500).json({ success: false, error: "Could not save support request." });
   } finally {
@@ -381,7 +408,9 @@ app.post("/api/support", publicPostLimiter, async (req, res) => {
     console.error("Immediate support email dispatch failed", error);
   }
 
-  return res.status(201).json({ ok: true, support_request_id: supportRequest.id, status: "received" });
+  return res
+    .status(201)
+    .json({ ok: true, support_request_id: supportRequest.id, status: "received" });
 });
 
 app.use((err, _req, res, _next) => {

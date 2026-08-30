@@ -1,1 +1,72 @@
-<!doctype html><html lang="pt-AO"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Moderator Portal | BIU.G Academy</title><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="/portal/portal.css"></head><body><div class="portal-shell"><aside class="portal-side"><div class="portal-brand">BIU.G <span>Academy</span></div><nav class="portal-nav"><a class="active" href="#">Dashboard</a><a href="#reports">Reports</a><a href="#support">Support Queue</a><a href="#community">Community</a><a href="#escalations">Escalations</a><a href="/portal/">Portal Home</a></nav></aside><main class="portal-main"><div class="secure-note"><strong>Moderator boundary:</strong> moderators receive only moderation and support scopes; admissions decisions, user-role changes and system configuration remain admin-only.</div><header class="portal-top"><div><h1>Moderator Console</h1><p>Community safety and first-line support.</p></div><span class="badge">MODERATOR</span></header><section class="grid"><div class="card"><h3>Open reports</h3><div class="metric">—</div><div class="muted">Moderation queue</div></div><div class="card"><h3>Support tickets</h3><div class="metric">—</div><div class="muted">Needs response</div></div><div class="card"><h3>Escalations</h3><div class="metric">—</div><div class="muted">Admin review</div></div><div class="card"><h3>Resolved today</h3><div class="metric">—</div><div class="muted">Operational output</div></div></section><section class="panel" id="support"><h2>Support Triage</h2><p class="muted">Connect GET /api/moderator/support-tickets after authenticated RBAC is deployed.</p></section><section class="panel" id="reports"><h2>Community Reports</h2><p class="muted">Reported content, reason, severity and disposition will appear here.</p></section></main></div><script src="/js/script.js"></script></body></html>
+<!doctype html>
+<html lang="pt-AO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Moderator Portal | BIU.G Academy</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/portal/portal.css" />
+  </head>
+  <body>
+    <div class="portal-shell">
+      <aside class="portal-side">
+        <div class="portal-brand">BIU.G <span>Academy</span></div>
+        <nav class="portal-nav">
+          <a class="active" href="#">Dashboard</a><a href="#reports">Reports</a
+          ><a href="#support">Support Queue</a><a href="#community">Community</a
+          ><a href="#escalations">Escalations</a><a href="/portal/">Portal Home</a>
+        </nav>
+      </aside>
+      <main class="portal-main">
+        <div class="secure-note">
+          <strong>Moderator boundary:</strong> moderators receive only moderation and support
+          scopes; admissions decisions, user-role changes and system configuration remain
+          admin-only.
+        </div>
+        <header class="portal-top">
+          <div>
+            <h1>Moderator Console</h1>
+            <p>Community safety and first-line support.</p>
+          </div>
+          <span class="badge">MODERATOR</span>
+        </header>
+        <section class="grid">
+          <div class="card">
+            <h3>Open reports</h3>
+            <div class="metric">—</div>
+            <div class="muted">Moderation queue</div>
+          </div>
+          <div class="card">
+            <h3>Support tickets</h3>
+            <div class="metric">—</div>
+            <div class="muted">Needs response</div>
+          </div>
+          <div class="card">
+            <h3>Escalations</h3>
+            <div class="metric">—</div>
+            <div class="muted">Admin review</div>
+          </div>
+          <div class="card">
+            <h3>Resolved today</h3>
+            <div class="metric">—</div>
+            <div class="muted">Operational output</div>
+          </div>
+        </section>
+        <section class="panel" id="support">
+          <h2>Support Triage</h2>
+          <p class="muted">
+            Connect GET /api/moderator/support-tickets after authenticated RBAC is deployed.
+          </p>
+        </section>
+        <section class="panel" id="reports">
+          <h2>Community Reports</h2>
+          <p class="muted">Reported content, reason, severity and disposition will appear here.</p>
+        </section>
+      </main>
+    </div>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

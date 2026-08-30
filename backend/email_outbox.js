@@ -125,7 +125,9 @@ async function sendViaResend(message) {
     data = {};
   }
   if (!response.ok) {
-    throw new Error(data.message || data.error || `Email provider returned HTTP ${response.status}`);
+    throw new Error(
+      data.message || data.error || `Email provider returned HTTP ${response.status}`
+    );
   }
   return data.id || null;
 }

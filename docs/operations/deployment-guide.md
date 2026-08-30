@@ -1,6 +1,6 @@
 # Deployment guide
 
-Deployment model for the BIU.G Academy **static public site**. Backend/LMS deployments are **planned** and not covered as operational procedures.
+Deployment model for the BIU.G Academy **static public site**. API deployment is covered separately in [backend-deployment.md](backend-deployment.md); LMS deployment remains **planned**.
 
 ---
 

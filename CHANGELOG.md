@@ -16,6 +16,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `docs/branding/brand-guidelines.md` (canonical)
 - `docs/REPOSITORY_MATURITY.md` checklist
 - Repository hygiene: `.editorconfig`, Prettier, markdownlint, CODEOWNERS, GitHub templates, docs-lint CI
+- Transactional application engine: PostgreSQL persistence with atomic `email_outbox` intents (`backend/email_outbox.js`, `backend/migrations/003_create_email_outbox.sql`)
+- `POST /api/support` and `/health/email` endpoints
+- Role portal foundation: admin, student, teacher, moderator shells under `portal/`
+- `docs/operations/backend-deployment.md` — API production deployment guide
 
 ### Changed
 

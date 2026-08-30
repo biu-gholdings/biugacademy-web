@@ -57,7 +57,8 @@
   function resolveApiBase(form) {
     var baseTag = document.querySelector('meta[name="biug-api-base"]');
     var fromWindow = window.BIUG_API_BASE || "";
-    var base = (form && form.getAttribute("data-api-base")) ||
+    var base =
+      (form && form.getAttribute("data-api-base")) ||
       (baseTag ? baseTag.getAttribute("content") : "") ||
       fromWindow ||
       DEFAULT_API_BASE;
@@ -99,7 +100,8 @@
       }
     });
     if (payload.consent_checkbox !== undefined) {
-      payload.consent_checkbox = ["yes", "true", "on", true].indexOf(payload.consent_checkbox) !== -1;
+      payload.consent_checkbox =
+        ["yes", "true", "on", true].indexOf(payload.consent_checkbox) !== -1;
     }
     payload.honeypot = payload.website || payload.honeypot || "";
     delete payload.website;
@@ -141,7 +143,11 @@
   function parseJsonResponse(res) {
     return res.text().then(function (text) {
       var body = {};
-      try { body = JSON.parse(text); } catch (_ignore) { body = {}; }
+      try {
+        body = JSON.parse(text);
+      } catch (_ignore) {
+        body = {};
+      }
       return { res: res, body: body };
     });
   }
@@ -198,16 +204,21 @@
   function initReveal() {
     if (!("IntersectionObserver" in window)) return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var targets = document.querySelectorAll("main .section, main .tile, .page-hero, .waitlist-wrap");
+    var targets = document.querySelectorAll(
+      "main .section, main .tile, .page-hero, .waitlist-wrap"
+    );
     if (!targets.length) return;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-in");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-in");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.06 }
+    );
     targets.forEach(function (el) {
       el.classList.add("reveal");
       io.observe(el);
@@ -231,15 +242,17 @@
     panel.id = "biug-support-panel";
     panel.setAttribute("aria-label", "BIU.G Academy support");
     panel.innerHTML =
-      '<h3>BIU.G Academy Support</h3>' +
-      '<p>Envie uma mensagem à nossa equipa em ' + SUPPORT_EMAIL + '.</p>' +
+      "<h3>BIU.G Academy Support</h3>" +
+      "<p>Envie uma mensagem à nossa equipa em " +
+      SUPPORT_EMAIL +
+      ".</p>" +
       '<form id="biug-support-form">' +
       '<label for="biug-support-name">Nome</label><input id="biug-support-name" name="name" required autocomplete="name">' +
       '<label for="biug-support-email">Email</label><input id="biug-support-email" name="email" type="email" required autocomplete="email">' +
       '<label for="biug-support-message">Mensagem</label><textarea id="biug-support-message" name="message" required></textarea>' +
       '<div class="biug-support-actions"><button class="biug-support-send" type="submit">Enviar</button><button class="biug-support-close" type="button">Fechar</button></div>' +
       '<p class="biug-support-status" id="biug-support-status" aria-live="polite"></p>' +
-      '</form>';
+      "</form>";
     document.body.appendChild(panel);
 
     var launcher = document.createElement("button");
@@ -261,12 +274,19 @@
       launcher.setAttribute("aria-expanded", open ? "true" : "false");
     }
 
-    launcher.addEventListener("click", function () { setOpen(!panel.classList.contains("is-open")); });
-    close.addEventListener("click", function () { setOpen(false); });
+    launcher.addEventListener("click", function () {
+      setOpen(!panel.classList.contains("is-open"));
+    });
+    close.addEventListener("click", function () {
+      setOpen(false);
+    });
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
       send.disabled = true;
       status.textContent = "A enviar...";
       fetch(apiEndpoint(null, "/api/support"), {
@@ -281,7 +301,8 @@
       })
         .then(parseJsonResponse)
         .then(function (result) {
-          if (!result.res.ok || !result.body || !result.body.ok) throw new Error("Support submission failed");
+          if (!result.res.ok || !result.body || !result.body.ok)
+            throw new Error("Support submission failed");
           form.reset();
           status.textContent = "Mensagem recebida. A equipa de suporte foi notificada.";
         })
@@ -289,7 +310,9 @@
           console.error("BIU.G Academy support submission failed", error);
           status.textContent = "Não foi possível enviar. Tente novamente.";
         })
-        .finally(function () { send.disabled = false; });
+        .finally(function () {
+          send.disabled = false;
+        });
     });
   }
 

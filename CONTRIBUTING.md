@@ -45,6 +45,15 @@ Required confirmations:
 - [ ] No undisclosed partnerships
 - [ ] Languages touched listed (PT / EN / FR)
 - [ ] Status labels correct (operational vs planned)
+- [ ] Every new or moved document is registered in the [docs/README.md](docs/README.md) taxonomy, and any doc it contradicts is updated
+- [ ] [CHANGELOG.md](CHANGELOG.md) updated under `## [Unreleased]` for any user-facing or operational change
+- [ ] All CI checks green (`markdownlint`, `prettier-check`) before review is requested
+
+These apply to **every** pull request, without exception. Run the formatter locally before pushing:
+
+```bash
+npx prettier@3.5.3 --write "**/*.{md,html,css,js,yml,yaml}" --ignore-path .prettierignore
+```
 
 ---
 

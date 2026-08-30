@@ -31,7 +31,13 @@
 - [ ] No undisclosed partnerships implied
 - [ ] No hype / guaranteed outcome language
 - [ ] Tested locally at mobile width (if site changed)
-- [ ] Updated [CHANGELOG.md](../CHANGELOG.md) if user-facing release
+
+## Required for every PR
+
+- [ ] New/moved docs registered in the [docs/README.md](../docs/README.md) taxonomy
+- [ ] Docs contradicted by this change were updated (no stale operational/planned claims)
+- [ ] [CHANGELOG.md](../CHANGELOG.md) updated under `## [Unreleased]`
+- [ ] `markdownlint` and `prettier-check` pass (`npx prettier@3.5.3 --write "**/*.{md,html,css,js,yml,yaml}" --ignore-path .prettierignore`)
 
 ## Screenshots (optional)
 
