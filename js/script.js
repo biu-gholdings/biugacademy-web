@@ -1,44 +1,25 @@
 /**
- * BIU.G Academy — navigation and intake form.
+ * BIU.G Academy — navigation, first-cohort intake and support.
  *
- * Primary mode: POST JSON to /api/waitlist (or configured API base).
- * Fallback mode: if API fails and the form has an action URL, submit natively.
+ * Production data path:
+ * browser -> BIU.G Academy API -> PostgreSQL + transactional email outbox.
+ * No applicant or support payload is sent through a third-party form relay.
  */
 
 (function () {
   "use strict";
 
-  var WAITLIST_STORAGE_KEY = "biugAcademyApplicationsV2";
-  var DEFAULT_WAITLIST_PATH = "/api/waitlist";
-  var PROVINCES = [
-    "Bengo",
-    "Benguela",
-    "Bié",
-    "Cabinda",
-    "Cuando Cubango",
-    "Cunene",
-    "Huambo",
-    "Huíla",
-    "Luanda",
-    "Lunda Norte",
-    "Lunda Sul",
-    "Malanje",
-    "Moxico",
-    "Namibe",
-    "Uíge",
-    "Zaire",
-  ];
+  var DEFAULT_API_BASE = "";
+  var SUPPORT_EMAIL = "support@biugacademy.org";
 
   function initNav() {
     var toggle = document.querySelector(".nav-toggle");
     var links = document.querySelector(".nav-links");
     if (!toggle || !links) return;
-
     toggle.addEventListener("click", function () {
       var open = links.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
-
     links.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () {
         links.classList.remove("is-open");
@@ -59,7 +40,6 @@
     var selectors = document.querySelectorAll(".language-switcher, .lang-switcher");
     if (!selectors.length) return;
     var activeLang = detectActiveLanguage(window.location.pathname || "/");
-
     selectors.forEach(function (selector) {
       selector.querySelectorAll("a").forEach(function (link) {
         var lang = (link.getAttribute("data-lang") || "").toLowerCase();
@@ -74,160 +54,24 @@
     });
   }
 
-  function validateEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
+  function resolveApiBase(form) {
+    var baseTag = document.querySelector('meta[name="biug-api-base"]');
+    var fromWindow = window.BIUG_API_BASE || "";
+    var base =
+      (form && form.getAttribute("data-api-base")) ||
+      (baseTag ? baseTag.getAttribute("content") : "") ||
+      fromWindow ||
+      DEFAULT_API_BASE;
+    return String(base || "").replace(/\/+$/, "");
   }
 
-  function normalizePhone(value) {
-    var digits = String(value || "").replace(/\D/g, "");
-    if (!digits) return "";
-    if (digits.indexOf("244") === 0) return "+" + digits;
-    return "+244" + digits;
-  }
-
-  function validatePhone(value) {
-    return String(value || "").replace(/\D/g, "").length >= 8;
-  }
-
-  function normalizeProvince(value) {
-    var raw = String(value || "").trim();
-    if (!raw) return "";
-    var lower = raw.toLowerCase();
-    for (var i = 0; i < PROVINCES.length; i += 1) {
-      if (PROVINCES[i].toLowerCase() === lower) return PROVINCES[i];
-    }
-    return raw;
-  }
-
-  function clearFieldErrors(form) {
-    form.querySelectorAll(".form-group.is-invalid").forEach(function (g) {
-      g.classList.remove("is-invalid");
-    });
-  }
-
-  function setFieldError(form, dataField) {
-    var group = form.querySelector('[data-field="' + dataField + '"]');
-    if (group) group.classList.add("is-invalid");
+  function apiEndpoint(form, path) {
+    return resolveApiBase(form) + path;
   }
 
   function guessReferralSource() {
     var params = new URLSearchParams(window.location.search);
     return params.get("ref") || params.get("utm_source") || document.referrer || "direct";
-  }
-
-  function gatherPayload(form) {
-    var fd = new FormData(form);
-    var get = function (name) {
-      return (fd.get(name) || "").toString().trim();
-    };
-    var interestList = fd
-      .getAll("areas_of_interest")
-      .map(function (v) {
-        return String(v || "").trim();
-      })
-      .filter(Boolean);
-    var phone = normalizePhone(get("phone_number"));
-    var whatsapp = normalizePhone(get("whatsapp_number") || get("phone_number"));
-    return {
-      full_name: get("full_name"),
-      email: get("email"),
-      phone_number: phone,
-      whatsapp_number: whatsapp,
-      province: normalizeProvince(get("province")),
-      municipality: get("municipality"),
-      age_range: get("age_range"),
-      primary_language: get("primary_language"),
-      education_level: get("education_level"),
-      areas_of_interest: interestList,
-      technical_background: get("technical_background"),
-      internet_access_level: get("internet_access_level"),
-      device_access: get("device_access"),
-      employment_status: get("employment_status"),
-      linkedin_optional: get("linkedin_optional"),
-      github_optional: get("github_optional"),
-      motivation_statement: get("motivation_statement"),
-      consent_checkbox: fd.get("consent_checkbox") === "yes",
-      source_platform: get("source_platform") || "biugacademy-web",
-      browser_language: get("browser_language") || navigator.language || "",
-      timezone:
-        get("timezone") ||
-        (Intl && Intl.DateTimeFormat ? Intl.DateTimeFormat().resolvedOptions().timeZone || "" : ""),
-      referral_source: get("referral_source") || guessReferralSource(),
-      submission_timestamp: get("submission_timestamp") || new Date().toISOString(),
-      honeypot: get("website"),
-    };
-  }
-
-  function validatePayload(data) {
-    var errors = [];
-    if (!data.full_name || data.full_name.trim().length < 2) errors.push("full_name");
-    if (!data.email || !validateEmail(data.email)) errors.push("email");
-    if (!data.phone_number || !validatePhone(data.phone_number)) errors.push("phone_number");
-    if (data.whatsapp_number && !validatePhone(data.whatsapp_number))
-      errors.push("whatsapp_number");
-    if (!data.province) errors.push("province");
-    if (!data.municipality) errors.push("municipality");
-    if (!data.age_range) errors.push("age_range");
-    if (!data.primary_language) errors.push("primary_language");
-    if (!data.education_level) errors.push("education_level");
-    if (!data.areas_of_interest || data.areas_of_interest.length === 0)
-      errors.push("areas_of_interest");
-    if (!data.technical_background) errors.push("technical_background");
-    if (!data.internet_access_level) errors.push("internet_access_level");
-    if (!data.device_access) errors.push("device_access");
-    if (!data.employment_status) errors.push("employment_status");
-    if (!data.motivation_statement || data.motivation_statement.trim().length < 20) {
-      errors.push("motivation_statement");
-    }
-    if (!data.consent_checkbox) errors.push("consent_checkbox");
-    if (data.honeypot) errors.push("honeypot");
-    return errors;
-  }
-
-  function persistBackup(data) {
-    var entry = {
-      raw_application: data,
-      submitted_at: new Date().toISOString(),
-    };
-
-    var list = [];
-    try {
-      var raw = localStorage.getItem(WAITLIST_STORAGE_KEY);
-      if (raw) list = JSON.parse(raw);
-      if (!Array.isArray(list)) list = [];
-    } catch (e) {
-      list = [];
-    }
-    list.push(entry);
-    try {
-      localStorage.setItem(WAITLIST_STORAGE_KEY, JSON.stringify(list));
-    } catch (e) {
-      console.warn("Could not write application backup to localStorage", e);
-    }
-  }
-
-  function showFormMessage(el, type, text) {
-    if (!el) return;
-    el.textContent = text;
-    el.className = "form-message is-visible " + (type || "");
-  }
-
-  function resetSubmitUi(form, submitBtn, defaultLabel) {
-    form.removeAttribute("data-submitting");
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.removeAttribute("aria-busy");
-      submitBtn.textContent = defaultLabel;
-    }
-  }
-
-  function resolveApiEndpoint(form) {
-    var baseTag = document.querySelector('meta[name="biug-api-base"]');
-    var base =
-      form.getAttribute("data-api-base") || (baseTag ? baseTag.getAttribute("content") : "");
-    base = (base || "").replace(/\/+$/, "");
-    if (!base) return DEFAULT_WAITLIST_PATH;
-    return base + DEFAULT_WAITLIST_PATH;
   }
 
   function populateHiddenMetadata(form) {
@@ -236,116 +80,134 @@
     var referralInput = form.querySelector('input[name="referral_source"]');
     var submittedAtInput = form.querySelector('input[name="submission_timestamp"]');
     if (browserLanguageInput) browserLanguageInput.value = navigator.language || "";
-    if (timezoneInput && Intl && Intl.DateTimeFormat) {
+    if (timezoneInput && window.Intl && Intl.DateTimeFormat) {
       timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
     }
     if (referralInput) referralInput.value = guessReferralSource();
     if (submittedAtInput) submittedAtInput.value = new Date().toISOString();
   }
 
+  function formDataToObject(form) {
+    var fd = new FormData(form);
+    var payload = {};
+    fd.forEach(function (value, key) {
+      if (key.charAt(0) === "_") return;
+      if (Object.prototype.hasOwnProperty.call(payload, key)) {
+        if (!Array.isArray(payload[key])) payload[key] = [payload[key]];
+        payload[key].push(value);
+      } else {
+        payload[key] = value;
+      }
+    });
+    if (payload.consent_checkbox !== undefined) {
+      payload.consent_checkbox =
+        ["yes", "true", "on", true].indexOf(payload.consent_checkbox) !== -1;
+    }
+    payload.honeypot = payload.website || payload.honeypot || "";
+    delete payload.website;
+    return payload;
+  }
+
+  function ensureMessageBox(form) {
+    var msg = form.parentNode.querySelector(".form-message");
+    if (msg) return msg;
+    msg = document.createElement("div");
+    msg.className = "form-message";
+    msg.setAttribute("aria-live", "polite");
+    form.parentNode.insertBefore(msg, form);
+    return msg;
+  }
+
+  function showFormMessage(el, type, text) {
+    if (!el) return;
+    el.textContent = text;
+    el.className = "form-message is-visible " + (type || "");
+  }
+
+  function setSubmitState(form, busy) {
+    var button = form.querySelector('button[type="submit"]');
+    if (!button) return;
+    if (!button.getAttribute("data-default-label")) {
+      button.setAttribute("data-default-label", button.textContent || "Submit");
+    }
+    button.disabled = !!busy;
+    if (busy) {
+      button.setAttribute("aria-busy", "true");
+      button.textContent = "A enviar candidatura...";
+    } else {
+      button.removeAttribute("aria-busy");
+      button.textContent = button.getAttribute("data-default-label") || "Submit";
+    }
+  }
+
+  function parseJsonResponse(res) {
+    return res.text().then(function (text) {
+      var body = {};
+      try {
+        body = JSON.parse(text);
+      } catch (_ignore) {
+        body = {};
+      }
+      return { res: res, body: body };
+    });
+  }
+
   function initWaitlistForm(form) {
     if (!form) return;
-
-    var msg = document.getElementById("form-message");
-    var submitBtn = form.querySelector('button[type="submit"]');
-    var defaultLabel = submitBtn ? submitBtn.textContent : "";
-    var apiEndpoint = resolveApiEndpoint(form);
-
     populateHiddenMetadata(form);
+    form.removeAttribute("action");
+    form.setAttribute("method", "POST");
 
-    form.addEventListener("submit", function (e) {
-      if (form.getAttribute("data-submitting") === "1") {
-        e.preventDefault();
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
         return;
       }
-
-      clearFieldErrors(form);
-      if (msg) {
-        msg.className = "form-message";
-        msg.textContent = "";
-      }
-
-      var data = gatherPayload(form);
-      var invalid = validatePayload(data);
-
-      if (invalid.length) {
-        e.preventDefault();
-        invalid.forEach(function (name) {
-          setFieldError(form, name);
-        });
-        showFormMessage(
-          msg,
-          "error",
-          "Please fill in all required fields with valid contact details."
-        );
-        var firstInvalid = form.querySelector(".form-group.is-invalid");
-        if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-      }
-
-      persistBackup(data);
+      if (form.getAttribute("data-submitting") === "1") return;
 
       form.setAttribute("data-submitting", "1");
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.setAttribute("aria-busy", "true");
-        submitBtn.textContent = "A enviar candidatura...";
-      }
+      populateHiddenMetadata(form);
+      var msg = ensureMessageBox(form);
+      var payload = formDataToObject(form);
+      setSubmitState(form, true);
+      showFormMessage(msg, "success", "A enviar candidatura...");
 
-      e.preventDefault();
-      showFormMessage(msg, "success", "Submitting your application...");
-
-      fetch(apiEndpoint, {
+      fetch(apiEndpoint(form, "/api/waitlist"), {
         method: "POST",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       })
-        .then(function (res) {
-          return res.text().then(function (text) {
-            var body = {};
-            try {
-              body = JSON.parse(text);
-            } catch (ignore) {
-              body = {};
-            }
-            return { res: res, body: body };
-          });
-        })
-        .then(function (ref) {
-          if (ref.res.ok && ref.body && ref.body.ok) {
-            window.location.href = "/thank-you/";
+        .then(parseJsonResponse)
+        .then(function (result) {
+          if (result.res.ok && result.body && result.body.ok) {
+            var next = form.querySelector('input[name="_next"]');
+            window.location.href = next && next.value ? next.value : "/thank-you/";
             return;
           }
-          var detail =
-            ref.body && ref.body.details && ref.body.details.length
-              ? ref.body.details.join(" ")
-              : ref.body && ref.body.error
-                ? ref.body.error
-                : "Submission failed. Please try again.";
-          showFormMessage(msg, "error", detail);
-          resetSubmitUi(form, submitBtn, defaultLabel);
+          var detail = result.body && (result.body.error || result.body.message);
+          throw new Error(detail || "Submission failed");
         })
-        .catch(function () {
-          // Graceful fallback keeps low-bandwidth submission path available.
-          if (form.action) {
-            form.submit();
-            return;
-          }
-          showFormMessage(msg, "error", "Could not contact the intake server. Please try again.");
-          resetSubmitUi(form, submitBtn, defaultLabel);
+        .catch(function (error) {
+          form.removeAttribute("data-submitting");
+          setSubmitState(form, false);
+          console.error("BIU.G Academy application submission failed", error);
+          showFormMessage(
+            msg,
+            "error",
+            "Não foi possível enviar a candidatura. Verifique a ligação e tente novamente."
+          );
         });
     });
   }
 
   function initReveal() {
-    // Progressive enhancement: fade-up sections/cards on scroll.
-    // No-op when IntersectionObserver is missing or reduced motion is set.
     if (!("IntersectionObserver" in window)) return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    var targets = document.querySelectorAll("main .section, main .tile, .page-hero, .waitlist-wrap");
+    var targets = document.querySelectorAll(
+      "main .section, main .tile, .page-hero, .waitlist-wrap"
+    );
     if (!targets.length) return;
-
     var io = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
@@ -357,10 +219,100 @@
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.06 }
     );
-
     targets.forEach(function (el) {
       el.classList.add("reveal");
       io.observe(el);
+    });
+  }
+
+  function initSupportWidget() {
+    if (document.getElementById("biug-support-launcher")) return;
+
+    var style = document.createElement("style");
+    style.textContent =
+      ".biug-support-launcher{position:fixed;right:20px;bottom:20px;z-index:9998;border:0;border-radius:999px;padding:12px 18px;background:#111;color:#fff;font:600 14px 'DM Sans',sans-serif;cursor:pointer;box-shadow:0 8px 28px rgba(0,0,0,.24)}" +
+      ".biug-support-panel{position:fixed;right:20px;bottom:76px;z-index:9999;width:min(360px,calc(100vw - 32px));background:#fff;color:#151515;border:1px solid #ddd;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.22);padding:18px;display:none;font-family:'DM Sans',sans-serif}" +
+      ".biug-support-panel.is-open{display:block}.biug-support-panel h3{margin:0 0 6px;font-size:18px}.biug-support-panel p{margin:0 0 14px;font-size:13px;line-height:1.45;color:#555}" +
+      ".biug-support-panel label{display:block;font-size:12px;font-weight:700;margin:10px 0 4px}.biug-support-panel input,.biug-support-panel textarea{box-sizing:border-box;width:100%;border:1px solid #ccc;border-radius:9px;padding:10px;font:14px 'DM Sans',sans-serif}.biug-support-panel textarea{min-height:92px;resize:vertical}" +
+      ".biug-support-actions{display:flex;gap:8px;margin-top:12px}.biug-support-actions button{border:0;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:700}.biug-support-send{background:#111;color:#fff}.biug-support-close{background:#eee;color:#111}.biug-support-status{font-size:12px!important;margin-top:10px!important}";
+    document.head.appendChild(style);
+
+    var panel = document.createElement("aside");
+    panel.className = "biug-support-panel";
+    panel.id = "biug-support-panel";
+    panel.setAttribute("aria-label", "BIU.G Academy support");
+    panel.innerHTML =
+      "<h3>BIU.G Academy Support</h3>" +
+      "<p>Envie uma mensagem à nossa equipa em " +
+      SUPPORT_EMAIL +
+      ".</p>" +
+      '<form id="biug-support-form">' +
+      '<label for="biug-support-name">Nome</label><input id="biug-support-name" name="name" required autocomplete="name">' +
+      '<label for="biug-support-email">Email</label><input id="biug-support-email" name="email" type="email" required autocomplete="email">' +
+      '<label for="biug-support-message">Mensagem</label><textarea id="biug-support-message" name="message" required></textarea>' +
+      '<div class="biug-support-actions"><button class="biug-support-send" type="submit">Enviar</button><button class="biug-support-close" type="button">Fechar</button></div>' +
+      '<p class="biug-support-status" id="biug-support-status" aria-live="polite"></p>' +
+      "</form>";
+    document.body.appendChild(panel);
+
+    var launcher = document.createElement("button");
+    launcher.id = "biug-support-launcher";
+    launcher.className = "biug-support-launcher";
+    launcher.type = "button";
+    launcher.textContent = "Support";
+    launcher.setAttribute("aria-controls", "biug-support-panel");
+    launcher.setAttribute("aria-expanded", "false");
+    document.body.appendChild(launcher);
+
+    var close = panel.querySelector(".biug-support-close");
+    var form = panel.querySelector("#biug-support-form");
+    var status = panel.querySelector("#biug-support-status");
+    var send = panel.querySelector(".biug-support-send");
+
+    function setOpen(open) {
+      panel.classList.toggle("is-open", open);
+      launcher.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    launcher.addEventListener("click", function () {
+      setOpen(!panel.classList.contains("is-open"));
+    });
+    close.addEventListener("click", function () {
+      setOpen(false);
+    });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      send.disabled = true;
+      status.textContent = "A enviar...";
+      fetch(apiEndpoint(null, "/api/support"), {
+        method: "POST",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.elements.name.value.trim(),
+          email: form.elements.email.value.trim(),
+          message: form.elements.message.value.trim(),
+          page_url: window.location.href,
+        }),
+      })
+        .then(parseJsonResponse)
+        .then(function (result) {
+          if (!result.res.ok || !result.body || !result.body.ok)
+            throw new Error("Support submission failed");
+          form.reset();
+          status.textContent = "Mensagem recebida. A equipa de suporte foi notificada.";
+        })
+        .catch(function (error) {
+          console.error("BIU.G Academy support submission failed", error);
+          status.textContent = "Não foi possível enviar. Tente novamente.";
+        })
+        .finally(function () {
+          send.disabled = false;
+        });
     });
   }
 
@@ -368,8 +320,7 @@
     initNav();
     initLanguageSelector();
     initReveal();
-    document.querySelectorAll("form[data-intake-form='waitlist']").forEach(function (form) {
-      initWaitlistForm(form);
-    });
+    document.querySelectorAll("form[data-intake-form='waitlist']").forEach(initWaitlistForm);
+    initSupportWidget();
   });
 })();

@@ -2,7 +2,7 @@
 name: Documentation
 about: Suggest or report issues in institutional documentation
 title: "[docs] "
-labels: documentation
+labels: area/docs
 assignees: ""
 ---
 
