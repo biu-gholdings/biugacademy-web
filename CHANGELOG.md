@@ -21,6 +21,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Role portal foundation: admin, student, teacher, moderator shells under `portal/`
 - `docs/operations/backend-deployment.md` — API production deployment guide
 
+### Fixed
+
+- Application and support forms fail closed when no API origin is configured: the submission is no longer attempted against a static host, the applicant's answers are preserved in `localStorage`, and a direct `support@biugacademy.org` route is offered instead of a generic connection error
+
 ### Changed
 
 - `README.md`, `ROADMAP.md`, `CONTRIBUTING.md`, `GOVERNANCE.md`, `SECURITY.md` — institutional upgrade
