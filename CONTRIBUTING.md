@@ -48,12 +48,28 @@ Required confirmations:
 - [ ] Every new or moved document is registered in the [docs/README.md](docs/README.md) taxonomy, and any doc it contradicts is updated
 - [ ] [CHANGELOG.md](CHANGELOG.md) updated under `## [Unreleased]` for any user-facing or operational change
 - [ ] All CI checks green (`markdownlint`, `prettier-check`) before review is requested
+- [ ] Labels applied: one `area/*`, one `type/*`, plus `lang/*` and `status/*` where they apply
+- [ ] Milestone set to the roadmap phase the work belongs to (Phase 0–6)
 
 These apply to **every** pull request, without exception. Run the formatter locally before pushing:
 
 ```bash
 npx prettier@3.5.3 --write "**/*.{md,html,css,js,yml,yaml}" --ignore-path .prettierignore
 ```
+
+### Label taxonomy
+
+Every issue and pull request carries at least one `area/*` and one `type/*` label.
+
+| Group     | Labels                                                         |
+| --------- | -------------------------------------------------------------- |
+| `area/`   | `site`, `backend`, `portal`, `docs`, `i18n`, `ci`              |
+| `type/`   | `feature`, `fix`, `content`, `chore`, `security`               |
+| `lang/`   | `pt`, `en`, `fr` — apply for every language the change touches |
+| `status/` | `needs-review`, `blocked`, `deployment-gated`                  |
+
+Milestones mirror the [ROADMAP.md](ROADMAP.md) phases (Phase 0–6). Set the milestone to the phase
+the work delivers, not the phase it was written in.
 
 ---
 

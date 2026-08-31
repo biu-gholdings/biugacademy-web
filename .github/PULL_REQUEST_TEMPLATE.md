@@ -38,6 +38,8 @@
 - [ ] Docs contradicted by this change were updated (no stale operational/planned claims)
 - [ ] [CHANGELOG.md](../CHANGELOG.md) updated under `## [Unreleased]`
 - [ ] `markdownlint` and `prettier-check` pass (`npx prettier@3.5.3 --write "**/*.{md,html,css,js,yml,yaml}" --ignore-path .prettierignore`)
+- [ ] One `area/*` and one `type/*` label applied (plus `lang/*` / `status/*` where relevant)
+- [ ] Milestone set to the roadmap phase this work delivers
 
 ## Screenshots (optional)
 

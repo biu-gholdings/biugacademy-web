@@ -2,7 +2,7 @@
 name: Bug report
 about: Report a defect in the public site or repository tooling
 title: "[bug] "
-labels: bug
+labels: type/fix
 assignees: ""
 ---
 

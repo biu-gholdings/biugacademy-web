@@ -2,7 +2,7 @@
 name: Feature request
 about: Propose capability (must distinguish planned vs operational)
 title: "[feature] "
-labels: enhancement
+labels: type/feature
 assignees: ""
 ---
 
