@@ -69,6 +69,52 @@
     return resolveApiBase(form) + path;
   }
 
+  /**
+   * The API is only reachable when an explicit origin is configured, or when the
+   * page is served by a host that also serves /api/*. GitHub Pages and other
+   * static hosts answer /api/* with an HTML 404 or a 405, which is indistinguishable
+   * from a real outage once fetch() has run. Refuse to submit in that case rather
+   * than reporting a connection error and discarding what the applicant typed.
+   */
+  function apiIsConfigured(form) {
+    if (resolveApiBase(form)) return true;
+    return document.documentElement.hasAttribute("data-biug-api-same-origin");
+  }
+
+  var RECOVERY_KEY = "biug:unsent-submissions";
+
+  function preserveSubmission(kind, payload) {
+    try {
+      var raw = window.localStorage.getItem(RECOVERY_KEY);
+      var queue = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(queue)) queue = [];
+      queue.push({ kind: kind, payload: payload, saved_at: new Date().toISOString() });
+      window.localStorage.setItem(RECOVERY_KEY, JSON.stringify(queue.slice(-20)));
+      return true;
+    } catch (error) {
+      // Private browsing or disabled storage - the mailto route below still applies.
+      return false;
+    }
+  }
+
+  function mailtoFallback(subject, payload) {
+    var lines = Object.keys(payload)
+      .filter(function (key) {
+        return key.charAt(0) !== "_" && String(payload[key] || "").trim() !== "";
+      })
+      .map(function (key) {
+        return key + ": " + payload[key];
+      });
+    return (
+      "mailto:" +
+      SUPPORT_EMAIL +
+      "?subject=" +
+      encodeURIComponent(subject) +
+      "&body=" +
+      encodeURIComponent(lines.join("\n"))
+    );
+  }
+
   function guessReferralSource() {
     var params = new URLSearchParams(window.location.search);
     return params.get("ref") || params.get("utm_source") || document.referrer || "direct";
@@ -124,6 +170,20 @@
     el.className = "form-message is-visible " + (type || "");
   }
 
+  /**
+   * Same as showFormMessage, with a trailing link. The link is built as a DOM node
+   * rather than via innerHTML because the href embeds applicant-supplied values.
+   */
+  function showFormMessageWithLink(el, type, text, href, linkText) {
+    if (!el) return;
+    el.textContent = text + " ";
+    var link = document.createElement("a");
+    link.href = href;
+    link.textContent = linkText;
+    el.appendChild(link);
+    el.className = "form-message is-visible " + (type || "");
+  }
+
   function setSubmitState(form, busy) {
     var button = form.querySelector('button[type="submit"]');
     if (!button) return;
@@ -166,10 +226,28 @@
       }
       if (form.getAttribute("data-submitting") === "1") return;
 
-      form.setAttribute("data-submitting", "1");
       populateHiddenMetadata(form);
       var msg = ensureMessageBox(form);
       var payload = formDataToObject(form);
+
+      if (!apiIsConfigured(form)) {
+        var saved = preserveSubmission("application", payload);
+        console.error(
+          "BIU.G Academy: no application API configured for this origin; submission was not sent."
+        );
+        showFormMessageWithLink(
+          msg,
+          "error",
+          "O sistema de candidaturas ainda não está disponível nesta página. " +
+            (saved ? "As suas respostas foram guardadas neste navegador. " : "") +
+            "Envie a sua candidatura para",
+          mailtoFallback("Candidatura BIU.G Academy", payload),
+          SUPPORT_EMAIL
+        );
+        return;
+      }
+
+      form.setAttribute("data-submitting", "1");
       setSubmitState(form, true);
       showFormMessage(msg, "success", "A enviar candidatura...");
 
@@ -192,10 +270,15 @@
           form.removeAttribute("data-submitting");
           setSubmitState(form, false);
           console.error("BIU.G Academy application submission failed", error);
-          showFormMessage(
+          var kept = preserveSubmission("application", payload);
+          showFormMessageWithLink(
             msg,
             "error",
-            "Não foi possível enviar a candidatura. Verifique a ligação e tente novamente."
+            "Não foi possível enviar a candidatura. " +
+              (kept ? "As suas respostas foram guardadas neste navegador. " : "") +
+              "Tente novamente ou escreva para",
+            mailtoFallback("Candidatura BIU.G Academy", payload),
+            SUPPORT_EMAIL
           );
         });
     });
@@ -287,17 +370,29 @@
         form.reportValidity();
         return;
       }
+      var supportPayload = {
+        name: form.elements.name.value.trim(),
+        email: form.elements.email.value.trim(),
+        message: form.elements.message.value.trim(),
+        page_url: window.location.href,
+      };
+
+      if (!apiIsConfigured(null)) {
+        preserveSubmission("support", supportPayload);
+        console.error(
+          "BIU.G Academy: no support API configured for this origin; message was not sent."
+        );
+        status.textContent = "Escreva-nos directamente para " + SUPPORT_EMAIL + ".";
+        window.location.href = mailtoFallback("Suporte BIU.G Academy", supportPayload);
+        return;
+      }
+
       send.disabled = true;
       status.textContent = "A enviar...";
       fetch(apiEndpoint(null, "/api/support"), {
         method: "POST",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.elements.name.value.trim(),
-          email: form.elements.email.value.trim(),
-          message: form.elements.message.value.trim(),
-          page_url: window.location.href,
-        }),
+        body: JSON.stringify(supportPayload),
       })
         .then(parseJsonResponse)
         .then(function (result) {
@@ -308,7 +403,9 @@
         })
         .catch(function (error) {
           console.error("BIU.G Academy support submission failed", error);
-          status.textContent = "Não foi possível enviar. Tente novamente.";
+          preserveSubmission("support", supportPayload);
+          status.textContent =
+            "Não foi possível enviar. Tente novamente ou escreva para " + SUPPORT_EMAIL + ".";
         })
         .finally(function () {
           send.disabled = false;
